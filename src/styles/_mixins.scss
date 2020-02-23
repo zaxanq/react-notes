@@ -52,3 +52,16 @@
   @include size($width, $height);
   @include size-max($width, $height);
 }
+
+@mixin transition($duration, $delay: 0, $element: all, $timing-function: ease-in-out) {
+  transition: $duration $element $delay $timing-function;
+}
+
+@mixin active($active-class: active) {
+  &:hover,
+  &:focus,
+  &:active,
+  &.#{$active-class} {
+    @content;
+  }
+}

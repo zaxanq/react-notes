@@ -1,0 +1,67 @@
+@import 'src/styles/variables';
+
+.sidebar {
+  @include size($sidebar-width, 100%);
+  @include flex-column(flex-start, flex-start);
+  padding: $sidebar-padding;
+  transition: 0.5s 0.05s ease-in-out;
+  overflow: hidden;
+  background-color: $sidebar-background-color;
+
+  @include active() { // active sidebar
+    width: $sidebar-active-width;
+
+    .notes-list,
+    .add-note {
+      &__icon {
+        margin-right: $sidebar-left-padding / 2;
+      }
+    }
+  }
+
+  .notes-list,
+  .add-note {
+    color: $sidebar-color;
+
+    &__icon {
+      @include size($sidebar-icon-size);
+      font-size: $sidebar-icon-size;
+      margin-right: $sidebar-left-padding;
+      transition: 0.25s ease-in-out;
+    }
+  }
+
+  .add-note,
+  .notes-list__item {
+    @include flex-row(flex-start, center);
+    white-space: nowrap;
+    font-size: $sidebar-item-font-size;
+    cursor: pointer;
+
+    @include active() { // active sidebar item
+      color: $sidebar-active-color;
+
+      .add-note,
+      .notes-list {
+        &__icon {
+          margin-right: $sidebar-left-padding;
+        }
+
+        &__name {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .notes-list {
+    &__item {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .add-note {
+    margin-bottom: 3rem;
+    color: $sidebar-color;
+  }
+}

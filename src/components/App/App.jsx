@@ -1,12 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import Shell from '../Shell';
+import { NotesProvider } from '../../contexts/NotesContext';
 
-class App extends React.Component {
-    render() {
-        return (
-            <div>Hello</div>
-        );
-    }
-}
+const App = () => (
+    <NotesProvider>
+        <Shell />
+    </NotesProvider>
+);
 
 export default App;

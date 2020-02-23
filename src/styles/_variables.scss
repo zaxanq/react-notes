@@ -1,0 +1,10 @@
+@import 'mixins';
+@import 'theme';
+
+$sidebar-width: 6rem;
+$sidebar-active-width: 24rem;
+$sidebar-icon-size: 3rem;
+$sidebar-border-width: 0.4rem;
+$sidebar-item-font-size: 1.8rem;
+$sidebar-left-padding: ($sidebar-width - $sidebar-icon-size) / 2;
+$sidebar-padding: 2rem $sidebar-left-padding - $sidebar-border-width 4rem $sidebar-left-padding;

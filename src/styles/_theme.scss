@@ -18,8 +18,27 @@ $dark-palette: (
   300: #222,
   400: #2d2d2d,
   500: #333,
-  600: #333,
-  700: #333,
-  800: #333,
-  900: #333,
-)
+  600: #444,
+  700: #555,
+  800: #666,
+  900: #888,
+);
+
+$light-palette: (
+  50: #fff,
+  100: #f4f4f4,
+  200: #fafafa,
+  300: #e4e4e4,
+  400: #ececec,
+  500: #dfdfdf,
+  600: #d7d7d7,
+  700: #d0d0d0,
+  800: #cecece,
+  900: #c4c4c4,
+);
+
+$sidebar-background-color: map-get($dark-palette, 300);
+$sidebar-border-color: map-get($dark-palette, 800);
+$sidebar-icon-color: map-get($light-palette, 200);
+$sidebar-color: map-get($light-palette, 400);
+$sidebar-active-color: map-get($dark-palette, 900);

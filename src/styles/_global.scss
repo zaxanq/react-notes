@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap');
+@import 'font-awesome';
 
 html {
   @include flex-column(flex-start, flex-start);
   @include size(100%);
+  font-size: 10px;
 }
 
 body {
