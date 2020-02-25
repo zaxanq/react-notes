@@ -3,17 +3,23 @@
 .note {
   min-width: $note-min-width;
   margin-left: $sidebar-width;
-  padding: 1rem 2rem;
+  padding: 1.2rem 2.4rem;
   background-color: $note-background-color;
+  border: 1px solid $note-border-color;
+  border-radius: 4px;
   color: $note-color;
 
   &__title {
     position: relative;
-    margin-left: 1rem;
+    padding-bottom: 0.4rem;
+    margin-bottom: 1rem;
 
     &::after {
       content: '';
-      width: 5rem;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 10rem;
       height: 0;
       border-bottom: $note-title-underline;
     }

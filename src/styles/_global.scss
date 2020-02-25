@@ -10,7 +10,7 @@ html {
 body {
   @include flex-column(flex-start, flex-start);
   @include size(inherit);
-  font: 400 2rem/1.5 Lato, Roboto, Arial, sans-serif;
+  font: 300 1.8rem/1.5 Lato, Roboto, Arial, sans-serif;
   color: map-get($dark-palette, 300);
 }
 

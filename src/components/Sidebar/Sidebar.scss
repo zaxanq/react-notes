@@ -12,13 +12,20 @@
   overflow: hidden;
   background-color: $sidebar-background-color;
 
+  &.deactivate {
+    transition: 0.2s ease-in-out; // temporarily quicken the transition
+    pointer-events: none;
+  }
+
   @include active() { // active sidebar
     width: $sidebar-active-width;
+    padding-left: $sidebar-horizontal-padding * 2;
+    padding-right: $sidebar-horizontal-padding * 2;
 
     .notes-list,
     .add-note {
       &__icon {
-        margin-right: $sidebar-left-padding / 2;
+        margin-right: $sidebar-horizontal-padding / 2;
       }
     }
 
@@ -33,7 +40,7 @@
     z-index: 1;
     @include size(100%);
     background-color: $sidebar-overlay-color;
-    transition: 0.5s opacity 0.05s ease-in-out;
+    transition: 0.5s 0.05s ease-in-out;
     opacity: 0;
     pointer-events: none;
   }
@@ -44,19 +51,27 @@
 
     &__icon {
       @include size($sidebar-icon-size);
-      margin-right: $sidebar-left-padding;
+      margin-right: $sidebar-horizontal-padding;
       color: $sidebar-icon-color;
       font-size: $sidebar-icon-size;
-      transition: 0.25s ease-in-out;
+      transition: 0.2s ease-in-out;
     }
   }
 
   .add-note,
   .notes-list__item {
+    width: 100%;
     @include flex-row(flex-start, center);
     white-space: nowrap;
     font-size: $sidebar-item-font-size;
     cursor: pointer;
+
+    &__name {
+      width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
 
     @include active() { // active sidebar item
       color: $sidebar-active-color;
@@ -64,7 +79,7 @@
       .add-note,
       .notes-list {
         &__icon {
-          margin-right: $sidebar-left-padding;
+          margin-right: $sidebar-horizontal-padding;
         }
 
         &__name {

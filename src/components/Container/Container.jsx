@@ -3,10 +3,13 @@ import './Container.scss';
 import Note from '../Note';
 
 const Container = ({ noteId }) => {
+    const selectNoteItem = (
+        <span className="container__instruction">No note selected. Please select a note from the sidebar or create new.</span>
+    );
 
     return (
-        <main className="content">
-            { noteId ? <Note id={ noteId} /> : <span>No notes</span> }
+        <main className="container">
+            { noteId ? <Note id={ noteId } /> : selectNoteItem }
         </main>
     );
 };

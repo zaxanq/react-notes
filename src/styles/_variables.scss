@@ -2,12 +2,18 @@
 @import 'theme';
 
 $sidebar-width: 6rem;
-$sidebar-active-width: 24rem;
+$sidebar-active-width: 28rem;
 $sidebar-icon-size: 3rem;
-$sidebar-border-width: 0.4rem;
 $sidebar-item-font-size: 1.8rem;
-$sidebar-left-padding: ($sidebar-width - $sidebar-icon-size) / 2;
-$sidebar-padding: 2rem $sidebar-left-padding - $sidebar-border-width 4rem $sidebar-left-padding;
+
+$sidebar-horizontal-padding: ($sidebar-width - $sidebar-icon-size) / 2;
+$sidebar-top-padding: 2rem;
+$sidebar-bottom-padding: 4rem;
+$sidebar-padding: $sidebar-top-padding $sidebar-horizontal-padding $sidebar-bottom-padding;
+
 
 $note-min-width: 32rem;
 $note-title-underline: 2px solid $note-title-underline-color;
+
+
+$container-padding: 4rem 4rem 4rem 10rem;

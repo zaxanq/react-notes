@@ -1,9 +1,14 @@
 @import 'src/styles/variables';
 
-.content {
+.container {
   @include size(100%);
   @include flex-column(flex-start, flex-start);
-  padding: 4rem;
-  margin-left: $sidebar-width;
+  padding: $container-padding;
   background-color: $container-background-color;
+  color: $container-color;
+
+  &__instruction {
+    width: 100%;
+    text-align: center;
+  }
 }

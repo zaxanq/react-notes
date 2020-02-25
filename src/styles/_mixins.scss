@@ -61,7 +61,7 @@
   &:hover,
   &:focus,
   &:active,
-  &.#{$active-class} {
+  &.#{$active-class}) {
     @content;
   }
 }

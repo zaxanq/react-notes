@@ -15,12 +15,13 @@ $dark-palette: (
   50: #000,
   100: #0f0f0f,
   200: #141414,
-  300: #222,
-  400: #2d2d2d,
-  500: #333,
-  600: #444,
-  700: #555,
-  800: #666,
+  300: #1e1e1e,
+  350: #222,
+  400: #262626,
+  500: #2f2f2f,
+  600: #363636,
+  700: #404040,
+  800: #4f4f4f,
   900: #888,
 );
 
@@ -38,14 +39,16 @@ $light-palette: (
 );
 
 $sidebar-background-color: map-get($dark-palette, 200);
-$sidebar-overlay-color: rgba(map-get($dark-palette, 50), 0.4);
+$sidebar-overlay-color: rgba(map-get($dark-palette, 50), 0.6);
 $sidebar-border-color: map-get($dark-palette, 800);
-$sidebar-icon-color: map-get($dark-palette, 700);
+$sidebar-icon-color: map-get($dark-palette, 900);
 $sidebar-color: map-get($light-palette, 900);
 $sidebar-active-color: map-get($dark-palette, 900);
 
 $container-background-color: map-get($dark-palette, 300);
+$container-color: map-get($light-palette, 900);
 
-$note-background-color: map-get($dark-palette, 400);
-$note-color: map-get($light-palette, 700);
-$note-title-underline-color: map-get($dark-palette, 500);
+$note-background-color: map-get($dark-palette, 350);
+$note-border-color: map-get($dark-palette, 600);
+$note-color: map-get($light-palette, 500);
+$note-title-underline-color: map-get($dark-palette, 800);
