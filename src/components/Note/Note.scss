@@ -1,0 +1,21 @@
+@import 'src/styles/variables';
+
+.note {
+  min-width: $note-min-width;
+  margin-left: $sidebar-width;
+  padding: 1rem 2rem;
+  background-color: $note-background-color;
+  color: $note-color;
+
+  &__title {
+    position: relative;
+    margin-left: 1rem;
+
+    &::after {
+      content: '';
+      width: 5rem;
+      height: 0;
+      border-bottom: $note-title-underline;
+    }
+  }
+}

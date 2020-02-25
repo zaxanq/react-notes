@@ -3,40 +3,37 @@ import './Sidebar.scss';
 import SidebarNote from './components/SidebarNote';
 import NotesContext from '../../contexts';
 
-const renderSidebarNotes = (notes, clickedNote) => {
-    const setClickedNote = id => {
+const renderSidebarNotes = (notes, onNoteClick) => (
+    <ul className="sidebar__notes-list notes-list">
+        { Object.values(notes).map(item => (
+            <SidebarNote
+                title={ item.title }
+                key={ item.id }
+                onNoteClick={ () => onNoteClick(item.id) }
+            />
+        )) }
+    </ul>
+);
 
-    };
-
-    return (
-        <ul className="sidebar__notes-list notes-list">
-            { notes.map(item => (
-                <SidebarNote
-                    title={ item.title }
-                    key={ item.id }
-                    onClick={ () => setClickedNote(item.id) }
-                />
-            )) }
-        </ul>
-    );
-}
-
-const Sidebar = clickedNote => {
+const Sidebar = ({onNoteClick}) => {
     const notes = useContext(NotesContext);
 
     let notesToRender = [];
     if (notes) {
-        if (notes.length > 0) notesToRender = renderSidebarNotes(notes, clickedNote);
+        notesToRender = renderSidebarNotes(notes, onNoteClick);
     }
 
     return (
-        <aside className="sidebar">
-        <span className="sidebar__add-note add-note">
-            <i className="add-note__icon fas fa-plus-square"/>
-            <span className="add-note__name">Add note</span>
-        </span>
-            { notesToRender }
-        </aside>
+        <React.Fragment>
+            <aside className="sidebar">
+                <span className="sidebar__add-note add-note">
+                    <i className="add-note__icon fas fa-plus-square"/>
+                    <span className="add-note__name">Add note</span>
+                </span>
+                { notesToRender }
+            </aside>
+            <div className="sidebar-overlay"/>
+        </React.Fragment>
     );
 };
 

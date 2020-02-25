@@ -25,7 +25,7 @@ $dark-palette: (
 );
 
 $light-palette: (
-  50: #fff,
+  50: #f8f8f8,
   100: #f4f4f4,
   200: #fafafa,
   300: #e4e4e4,
@@ -37,8 +37,15 @@ $light-palette: (
   900: #c4c4c4,
 );
 
-$sidebar-background-color: map-get($dark-palette, 300);
+$sidebar-background-color: map-get($dark-palette, 200);
+$sidebar-overlay-color: rgba(map-get($dark-palette, 50), 0.4);
 $sidebar-border-color: map-get($dark-palette, 800);
-$sidebar-icon-color: map-get($light-palette, 200);
-$sidebar-color: map-get($light-palette, 400);
+$sidebar-icon-color: map-get($dark-palette, 700);
+$sidebar-color: map-get($light-palette, 900);
 $sidebar-active-color: map-get($dark-palette, 900);
+
+$container-background-color: map-get($dark-palette, 300);
+
+$note-background-color: map-get($dark-palette, 400);
+$note-color: map-get($light-palette, 700);
+$note-title-underline-color: map-get($dark-palette, 500);

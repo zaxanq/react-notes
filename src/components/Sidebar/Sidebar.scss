@@ -1,6 +1,10 @@
 @import 'src/styles/variables';
 
 .sidebar {
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  top: 0;
   @include size($sidebar-width, 100%);
   @include flex-column(flex-start, flex-start);
   padding: $sidebar-padding;
@@ -17,6 +21,21 @@
         margin-right: $sidebar-left-padding / 2;
       }
     }
+
+    + .sidebar-overlay {
+      pointer-events: all;
+      opacity: 1;
+    }
+  }
+
+  &-overlay {
+    position: absolute;
+    z-index: 1;
+    @include size(100%);
+    background-color: $sidebar-overlay-color;
+    transition: 0.5s opacity 0.05s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
   }
 
   .notes-list,
@@ -25,8 +44,9 @@
 
     &__icon {
       @include size($sidebar-icon-size);
-      font-size: $sidebar-icon-size;
       margin-right: $sidebar-left-padding;
+      color: $sidebar-icon-color;
+      font-size: $sidebar-icon-size;
       transition: 0.25s ease-in-out;
     }
   }

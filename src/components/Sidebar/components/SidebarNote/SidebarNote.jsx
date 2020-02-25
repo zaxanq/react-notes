@@ -1,7 +1,9 @@
 import React from 'react';
 
-const SidebarNote = ({ title }) => (
-    <li className="notes-list__item">
+const SidebarNote = ({ title, onNoteClick }) => (
+    <li className="notes-list__item"
+        onClick={ () => onNoteClick() }
+    >
         <i className="notes-list__icon fas fa-sticky-note"/>
         <span className="notes-list__name">{ title }</span>
     </li>

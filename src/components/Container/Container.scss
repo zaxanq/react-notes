@@ -1,1 +1,9 @@
 @import 'src/styles/variables';
+
+.content {
+  @include size(100%);
+  @include flex-column(flex-start, flex-start);
+  padding: 4rem;
+  margin-left: $sidebar-width;
+  background-color: $container-background-color;
+}
