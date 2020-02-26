@@ -3,17 +3,17 @@
     "1": {
       "id": 1,
       "title": "Note name",
-      "contents": "Some text..."
+      "contents": "Some text"
     },
     "2": {
       "id": 2,
       "title": "Another note name",
-      "contents": "Some other text..."
+      "contents": "Some other text"
     },
     "3": {
       "id": 3,
       "title": "One more note name",
-      "contents": "Even more other text..."
+      "contents": "Even more other text"
     },
     "4": {
       "id": 4,
