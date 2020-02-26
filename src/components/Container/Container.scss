@@ -2,7 +2,6 @@
 
 .container {
   @include size(100%);
-  @include flex-column(flex-start, flex-start);
   padding: $container-padding;
   background-color: $container-background-color;
   color: $container-color;

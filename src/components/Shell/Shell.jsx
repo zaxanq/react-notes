@@ -3,18 +3,14 @@ import Sidebar from '../Sidebar';
 import Container from '../Container';
 
 const Shell = () => {
-    const [noteId, setNoteId] = useState(null);
+    const [categoryId, setCategoryId] = useState(null);
 
-    const handleNoteClick = id => {
-        setNoteId(id);
-    };
+    const handleCategoryClick = id => setCategoryId(id);
 
     return (
         <React.Fragment>
-            <Sidebar
-                onNoteClick={(id) => handleNoteClick(id) }
-            />
-            <Container noteId={ noteId } />
+            <Sidebar onCategoryClick={(id) => handleCategoryClick(id) } />
+            <Container categoryId={ categoryId } />
         </React.Fragment>
     );
 };

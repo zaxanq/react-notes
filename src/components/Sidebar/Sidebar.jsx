@@ -1,36 +1,31 @@
 import React, { useContext, useState } from 'react';
 import './Sidebar.scss';
-import SidebarNote from './components/SidebarNote';
-import NotesContext from '../../contexts';
+import Category from './components/Category';
+import CategoriesContext from '../../contexts/CategoriesContext';
 
-const renderSidebarNotes = (notes, onNoteClick, closeSidebar) => (
-    <ul className="sidebar__notes-list notes-list">
-        { Object.values(notes).map(item => (
-            <SidebarNote
-                title={ item.title }
-                key={ item.id }
-                onNoteClick={ () => onNoteClick(item.id) }
+const renderCategories = (categories, onCategoryClick, closeSidebar) => (
+    <ul className="sidebar__categories-list categories-list">
+        { Object.values(categories).map(category => (
+            <Category
+                title={ category.name  }
+                key={ category.id }
+                onCategoryClick={ () => onCategoryClick(category.id) }
                 closeSidebar={ () => closeSidebar() }
             />
         )) }
     </ul>
 );
 
-const Sidebar = ({onNoteClick}) => {
-    const notes = useContext(NotesContext);
+const Sidebar = ({ onCategoryClick }) => {
     const [active, setActive] = useState(false);
     const [deactivate, setDeactivate] = useState(false);
+    const categories = useContext(CategoriesContext);
 
     const closeSidebar = () => {
         setDeactivate(true);
 
-        setTimeout(() => {
-            setActive(false);
-        }, 0);
-
-        setTimeout(() => {
-            setDeactivate(false);
-        }, 200);
+        setTimeout(() => setActive(false), 0);
+        setTimeout(() => setDeactivate(false), 200);
     };
 
     return (
@@ -39,11 +34,11 @@ const Sidebar = ({onNoteClick}) => {
                 className={ 'sidebar' + (active ? ' active' : '') + (deactivate ? ' deactivate' : '') }
                 onClick={ () => setActive(!active) }
             >
-                <span className="sidebar__add-note add-note">
-                    <i className="add-note__icon fas fa-plus-square"/>
-                    <span className="add-note__name">Add note</span>
+                <span className="sidebar__add-category add-category">
+                    <i className="add-category__icon fas fa-plus-square"/>
+                    <span className="add-category__name">Add category</span>
                 </span>
-                { notes ? renderSidebarNotes(notes, onNoteClick, closeSidebar) : [] }
+                { categories ? renderCategories(categories, onCategoryClick, closeSidebar) : [] }
             </aside>
             <div className="sidebar-overlay"/>
         </React.Fragment>

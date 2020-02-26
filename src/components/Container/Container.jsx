@@ -1,15 +1,11 @@
 import React from 'react';
 import './Container.scss';
-import Note from '../Note';
+import NotesList from '../NotesList';
 
-const Container = ({ noteId }) => {
-    const selectNoteItem = (
-        <span className="container__instruction">No note selected. Please select a note from the sidebar or create new.</span>
-    );
-
+const Container = ({ categoryId }) => {
     return (
         <main className="container">
-            { noteId ? <Note id={ noteId } /> : selectNoteItem }
+           <NotesList categoryId={ categoryId ? categoryId : 0 } />
         </main>
     );
 };
