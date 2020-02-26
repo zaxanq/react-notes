@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import HttpClient from '../services/HttpClient';
-
-const NOTES_API = 'http://localhost:3001/notes';
+import HttpClient, { Api } from '../services/HttpClient';
 
 const NotesContext = React.createContext(null);
 
@@ -9,7 +7,7 @@ const NotesProvider = ({ children }) => {
     const [notes, setNotes] = useState(null);
 
     useEffect(() => {
-        (new HttpClient()).get(NOTES_API)
+        (new HttpClient()).get(Api.Notes)
             .then(json => {
                 setNotes(json);
             });

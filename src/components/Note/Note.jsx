@@ -1,17 +1,16 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import './Note.scss';
-import NotesContext from '../../contexts';
 
-const Note = ({ id }) => {
+const Note = ({ data }) => {
     const noteContentLengthToDisplay = 255;
-    const notes = useContext(NotesContext);
-    const shortenedNoteContent = notes[id].contents.length > noteContentLengthToDisplay
-        ? notes[id].contents.substr(0, noteContentLengthToDisplay) + '...'
-        : notes[id].contents;
+
+    const shortenedNoteContent = data.contents.length > noteContentLengthToDisplay
+        ? data.contents.substr(0, noteContentLengthToDisplay) + '...'
+        : data.contents;
 
     return (
         <article className="note">
-            <h3 className="note__title">{ notes[id].title }</h3>
+            <h3 className="note__title">{ data.title }</h3>
             <p className="note__contents">{ shortenedNoteContent }</p>
         </article>
     );
