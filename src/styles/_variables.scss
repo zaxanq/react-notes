@@ -12,7 +12,10 @@ $sidebar-bottom-padding: 4rem;
 $sidebar-padding: $sidebar-top-padding $sidebar-horizontal-padding $sidebar-bottom-padding;
 
 
-$note-min-width: 32rem;
+$note-width: 32rem;
+$note-vertical-padding: 1.2rem;
+$note-horizontal-padding: 2.4rem;
+$note-padding: $note-vertical-padding $note-horizontal-padding;
 $note-title-underline: 2px solid $note-title-underline-color;
 
 
