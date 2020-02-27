@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import './Sidebar.scss';
 import Category from './components/Category';
 import CategoriesContext from '../../contexts/CategoriesContext';
+import Lang from "../../assets/i18n/en";
 
 const Sidebar = ({ onCategoryClick }) => {
     const [active, setActive] = useState(false);
@@ -36,7 +37,7 @@ const Sidebar = ({ onCategoryClick }) => {
             >
                 <span className="sidebar__add-category add-category">
                     <i className="add-category__icon fas fa-plus-square"/>
-                    <span className="add-category__name">Add category</span>
+                    <span className="add-category__name">{ Lang.common.addCategory }</span>
                 </span>
                 { categories ? renderCategories() : [] }
             </aside>

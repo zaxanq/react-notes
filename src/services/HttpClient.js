@@ -5,6 +5,15 @@ class HttpClient {
         return fetch(url)
             .then( data => data.json() );
     }
+
+    put(url, body, headers = { 'Content-Type': 'application/json' }) {
+        return fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers,
+        })
+            .then( data => { console.log(data) });
+    }
 }
 
 export const Api = {

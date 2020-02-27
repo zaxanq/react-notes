@@ -6,8 +6,24 @@
   background-color: $container-background-color;
   color: $container-color;
 
+  &__topbar {
+    @include flex-row(flex-start, center);
+    padding: 0.4rem 2rem;
+    margin: 0 1rem 2rem;
+    background-color: $container-topbar-background-color;
+    border-bottom: 4px solid $container-topbar-border-color;
+  }
+
+  &__category-text {
+    opacity: .5;
+  }
+
   .notification {
     width: 100%;
     text-align: center;
+  }
+
+  .add-note-button {
+    margin-left: 4rem;
   }
 }
