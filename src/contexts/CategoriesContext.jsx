@@ -8,9 +8,7 @@ const CategoriesProvider = ({ children }) => {
 
     useEffect(() => {
         (new HttpClient()).get(Api.Categories)
-            .then(json => {
-                setCategories(json);
-            });
+            .then(json => setCategories(json));
     }, []);
 
     const { Provider } = CategoriesContext;

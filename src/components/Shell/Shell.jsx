@@ -3,13 +3,11 @@ import Sidebar from '../Sidebar';
 import Container from '../Container';
 
 const Shell = () => {
-    const [categoryId, setCategoryId] = useState(null);
-
-    const handleCategoryClick = id => setCategoryId(id);
+    const [categoryId, setCategoryId] = useState(0);
 
     return (
         <React.Fragment>
-            <Sidebar onCategoryClick={(id) => handleCategoryClick(id) } />
+            <Sidebar onCategoryClick={(id) => setCategoryId(id) } />
             <Container categoryId={ categoryId } />
         </React.Fragment>
     );

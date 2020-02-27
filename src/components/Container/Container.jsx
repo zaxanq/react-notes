@@ -5,7 +5,7 @@ import NotesList from '../NotesList';
 const Container = ({ categoryId }) => {
     return (
         <main className="container">
-           <NotesList categoryId={ categoryId ? categoryId : 0 } />
+           <NotesList categoryId={ categoryId } />
         </main>
     );
 };
