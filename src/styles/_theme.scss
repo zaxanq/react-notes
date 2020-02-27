@@ -38,6 +38,11 @@ $light-palette: (
   900: #c4c4c4,
 );
 
+$button-outlined-border-color: map-get($dark-palette, 800);
+$button-outlined-color: map-get($dark-palette, 900);
+$button-outlined-active-color: map-get($light-palette, 900);
+$button-outlined-background: linear-gradient($button-outlined-border-color, $button-outlined-border-color);
+
 $sidebar-background-color: map-get($dark-palette, 200);
 $sidebar-overlay-color: rgba(map-get($dark-palette, 50), 0.6);
 $sidebar-border-color: map-get($dark-palette, 800);
@@ -47,6 +52,8 @@ $sidebar-active-color: map-get($dark-palette, 900);
 
 $container-background-color: map-get($dark-palette, 300);
 $container-color: map-get($light-palette, 900);
+$container-topbar-background-color: map-get($dark-palette, 400);
+$container-topbar-border-color: map-get($dark-palette, 500);
 
 $note-background-color: map-get($dark-palette, 350);
 $note-border-color: map-get($dark-palette, 600);

@@ -21,6 +21,7 @@
     width: $sidebar-active-width;
     padding-left: $sidebar-horizontal-padding * 2;
     padding-right: $sidebar-horizontal-padding * 2;
+    cursor: pointer;
 
     .categories-list,
     .add-category {
