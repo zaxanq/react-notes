@@ -8,9 +8,7 @@ const NotesProvider = ({ children }) => {
 
     useEffect(() => {
         (new HttpClient()).get(Api.Notes)
-            .then(json => {
-                setNotes(json);
-            });
+            .then(json => setNotes(json));
     }, []);
 
     const { Provider } = NotesContext;

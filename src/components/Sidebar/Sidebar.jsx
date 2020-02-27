@@ -3,19 +3,6 @@ import './Sidebar.scss';
 import Category from './components/Category';
 import CategoriesContext from '../../contexts/CategoriesContext';
 
-const renderCategories = (categories, onCategoryClick, closeSidebar) => (
-    <ul className="sidebar__categories-list categories-list">
-        { Object.values(categories).map(category => (
-            <Category
-                title={ category.name  }
-                key={ category.id }
-                onCategoryClick={ () => onCategoryClick(category.id) }
-                closeSidebar={ () => closeSidebar() }
-            />
-        )) }
-    </ul>
-);
-
 const Sidebar = ({ onCategoryClick }) => {
     const [active, setActive] = useState(false);
     const [deactivate, setDeactivate] = useState(false);
@@ -28,6 +15,19 @@ const Sidebar = ({ onCategoryClick }) => {
         setTimeout(() => setDeactivate(false), 200);
     };
 
+    const renderCategories = () => (
+        <ul className="sidebar__categories-list categories-list">
+            { Object.values(categories).map(category => (
+                <Category
+                    title={ category.name  }
+                    key={ category.id }
+                    onCategoryClick={ () => onCategoryClick(category.id) }
+                    closeSidebar={ () => closeSidebar() }
+                />
+            )) }
+        </ul>
+    );
+
     return (
         <React.Fragment>
             <aside
@@ -38,7 +38,7 @@ const Sidebar = ({ onCategoryClick }) => {
                     <i className="add-category__icon fas fa-plus-square"/>
                     <span className="add-category__name">Add category</span>
                 </span>
-                { categories ? renderCategories(categories, onCategoryClick, closeSidebar) : [] }
+                { categories ? renderCategories() : [] }
             </aside>
             <div className="sidebar-overlay"/>
         </React.Fragment>
