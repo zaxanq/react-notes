@@ -1,0 +1,19 @@
+@import 'src/styles/variables';
+
+.snackbar {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: $snackbar-padding;
+  background-color: $snackbar-background-color;
+  color: $snackbar-color;
+
+  &--warning {
+    color: $snackbar-warning-color;
+  }
+
+  &--error {
+    color: $snackbar-error-color;
+  }
+}
