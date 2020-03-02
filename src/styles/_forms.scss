@@ -1,0 +1,43 @@
+input,
+textarea,
+button {
+  &.input {
+    padding: 0.4rem 1.6rem;
+    color: $input-color;
+    background-color: $input-background-color;
+    border: 1px solid $input-border-color;
+
+    &--checkbox {
+      display: none;
+
+      &:checked {
+        + label {
+          &::before {
+            color: $input-checkbox-checked-color;
+          }
+        }
+      }
+
+      + label {
+        @include flex-row(flex-start, center);
+        cursor: pointer;
+
+        &::before {
+          content: $tick-mark;
+          @include inline-flex-row(center, center);
+          margin-right: 0.6rem;
+          @include size(1.6rem);
+          background-color: $input-background-color;
+          border: 1px solid $input-border-color;
+          color: $input-checkbox-unchecked-color;
+          transition: 0.2s ease-in-out;
+        }
+      }
+    }
+
+    &--textarea {
+      height: 10rem;
+      resize: none;
+    }
+  }
+}

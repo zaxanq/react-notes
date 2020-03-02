@@ -1,6 +1,6 @@
 @import '../../../../styles/variables';
 
-button.button {
+.button {
   background-color: transparent;
   border: 0;
   color: inherit;
@@ -25,5 +25,11 @@ button.button {
       background-size: 100% 100%;
       color: $button-outlined-active-color;
     }
+  }
+
+  &.button--stretched {
+    width: 100%;
+    flex: 1;
+    letter-spacing: 1px;
   }
 }

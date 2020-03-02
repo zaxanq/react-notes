@@ -1,4 +1,4 @@
-const Lang = {
+const EN = {
   "common": {
     "addNote": "Add note",
     "addCategory": "Add category",
@@ -14,4 +14,4 @@ const Lang = {
   },
 };
 
-export default Lang;
+export default EN;

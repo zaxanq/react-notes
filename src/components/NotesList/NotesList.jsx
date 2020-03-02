@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import './NotesList.scss';
 import { NotesContext } from '../../contexts';
 import Note from '../Note';
-import Lang from '../../assets/i18n/en';
+import Lang from '../../assets/i18n/';
 
 const NotesList = ({ categoryId }) => {
     const { notes } = useContext(NotesContext);

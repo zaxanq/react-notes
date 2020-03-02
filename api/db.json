@@ -38,11 +38,12 @@
       ]
     },
     {
-      "id": 5,
-      "title": "",
-      "contents": "",
+      "id": 6,
+      "title": "This is the first note created in dialog",
+      "contents": "And hopefully it will work!",
       "includedIn": [
-        0
+        0,
+        1
       ]
     }
   ],
