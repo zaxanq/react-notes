@@ -1,0 +1,26 @@
+h1, .h1 { font-size: $h1-font-size }
+h2, .h2 { font-size: $h2-font-size }
+h3, .h3 { font-size: $h3-font-size }
+h4, .h4 { font-size: $h4-font-size }
+h5, .h5 { font-size: $h5-font-size }
+h6, .h6 { font-size: $h6-font-size }
+
+.title {
+  &--with-underline {
+    $title-padding-bottom: 0.4rem;
+    position: relative;
+    min-height: $h3-font-size * $global-line-height + $title-padding-bottom;
+    padding-bottom: $title-padding-bottom;
+    margin-bottom: 1rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 5rem;
+      height: 0;
+      border-bottom: $note-title-underline;
+    }
+  }
+}

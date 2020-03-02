@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import './Sidebar.scss';
 import Category from './components/Category';
-import CategoriesContext from '../../contexts/CategoriesContext';
+import { CategoriesContext } from '../../contexts';
 import Lang from "../../assets/i18n/en";
 
 const Sidebar = ({ onCategoryClick }) => {
@@ -18,7 +18,7 @@ const Sidebar = ({ onCategoryClick }) => {
 
     const renderCategories = () => (
         <ul className="sidebar__categories-list categories-list">
-            { Object.values(categories).map(category => (
+            { categories.map(category => (
                 <Category
                     title={ category.name  }
                     key={ category.id }

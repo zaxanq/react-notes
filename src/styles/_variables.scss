@@ -1,6 +1,17 @@
 @import 'mixins';
 @import 'theme';
 
+$global-font-size: 1.8rem;
+$global-line-height: 1.5;
+
+$h1-font-size: $global-font-size + 1rem;
+$h2-font-size: $global-font-size + 0.6rem;
+$h3-font-size: $global-font-size + 0.4rem;
+$h4-font-size: $global-font-size + 0.2rem;
+$h5-font-size: $global-font-size;
+$h6-font-size: $global-font-size - 0.2rem;
+
+
 $sidebar-width: 6rem;
 $sidebar-active-width: 28rem;
 $sidebar-icon-size: 3rem;
@@ -20,3 +31,8 @@ $note-title-underline: 2px solid $note-title-underline-color;
 
 
 $container-padding: 3rem 3rem 3rem 3rem + $sidebar-width;
+
+
+$dialog-width: 50rem;
+$dialog-min-height: 40rem;
+$dialog-padding: 2rem 4rem;

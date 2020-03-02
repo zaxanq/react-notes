@@ -6,13 +6,12 @@ class HttpClient {
             .then( data => data.json() );
     }
 
-    put(url, body, headers = { 'Content-Type': 'application/json' }) {
+    post(url, body, headers = { 'Content-Type': 'application/json' }) {
         return fetch(url, {
-            method: 'PUT',
+            method: 'POST',
             body: JSON.stringify(body),
             headers,
-        })
-            .then( data => { console.log(data) });
+        });
     }
 }
 

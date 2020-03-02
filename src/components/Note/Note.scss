@@ -8,20 +8,4 @@
   border: 1px solid $note-border-color;
   border-radius: 4px;
   color: $note-color;
-
-  &__title {
-    position: relative;
-    padding-bottom: 0.4rem;
-    margin-bottom: 1rem;
-
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 10rem;
-      height: 0;
-      border-bottom: $note-title-underline;
-    }
-  }
 }
