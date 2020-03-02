@@ -12,6 +12,9 @@ const EN = {
   "notifications": {
     "noNotes": "No existing notes.",
   },
+  "snackbar": {
+    "noteNotAdded": "Note was not added because it was empty.",
+  },
 };
 
 export default EN;

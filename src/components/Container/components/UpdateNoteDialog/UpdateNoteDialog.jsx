@@ -1,13 +1,13 @@
 import React, {useContext, useState} from 'react';
 import './UpdateNoteDialog.scss';
-import { DialogContext, NotesContext } from '../../../../contexts';
+import {DialogContext, NotesContext, SnackbarContext} from '../../../../contexts';
 import Lang from '../../../../assets/i18n';
 import DialogType from '../../../Shell/enums/DialogType.enum';
 import CategoriesContext from '../../../../contexts/CategoriesContext';
 import Button from '../../../Shell/components/Button/Button';
 import HttpClient, { Api } from '../../../../services/HttpClient';
 
-const renderDialog = (dialogType, categories, closeDialog) => {
+const renderDialog = (dialogType, categories, closeDialog, showSnackbar) => {
     /*
         dialogType: DialogType - should the dialog be rendered to add a new note or to edit an existing one
         categories: Category[] - list of categories taken from CategoriesContext
@@ -26,10 +26,19 @@ const renderDialog = (dialogType, categories, closeDialog) => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        const title = document.getElementById('noteTitle').value;
+        const contents = document.getElementById('noteContents').value;
+
+        if (!title && !contents) {
+            closeDialog(false);
+            showSnackbar(Lang.snackbar.noteNotAdded, 'warning');
+            return;
+        }
+
         const data = { // collect data from the inputs
-            title: document.getElementById('noteTitle').value,
-            contents: document.getElementById('noteContents').value,
-            includedIn: [0, ...slicedCategories // add 0th cateogry, as all notes should be included in it
+            title,
+            contents,
+            includedIn: [0, ...slicedCategories // add 0th category, as all notes should be included in it
                 .filter((category) => document.getElementById(category.name).checked)
                 .map(category => category.id)]
         };
@@ -77,6 +86,7 @@ const renderDialog = (dialogType, categories, closeDialog) => {
 
 const UpdateNoteDialog = ({ dialogType }) => {
     const { visible, setVisible } = useContext(DialogContext);
+    const { visibleSnackbar, setVisibleSnackbar, setSnackbarContent } = useContext(SnackbarContext);
     const { notes, setNotes } = useContext(NotesContext);
     const categories = useContext(CategoriesContext);
 
@@ -97,7 +107,12 @@ const UpdateNoteDialog = ({ dialogType }) => {
         }
     };
 
-    return visible ? renderDialog(dialogType, categories, closeDialog) : '';
+    const showSnackbar = (text, type) => {
+        setVisibleSnackbar(true);
+        setSnackbarContent({ text, type });
+    };
+
+    return visible ? renderDialog(dialogType, categories, closeDialog, showSnackbar) : '';
 };
 
 export default UpdateNoteDialog;

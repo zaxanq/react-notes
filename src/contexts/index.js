@@ -1,6 +1,7 @@
 import NotesContext, { NotesProvider } from './NotesContext';
 import CategoriesContext, { CategoriesProvider } from './CategoriesContext';
 import DialogContext, { DialogProvider } from './DialogContext';
+import SnackbarContext, { SnackbarProvider } from './SnackbarContext';
 
 export {
     NotesContext,
@@ -11,4 +12,7 @@ export {
 
     DialogContext,
     DialogProvider,
+
+    SnackbarContext,
+    SnackbarProvider,
 };

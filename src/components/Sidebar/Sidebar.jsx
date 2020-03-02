@@ -17,6 +17,9 @@ const Sidebar = ({ onCategoryClick }) => {
     };
 
     const renderCategories = () => (
+        /*
+            Each category of categories list the method maps as a Category component in the sidebar.
+         */
         <ul className="sidebar__categories-list categories-list">
             { categories.map(category => (
                 <Category
