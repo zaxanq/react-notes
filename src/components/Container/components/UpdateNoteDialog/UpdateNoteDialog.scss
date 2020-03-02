@@ -1,0 +1,8 @@
+@import 'src/styles/variables';
+
+.update-note-dialog {
+  &__categories-group {
+    display:grid;
+    grid: auto / repeat(3, 1fr);
+  }
+}

@@ -1,4 +1,14 @@
 import NotesContext, { NotesProvider } from './NotesContext';
+import CategoriesContext, { CategoriesProvider } from './CategoriesContext';
+import DialogContext, { DialogProvider } from './DialogContext';
 
-export { NotesProvider };
-export default NotesContext;
+export {
+    NotesContext,
+    NotesProvider,
+
+    CategoriesContext,
+    CategoriesProvider,
+
+    DialogContext,
+    DialogProvider,
+};

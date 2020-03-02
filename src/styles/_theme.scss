@@ -15,6 +15,7 @@ $dark-palette: (
   50: #000,
   100: #0f0f0f,
   200: #141414,
+  250: #191919,
   300: #1e1e1e,
   350: #222,
   400: #262626,
@@ -59,3 +60,6 @@ $note-background-color: map-get($dark-palette, 350);
 $note-border-color: map-get($dark-palette, 600);
 $note-color: map-get($light-palette, 500);
 $note-title-underline-color: map-get($dark-palette, 800);
+
+$dialog-container-background-color: rgba(map-get($dark-palette, 50), 0.6);
+$dialog-background-color: map-get($dark-palette, 250);
