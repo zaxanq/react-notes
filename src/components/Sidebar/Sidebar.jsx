@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import './Sidebar.scss';
 import Category from './components/Category';
 import { CategoriesContext } from '../../contexts';
-import Lang from "../../assets/i18n/en";
+import Lang from '../../assets/i18n/';
 
 const Sidebar = ({ onCategoryClick }) => {
     const [active, setActive] = useState(false);
@@ -41,7 +41,10 @@ const Sidebar = ({ onCategoryClick }) => {
                 </span>
                 { categories ? renderCategories() : [] }
             </aside>
-            <div className="sidebar-overlay"/>
+            <div
+                className="sidebar-overlay"
+                onClick={ () => active ? setActive(!active) : undefined }
+            />
         </React.Fragment>
     );
 };

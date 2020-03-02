@@ -6,7 +6,7 @@ const Button = ({ children, type, style, className, click }) => {
         if (style.includes(' ')) {
             style = style
                 .split(' ')
-                .map((item) => `button--${item}`)
+                .map((item) => `button--${ item }`)
                 .join(' ');
         } else {
             style = 'button--' + style;
@@ -17,8 +17,8 @@ const Button = ({ children, type, style, className, click }) => {
     return (
         <button
             type={ type }
-            className={ `button ${getStyleClasses()} ${className}` }
-            onClick={ () => click() }
+            className={ `button ${getStyleClasses()} ${ className }` }
+            onClick={ click ? () => click() : undefined }
         >
             { children }
         </button>
