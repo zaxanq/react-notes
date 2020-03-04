@@ -22,5 +22,11 @@ h6, .h6 { font-size: $h6-font-size }
       height: 0;
       border-bottom: $note-title-underline;
     }
+
+    &.dialog__title {
+      &::after {
+        width: 20rem;
+      }
+    }
   }
 }
