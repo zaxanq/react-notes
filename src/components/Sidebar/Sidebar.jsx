@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
 import './Sidebar.scss';
 import Category from './components/Category';
-import CategoriesContext from '../../contexts/CategoriesContext';
+import { CategoriesContext } from '../../contexts';
+import Lang from '../../assets/i18n/';
 
 const Sidebar = ({ onCategoryClick }) => {
     const [active, setActive] = useState(false);
@@ -16,8 +17,11 @@ const Sidebar = ({ onCategoryClick }) => {
     };
 
     const renderCategories = () => (
+        /*
+            Each category of categories list the method maps as a Category component in the sidebar.
+         */
         <ul className="sidebar__categories-list categories-list">
-            { Object.values(categories).map(category => (
+            { categories.map(category => (
                 <Category
                     title={ category.name  }
                     key={ category.id }
@@ -36,11 +40,14 @@ const Sidebar = ({ onCategoryClick }) => {
             >
                 <span className="sidebar__add-category add-category">
                     <i className="add-category__icon fas fa-plus-square"/>
-                    <span className="add-category__name">Add category</span>
+                    <span className="add-category__name">{ Lang.common.addCategory }</span>
                 </span>
                 { categories ? renderCategories() : [] }
             </aside>
-            <div className="sidebar-overlay"/>
+            <div
+                className="sidebar-overlay"
+                onClick={ () => active ? setActive(!active) : undefined }
+            />
         </React.Fragment>
     );
 };

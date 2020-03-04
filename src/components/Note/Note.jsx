@@ -10,7 +10,7 @@ const Note = ({ data }) => {
 
     return (
         <article className="note">
-            <h3 className="note__title">{ data.title }</h3>
+            <h3 className="title--with-underline note__title">{ data.title }</h3>
             <p className="note__contents">{ shortenedNoteContent }</p>
         </article>
     );

@@ -5,6 +5,14 @@ class HttpClient {
         return fetch(url)
             .then( data => data.json() );
     }
+
+    post(url, body, headers = { 'Content-Type': 'application/json' }) {
+        return fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(body),
+            headers,
+        });
+    }
 }
 
 export const Api = {

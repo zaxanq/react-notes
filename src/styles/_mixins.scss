@@ -16,12 +16,12 @@
 
 @mixin inline-flex-row($justify-content, $align-items) {
   display: inline-flex;
-  @include flex-row($justify-content, $align-items);
+  @include _flex(row, $justify-content, $align-items);
 }
 
 @mixin inline-flex-column($justify-content, $align-items) {
   display: inline-flex;
-  @include flex-column($justify-content, $align-items);
+  @include _flex(column, $justify-content, $align-items);
 }
 
 @mixin size($width, $height: $width) {
