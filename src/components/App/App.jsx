@@ -38,6 +38,16 @@ class App extends React.Component {
                 type,
             }
         });
+
+        setTimeout(() => {
+            this.setState({
+                ...this.state,
+                snackbarContent: {
+                    text: '',
+                    type: '',
+                }
+            });
+        }, 10000);
     };
 
     render() {

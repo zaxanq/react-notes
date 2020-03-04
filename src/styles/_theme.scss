@@ -99,6 +99,7 @@ $input-checkbox-checked-color: map-get($dark-palette, 1000);
 $input-checkbox-unchecked-color: $input-background-color;
 
 $snackbar-background-color: map-get($dark-palette, 400);
+$snackbar-border-color: map-get($dark-palette, 600);
 $snackbar-color: map-get($light-palette, 400);
 $snackbar-error-color: map-get($error-palette, 500);
 $snackbar-warning-color: map-get($warning-palette, 500);

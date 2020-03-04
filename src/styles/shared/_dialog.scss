@@ -17,6 +17,10 @@
   padding: $dialog-padding;
   background-color: $dialog-background-color;
 
+  &__title {
+    margin-bottom: 3rem;
+  }
+
   &__row {
     width: 100%;
     @include flex-column(flex-start, flex-start);

@@ -29,7 +29,7 @@ const renderDialog = (dialogType, categories, closeDialog, showSnackbar) => {
         const title = document.getElementById('noteTitle').value;
         const contents = document.getElementById('noteContents').value;
 
-        if (!title && !contents) {
+        if (!title.trim() && !contents.trim()) {
             closeDialog(false);
             showSnackbar(Lang.snackbar.noteNotAdded, 'warning');
             return;
@@ -54,9 +54,9 @@ const renderDialog = (dialogType, categories, closeDialog, showSnackbar) => {
                 className="dialog update-note-dialog"
                 onClick={ (e) => e.stopPropagation() }
             >
-                <h3 className="title--with-underline dialog__title">
+                <h2 className="title--with-underline dialog__title">
                     { dialogType === DialogType.addNote ? Lang.common.addNote : Lang.common.editNote }
-                </h3>
+                </h2>
                 <form onSubmit={ (e) => handleSubmit(e) }>
                     <div className="dialog__form-row">
                         <label className="h3" htmlFor="noteTitle">{ Lang.note.title }</label>
