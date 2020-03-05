@@ -1,18 +1,9 @@
-import NotesContext, { NotesProvider } from './NotesContext';
-import CategoriesContext, { CategoriesProvider } from './CategoriesContext';
-import DialogContext, { DialogProvider } from './DialogContext';
-import SnackbarContext, { SnackbarProvider } from './SnackbarContext';
+import DataContext, { DataProvider } from './DataContext';
+import UIContext, { UiProvider } from './UIContext';
 
 export {
-    NotesContext,
-    NotesProvider,
-
-    CategoriesContext,
-    CategoriesProvider,
-
-    DialogContext,
-    DialogProvider,
-
-    SnackbarContext,
-    SnackbarProvider,
+    DataContext,
+    DataProvider,
+    UIContext,
+    UiProvider,
 };

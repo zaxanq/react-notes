@@ -1,19 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './Container.scss';
 import NotesList from '../NotesList';
-import CategoriesContext from '../../contexts/CategoriesContext';
+import DataContext from '../../contexts/DataContext';
 import Lang from '../../assets/i18n/';
 import Button from '../Shell/components/Button/Button';
-import { DialogContext } from '../../contexts';
+import { UIContext } from '../../contexts';
 import UpdateNoteDialog from './components/UpdateNoteDialog/UpdateNoteDialog';
 import DialogType from '../Shell/enums/DialogType.enum';
 import Snackbar from './components/Snackbar/Snackbar';
 
 const Container = ({ categoryId }) => {
-    const [ dialogType, setDialogType ] = useState('');
-    const { setVisible } = useContext(DialogContext);
+    const [dialogType, setDialogType] = useState('');
+    const { setVisibleDialog } = useContext(UIContext);
 
-    const categories = useContext(CategoriesContext);
+    const categories = useContext(DataContext);
     const [categoryTitle, setCategoryTitle] = useState('');
     const [currentCategory, setCurrentCategory] = useState(null);
 
@@ -37,7 +37,7 @@ const Container = ({ categoryId }) => {
             on add-note button click set dialog type and show dialog
          */
         setDialogType(DialogType.addNote);
-        setVisible(true);
+        setVisibleDialog(true);
     };
 
     return (

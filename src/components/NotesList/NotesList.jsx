@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './NotesList.scss';
-import { NotesContext } from '../../contexts';
+import { DataContext } from '../../contexts';
 import Note from '../Note';
 import Lang from '../../assets/i18n/';
 
 const NotesList = ({ categoryId }) => {
-    const { notes } = useContext(NotesContext);
+    const { notes } = useContext(DataContext);
     const [notesToDisplay, setNotesToDisplay] = useState([]);
 
     useEffect(() => {

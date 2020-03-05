@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
 import './Sidebar.scss';
 import Category from './components/Category';
-import { CategoriesContext } from '../../contexts';
+import { DataContext } from '../../contexts';
 import Lang from '../../assets/i18n/';
 
 const Sidebar = ({ onCategoryClick }) => {
     const [active, setActive] = useState(false);
     const [deactivate, setDeactivate] = useState(false);
-    const categories = useContext(CategoriesContext);
+    const { categories } = useContext(DataContext);
 
     const closeSidebar = () => {
         setDeactivate(true);

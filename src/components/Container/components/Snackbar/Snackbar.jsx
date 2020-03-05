@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import './Snackbar.scss';
-import { SnackbarContext } from '../../../../contexts';
+import { UIContext } from '../../../../contexts';
 
 const Snackbar = () => {
-    const { visibleSnackbar, setVisibleSnackbar, snackbarContent, setSnackbarContent } = useContext(SnackbarContext);
+    const { snackbarVisible, snackbarContent } = useContext(UIContext);
 
-    return visibleSnackbar ?
+    return snackbarVisible ?
         <div className={ 'snackbar snackbar--' + snackbarContent.type }>{ snackbarContent.text }</div> :
         '';
 };
