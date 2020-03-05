@@ -9,6 +9,8 @@ const DataProvider = ({ children }) => {
 
     const { Provider } = DataContext;
 
+    const getNextId = ( ofWhat ) => parseInt(ofWhat.map((item) => item.id)[ofWhat.length - 1]) + 1;
+
     useEffect(() => {
         (new HttpClient()).get(Api.Categories)
             .then(json => setCategories(json));
@@ -22,7 +24,8 @@ const DataProvider = ({ children }) => {
     return (
         <Provider value={{
             categories, setCategories,
-            notes, setNotes
+            notes, setNotes,
+            getNextId
         }}>
             { children }
         </Provider>

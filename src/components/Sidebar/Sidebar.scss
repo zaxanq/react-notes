@@ -23,7 +23,7 @@
     padding-right: $sidebar-horizontal-padding * 2;
     cursor: pointer;
 
-    .categories-list,
+    .category,
     .add-category {
       &__icon {
         margin-right: $sidebar-horizontal-padding / 2;
@@ -47,12 +47,12 @@
     pointer-events: none;
   }
 
-  .categories-list,
+  .category,
   .add-category {
     color: $sidebar-color;
 
     &__icon {
-      @include size($sidebar-icon-size);
+      @include size-absolute($sidebar-icon-size);
       margin-right: $sidebar-horizontal-padding;
       color: $sidebar-icon-color;
       font-size: $sidebar-icon-size;
@@ -61,41 +61,46 @@
   }
 
   .add-category,
-  .categories-list__item {
-    width: 100%;
+  .category {
+    max-width: $sidebar-active-width - 2 * ($sidebar-horizontal-padding * 2);
     @include flex-row(flex-start, center);
     white-space: nowrap;
     font-size: $sidebar-item-font-size;
     cursor: pointer;
 
     &__name {
-      width: 100%;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
     }
 
     @include active() { // active sidebar item
-      color: $sidebar-active-color;
-
       .add-category,
-      .categories-list {
+      .category {
         &__icon {
           margin-right: $sidebar-horizontal-padding;
         }
 
         &__name {
-          text-decoration: underline;
+          color: $sidebar-active-color;
         }
       }
     }
   }
 
-  .categories-list {
-    &__item {
+  .category {
       margin-bottom: 1rem;
+
+    &__edit {
+      margin-left: 2rem;
+      color: $sidebar-color;
+
+      @include active() {
+        color: $sidebar-active-color;
+      }
     }
   }
+
 
   .add-category {
     margin-bottom: 3rem;

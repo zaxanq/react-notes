@@ -13,6 +13,14 @@ class HttpClient {
             headers,
         });
     }
+
+    put(url, body, headers = { 'Content-Type': 'application/json' }) {
+        return fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+            headers,
+        });
+    }
 }
 
 export const Api = {
