@@ -7,11 +7,11 @@ import Button from '../../../Shell/components/Button/Button';
 import HttpClient, { Api } from '../../../../services/HttpClient';
 
 const UpdateNoteDialog = ({ dialogType }) => {
-    const { visibleDialog, setVisibleDialog, setSnackbarVisible, setSnackbarContent } = useContext(UIContext);
+    const { dialog, snackbar } = useContext(UIContext);
     const { categories, notes, setNotes } = useContext(DataContext);
 
     const closeDialog = (submitted, formData) => {
-        setVisibleDialog(!visibleDialog);
+        dialog.setVisible(!dialog.visible);
         if (submitted) { // if dialog form was submitted, use form data
             const highestId = parseInt(notes.map((note) => note.id)[notes.length - 1]) + 1; // get next id number
 
@@ -28,8 +28,8 @@ const UpdateNoteDialog = ({ dialogType }) => {
     };
 
     const showSnackbar = (text, type) => {
-        setSnackbarVisible(true);
-        setSnackbarContent({ text, type });
+        snackbar.setVisible(true);
+        snackbar.setContent({ text, type });
     };
 
     const renderDialog = () => {
@@ -99,7 +99,7 @@ const UpdateNoteDialog = ({ dialogType }) => {
                         </div>
                         <Button
                             type="submit"
-                            style="stretched"
+                            buttonStyle="stretched"
                             className="button input input--button"
                         >{ Lang.common.addNote }
                         </Button>
@@ -109,7 +109,7 @@ const UpdateNoteDialog = ({ dialogType }) => {
         );
     };
 
-    return visibleDialog ? renderDialog(dialogType, categories, closeDialog, showSnackbar) : '';
+    return dialog.visible ? renderDialog(dialogType, categories, closeDialog, showSnackbar) : '';
 };
 
 export default UpdateNoteDialog;

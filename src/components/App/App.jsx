@@ -5,7 +5,7 @@ import { DataProvider, UiProvider } from '../../contexts';
 const App = () => (
     <DataProvider>
         <UiProvider>
-            <Shell/>
+            <Shell />
         </UiProvider>
     </DataProvider>
 );

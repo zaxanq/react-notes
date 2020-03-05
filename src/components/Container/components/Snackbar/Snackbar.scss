@@ -4,12 +4,14 @@
   position: absolute;
   bottom: 0;
   left: 50%;
+  max-width: (2/3) * 100%;
   transform: translateX(-50%);
   padding: $snackbar-padding;
   background-color: $snackbar-background-color;
   border: 1px solid $snackbar-border-color;
   border-bottom: 0;
   color: $snackbar-color;
+  text-align: center;
 
   &--warning {
     color: $snackbar-warning-color;
@@ -17,5 +19,37 @@
 
   &--error {
     color: $snackbar-error-color;
+  }
+
+  &__close {
+    $close-size: 1.7rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    @include flex-row(center, center);
+    @include size($close-size);
+    background-color: $snackbar-close-background-color;
+    border-radius: 50%;
+    cursor: pointer;
+
+    @include active() {
+      background-color: $snackbar-close-background-hover-color;
+    }
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      @include size(1px, $close-size - 0.6rem);
+      background-color: $snackbar-close-color;
+    }
+
+    &::before {
+      transform: rotate(-45deg);
+    }
+
+    &::after {
+      transform: rotate(45deg);
+    }
   }
 }

@@ -7,17 +7,30 @@ const UiProvider = ({ children }) => {
     const [snackbarVisible, setSnackbarVisible] = useState(false);
     const [snackbarContent, setSnackbarContent] = useState({ type: '', text: '' });
 
+    const clearSnackbar = () => {
+        setSnackbarVisible(false);
+        setSnackbarContent({ type: '', text: ''});
+    };
+
     const { Provider } = UIContext;
 
     useEffect(() => {
-        if (snackbarVisible) setTimeout(() => setSnackbarVisible(false), 10000);
+        if (snackbarVisible) setTimeout(() => clearSnackbar(), 8000);
     }, [snackbarVisible]);
 
     return (
         <Provider value={{
-            visibleDialog, setVisibleDialog,
-            snackbarVisible, setSnackbarVisible,
-            snackbarContent, setSnackbarContent
+            snackbar: {
+                visible: snackbarVisible,
+                setVisible: setSnackbarVisible,
+                content: snackbarContent,
+                setContent: setSnackbarContent,
+                clear: clearSnackbar,
+            },
+            dialog: {
+                visible: visibleDialog,
+                setVisible: setVisibleDialog,
+            }
         }}>
             { children }
         </Provider>

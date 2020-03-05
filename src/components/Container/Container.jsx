@@ -11,7 +11,7 @@ import Snackbar from './components/Snackbar/Snackbar';
 
 const Container = ({ categoryId }) => {
     const [dialogType, setDialogType] = useState('');
-    const { setVisibleDialog } = useContext(UIContext);
+    const { dialog } = useContext(UIContext);
 
     const categories = useContext(DataContext);
     const [categoryTitle, setCategoryTitle] = useState('');
@@ -37,7 +37,7 @@ const Container = ({ categoryId }) => {
             on add-note button click set dialog type and show dialog
          */
         setDialogType(DialogType.addNote);
-        setVisibleDialog(true);
+        dialog.setVisible(true);
     };
 
     return (
@@ -46,7 +46,7 @@ const Container = ({ categoryId }) => {
                 <h2>{ categoryTitle }</h2>
                 <Button
                     type="button"
-                    style="outlined"
+                    buttonStyle="outlined"
                     className="add-note-button"
                     click={ () => onAddNoteClick() }
                 >

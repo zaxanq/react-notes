@@ -25,6 +25,7 @@ $dark-palette: (
   700: #404040,
   800: #4f4f4f,
   900: #555,
+  950: #626262,
   1000: #888,
 );
 
@@ -103,3 +104,7 @@ $snackbar-border-color: map-get($dark-palette, 600);
 $snackbar-color: map-get($light-palette, 400);
 $snackbar-error-color: map-get($error-palette, 500);
 $snackbar-warning-color: map-get($warning-palette, 500);
+$snackbar-close-background-color: map-get($dark-palette, 800);
+$snackbar-close-background-hover-color: map-get($dark-palette, 950);
+$snackbar-close-color: map-get($dark-palette, 50);
+
