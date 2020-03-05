@@ -1,0 +1,38 @@
+.dialog-container {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  padding: $container-padding;
+  @include flex-row(center, center);
+  background-color: $dialog-container-background-color;
+  width: 100%;
+  height: 100%;
+}
+
+.dialog {
+  position: absolute;
+  width: $dialog-width;
+  min-height: $dialog-min-height;
+  padding: $dialog-padding;
+  background-color: $dialog-background-color;
+
+  &__title {
+    margin-bottom: 3rem;
+  }
+
+  &__row {
+    width: 100%;
+    @include flex-column(flex-start, flex-start);
+  }
+
+  &__form-row {
+    width: 100%;
+    @include flex-column(flex-start, stretch);
+    margin-bottom: 2.4rem;
+  }
+
+  form {
+    @include flex-column(flex-start, flex-start);
+  }
+}

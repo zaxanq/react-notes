@@ -1,0 +1,35 @@
+@import '../../../../styles/variables';
+
+.button {
+  background-color: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-size: 1.4rem;
+
+  &.button--outlined {
+    padding: 0.2rem 1.6rem;
+    border: 2px solid $button-outlined-border-color;
+    transition: 0.2s 0.05s ease-in-out;
+    font-weight: 400;
+    color: $button-outlined-color;
+    background-image: $button-outlined-background;
+    background-position: 100% 0;
+    background-size: 100% 0;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+
+    @include active() {
+      background-size: 100% 100%;
+      color: $button-outlined-active-color;
+    }
+  }
+
+  &.button--stretched {
+    width: 100%;
+    flex: 1;
+    letter-spacing: 1px;
+  }
+}

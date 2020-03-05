@@ -1,11 +1,13 @@
 import React from 'react';
 import Shell from '../Shell';
-import { NotesProvider } from '../../contexts/NotesContext';
+import { DataProvider, UiProvider } from '../../contexts';
 
 const App = () => (
-    <NotesProvider>
-        <Shell />
-    </NotesProvider>
+    <DataProvider>
+        <UiProvider>
+            <Shell/>
+        </UiProvider>
+    </DataProvider>
 );
 
 export default App;

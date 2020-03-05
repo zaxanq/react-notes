@@ -1,6 +1,20 @@
 @import 'mixins';
 @import 'theme';
 
+$tick-mark: '\2713';
+
+
+$global-font-size: 1.8rem;
+$global-line-height: 1.5;
+
+$h1-font-size: $global-font-size + 1.2rem;
+$h2-font-size: $global-font-size + 0.8rem;
+$h3-font-size: $global-font-size + 0.4rem;
+$h4-font-size: $global-font-size + 0.2rem;
+$h5-font-size: $global-font-size;
+$h6-font-size: $global-font-size - 0.2rem;
+
+
 $sidebar-width: 6rem;
 $sidebar-active-width: 28rem;
 $sidebar-icon-size: 3rem;
@@ -12,11 +26,20 @@ $sidebar-bottom-padding: 4rem;
 $sidebar-padding: $sidebar-top-padding $sidebar-horizontal-padding $sidebar-bottom-padding;
 
 
-$note-width: 32rem;
-$note-vertical-padding: 1.2rem;
-$note-horizontal-padding: 2.4rem;
-$note-padding: $note-vertical-padding $note-horizontal-padding;
+$note-width: 28rem;
+$note-vertical-padding: 1rem;
+$note-horizontal-padding: 1.6rem;
+$note-padding: $note-vertical-padding $note-horizontal-padding $note-vertical-padding * 2;
+
 $note-title-underline: 2px solid $note-title-underline-color;
 
 
-$container-padding: 4rem 4rem 4rem 10rem;
+$container-padding: 3rem 3rem 3rem 3rem + $sidebar-width;
+
+
+$dialog-width: 50rem;
+$dialog-min-height: 40rem;
+$dialog-padding: 6rem 4rem;
+
+
+$snackbar-padding: 1.6rem 4rem 1rem;

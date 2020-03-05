@@ -1,4 +1,9 @@
-import NotesContext, { NotesProvider } from './NotesContext';
+import DataContext, { DataProvider } from './DataContext';
+import UIContext, { UiProvider } from './UIContext';
 
-export { NotesProvider };
-export default NotesContext;
+export {
+    DataContext,
+    DataProvider,
+    UIContext,
+    UiProvider,
+};

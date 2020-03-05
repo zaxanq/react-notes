@@ -1,0 +1,11 @@
+@import 'src/styles/variables';
+
+.notes-list {
+  width: 100%;
+  overflow: auto;
+
+  .note {
+    display: inline-block;
+    vertical-align: top;
+  }
+}

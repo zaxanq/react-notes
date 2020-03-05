@@ -21,9 +21,10 @@
     width: $sidebar-active-width;
     padding-left: $sidebar-horizontal-padding * 2;
     padding-right: $sidebar-horizontal-padding * 2;
+    cursor: pointer;
 
-    .notes-list,
-    .add-note {
+    .categories-list,
+    .add-category {
       &__icon {
         margin-right: $sidebar-horizontal-padding / 2;
       }
@@ -32,6 +33,7 @@
     + .sidebar-overlay {
       pointer-events: all;
       opacity: 1;
+      cursor: pointer;
     }
   }
 
@@ -45,8 +47,8 @@
     pointer-events: none;
   }
 
-  .notes-list,
-  .add-note {
+  .categories-list,
+  .add-category {
     color: $sidebar-color;
 
     &__icon {
@@ -58,8 +60,8 @@
     }
   }
 
-  .add-note,
-  .notes-list__item {
+  .add-category,
+  .categories-list__item {
     width: 100%;
     @include flex-row(flex-start, center);
     white-space: nowrap;
@@ -76,8 +78,8 @@
     @include active() { // active sidebar item
       color: $sidebar-active-color;
 
-      .add-note,
-      .notes-list {
+      .add-category,
+      .categories-list {
         &__icon {
           margin-right: $sidebar-horizontal-padding;
         }
@@ -89,13 +91,13 @@
     }
   }
 
-  .notes-list {
+  .categories-list {
     &__item {
       margin-bottom: 1rem;
     }
   }
 
-  .add-note {
+  .add-category {
     margin-bottom: 3rem;
     color: $sidebar-color;
   }
