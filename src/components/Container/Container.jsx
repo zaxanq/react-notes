@@ -10,10 +10,10 @@ import DialogType from '../Shell/enums/DialogType.enum';
 import Snackbar from './components/Snackbar/Snackbar';
 
 const Container = ({ categoryId }) => {
-    const [dialogType, setDialogType] = useState('');
     const { dialog } = useContext(UIContext);
+    const { categories } = useContext(DataContext);
 
-    const categories = useContext(DataContext);
+    const [dialogType, setDialogType] = useState('');
     const [categoryTitle, setCategoryTitle] = useState('');
     const [currentCategory, setCurrentCategory] = useState(null);
 
