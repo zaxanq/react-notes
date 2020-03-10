@@ -1,0 +1,36 @@
+@import 'src/styles/variables';
+
+.single-note {
+  min-width: $single-note-min-width;
+  @include size-max($single-note-max-width, $single-note-max-height);
+  width: $single-note-width;
+  padding: $single-note-padding;
+  overflow: hidden;
+
+  &__toolbar {
+    @include flex-row(space-between, center);
+    border-bottom: 1px solid $single-note-toolbar-border-color;
+    padding-bottom: 1rem;
+    margin-bottom: 1.6rem;
+  }
+
+  &__options {
+    @include flex-row(flex-start, center);
+
+    > li:not(:first-child) {
+      margin-left: 0.8rem;
+    }
+  }
+
+  .note-categories {
+    position: relative;
+
+    &__list {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      right: 0;
+      padding: 0.4rem 3rem 0.4rem 1rem;
+      background-color: black;
+    }
+  }
+}

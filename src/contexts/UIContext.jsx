@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { DataContext } from './index';
 
 const UIContext = React.createContext(null);
 
@@ -14,6 +15,21 @@ const UiProvider = ({ children }) => {
     const [confirmDialogContent, setConfirmDialogContent] = useState(null);
     const [confirmDialogResult, setConfirmDialogResult] = useState(null);
     const [confirmDialogData, setConfirmDialogData] = useState(null);
+    const [visibleSingleNote, setVisibleSingleNote] = useState(false);
+    const [selectedNote, setSelectedNote] = useState(null);
+    const [categoryCheckboxes, setCategoryCheckboxes] = useState(null);
+    const { categories } = useContext(DataContext);
+
+    const getCategoryCheckboxes = () => {
+        setCategoryCheckboxes(categories.slice(1, categories.length).map( // map each category into checkbox
+            (category) => (
+                <div key={ category.id }>
+                    <input type="checkbox" className="input input--checkbox" id={ category.name } value={ category.name } />
+                    <label htmlFor={ category.name }>{ category.name }</label>
+                </div>
+            )
+        ));
+    };
 
     const showConfirmDialog = (content) => {
         setConfirmDialogVisible(true);
@@ -39,6 +55,11 @@ const UiProvider = ({ children }) => {
     const showSnackbar = (text, type) => {
         setSnackbarVisible(true);
         setSnackbarContent({ type, text });
+    };
+
+    const clearSelectedNote = () => {
+        setSelectedNote(null);
+        setVisibleSingleNote(false);
     };
 
     useEffect(() => { // hide snackbar automatically after a delay
@@ -73,6 +94,18 @@ const UiProvider = ({ children }) => {
                 setVisible: setDialogVisible,
                 type: dialogType,
                 setType: setDialogType,
+            },
+            singleNote: {
+                visible: visibleSingleNote,
+                setVisible: setVisibleSingleNote,
+                selected: selectedNote,
+                setSelected: setSelectedNote,
+                clear: clearSelectedNote,
+            },
+            common: {
+                categoryCheckboxes,
+                setCategoryCheckboxes,
+                getCategoryCheckboxes
             }
         }}>
             { children }

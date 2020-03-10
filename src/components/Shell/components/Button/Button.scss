@@ -57,4 +57,17 @@
       background-color: $button-gray-hover-background-color;
     }
   }
+
+  &.button--icon {
+    @include size(2.8rem);
+    border-radius: 50%;
+    background-color: $button-icon-background-color;
+    color: $button-icon-color;
+    transition: 0.2s ease-in-out;
+
+    @include active() {
+      background-color: $button-icon-active-background-color;
+      color: $button-icon-active-color;
+    }
+  }
 }

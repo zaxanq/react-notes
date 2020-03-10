@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import './UpdateNoteDialog.scss';
 import { DataContext, UIContext } from '../../../../contexts';
-import Lang from '../../../../assets/i18n';
-import DialogType from '../../../Shell/enums/DialogType.enum';
 import Button from '../../../Shell/components/Button/Button';
 import HttpClient, { Api } from '../../../../services/HttpClient';
+import Lang from '../../../../assets/i18n';
+import DialogType from '../../../Shell/enums/DialogType.enum';
 
 const UpdateNoteDialog = ({ dialogType }) => {
-    const { dialog, snackbar } = useContext(UIContext);
+    const { dialog, snackbar, common } = useContext(UIContext);
     const { categories, setCategories, notes, setNotes, data } = useContext(DataContext);
 
     const handleSubmit = (e) => {
@@ -24,7 +24,6 @@ const UpdateNoteDialog = ({ dialogType }) => {
 
         closeDialog(true, { title, contents }); // otherwise return form data
     };
-
     const closeDialog = (submitted, formData) => {
         /* closes dialog and if dialog form was submitted, creates new note and updates categories */
         dialog.setVisible(!dialog.visible);
@@ -64,24 +63,11 @@ const UpdateNoteDialog = ({ dialogType }) => {
     };
 
     const renderDialog = () => {
-        let categoryCheckboxes = categories.slice(1, categories.length); // copy categories & remove root category 'All'
-        categoryCheckboxes = categoryCheckboxes.map( // map each category into a checkbox
-            (category) => (
-                <div key={ category.id }>
-                    <input
-                        type="checkbox"
-                        className="input input--checkbox"
-                        id={ 'category-checkbox-' + category.id }
-                        value={ category.name }
-                    />
-                    <label htmlFor={ 'category-checkbox-' + category.id }>{ category.name }</label>
-                </div>
-            )
-        );
+        if (!common.categoryCheckboxes) common.getCategoryCheckboxes();
 
         return (
             <div
-                className={ 'dialog-container' }
+                className="absolute-container dialog-container"
                 onClick={ () => closeDialog(false) }
             >
                 <div
@@ -103,7 +89,7 @@ const UpdateNoteDialog = ({ dialogType }) => {
                         <div className="dialog__form-row">
                             <h3>{ Lang.note.categories }</h3>
                             <div className="update-note-dialog__categories-group">
-                                { categoryCheckboxes }
+                                { common.categoryCheckboxes }
                             </div>
                         </div>
                         <Button
@@ -118,7 +104,7 @@ const UpdateNoteDialog = ({ dialogType }) => {
         );
     };
 
-    return dialog.visible ? renderDialog(dialogType, categories, closeDialog, snackbar.show) : '';
+    return dialog.visible ? renderDialog() : '';
 };
 
 export default UpdateNoteDialog;

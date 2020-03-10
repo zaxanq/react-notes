@@ -22,6 +22,10 @@ const Button = ({ children, type, buttonStyle, className, click }) => {
         } else {
             buttonStyle = 'button--' + buttonStyle;
         }
+
+        if (buttonStyle.includes('edit')) children = <i className="fas fa-pen" />;
+        else if (buttonStyle.includes('delete')) children = <i className="fas fa-trash" />;
+
         return buttonStyle;
     };
 

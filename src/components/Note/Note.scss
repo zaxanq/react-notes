@@ -8,4 +8,24 @@
   border: 1px solid $note-border-color;
   border-radius: 4px;
   color: $note-color;
+  will-change: border-color;
+  transition: 0.15s border-color ease-in-out;
+
+  &.selected-note {
+    border-color: $note-selected-border-color;
+
+    .note__title {
+      color: $note-active-title-color;
+    }
+  }
+
+  &__title {
+    cursor: pointer;
+    will-change: color;
+    transition: 0.15s color ease-in-out;
+
+    @include active() {
+      color: $note-active-title-color;
+    }
+  }
 }
