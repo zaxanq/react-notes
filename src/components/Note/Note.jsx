@@ -16,7 +16,10 @@ const Note = ({ data }) => {
     };
 
     return (
-        <article className={ 'note' + (singleNote?.selected?.id === data.id ? ' selected-note' : '') }>
+        <article
+            className={ 'note' + (singleNote?.selected?.id === data.id ? ' selected-note' : '') }
+            onDoubleClick={ () => onNoteClick() }
+        >
             <h3
                 className="title--with-underline note__title"
                 onClick={ () => onNoteClick() }

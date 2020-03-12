@@ -1,7 +1,7 @@
 import React from 'react';
 import './Button.scss';
 
-const Button = ({ children, type, buttonStyle, className, click }) => {
+const Button = ({ children, type, buttonStyle, className, onClick }) => {
     /*
         type: string - defines type of string, i.e. 'button', 'submit', 'reset'
         buttonStyle: string - defines single or multiple styles of button, they serve as modifiers in button classes
@@ -33,7 +33,7 @@ const Button = ({ children, type, buttonStyle, className, click }) => {
         <button
             type={ type }
             className={ `button ${getStyleClasses()} ${ className }` }
-            onClick={ click ? (e) => click(e) : undefined }
+            onClick={ onClick ? (e) => onClick(e) : undefined }
         >
             { children }
         </button>

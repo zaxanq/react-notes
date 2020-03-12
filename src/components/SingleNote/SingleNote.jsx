@@ -3,28 +3,48 @@ import './SingleNote.scss';
 import { UIContext } from '../../contexts';
 import Button from '../Shell/components/Button/Button';
 import Lang from "../../assets/i18n/en";
+import CategoryCheckboxes from "../Shell/components/CategoryCheckboxes";
 
 const SingleNote = () => {
     const [categoriesListVisible, setCategoriesListVisible] = useState(false);
-    const { singleNote, common } = useContext(UIContext);
+    const { singleNote } = useContext(UIContext);
     const displayedNote = singleNote.selected;
+
+    const closeNote = () => {
+        singleNote.clear();
+        setCategoriesListVisible(false);
+    };
 
     const onEdit = () => {
         console.log('edit note');
+    };
+
+    const onQuickEdit = () => {
+        console.log('quick-edit note');
     };
 
     const onDelete = () => {
         console.log('delete note');
     };
 
+    const onSingleNoteClick = (e) => {
+        e.stopPropagation();
+        setCategoriesListVisible(false);
+    };
+
+    const onCategoriesClick = (e) => {
+        e.stopPropagation();
+        setCategoriesListVisible(!categoriesListVisible);
+    };
+
     const note = (
         <div
             className="absolute-container single-note-container"
-            onClick={ () => singleNote.clear() }
+            onClick={ () => closeNote() }
         >
             <article
                 className="single-note note"
-                onClick={ (e) => e.stopPropagation() }
+                onClick={ (e) => onSingleNoteClick(e) }
             >
                 <div className="single-note__toolbar">
                     <ul className="single-note__options">
@@ -45,17 +65,23 @@ const SingleNote = () => {
                             />
                         </li>
                     </ul>
-                    <div className="note-categories" onClick={ () => setCategoriesListVisible(!categoriesListVisible) }>
+                    <div className="note-categories" onClick={ (e) => onCategoriesClick(e) }>
                         <button className="button button--outlined note-categories__button">{ Lang.common.categories }</button>
                         { categoriesListVisible ?
-                            <ul className="note-categories__list">
-                                { common.categoryCheckboxes }
-                            </ul> :
+                            <div
+                                className="note-categories__list"
+                                onClick={ (e) => e.stopPropagation() }
+                            >
+                                <CategoryCheckboxes note={ displayedNote } />
+                            </div> :
                             ''
                         }
                     </div>
                 </div>
-                <h3 className="title--with-underline single-note__title note__title">{ displayedNote?.title }</h3>
+                <h3
+                    className="title--with-underline single-note__title note__title"
+                    onDoubleClick={ () => onQuickEdit() }
+                >{ displayedNote?.title }</h3>
                 <p className="single-note__contents note__contents">{ displayedNote?.contents }</p>
             </article>
         </div>

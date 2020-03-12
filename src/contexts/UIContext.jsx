@@ -101,11 +101,6 @@ const UiProvider = ({ children }) => {
                 selected: selectedNote,
                 setSelected: setSelectedNote,
                 clear: clearSelectedNote,
-            },
-            common: {
-                categoryCheckboxes,
-                setCategoryCheckboxes,
-                getCategoryCheckboxes
             }
         }}>
             { children }

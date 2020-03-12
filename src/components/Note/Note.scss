@@ -6,7 +6,7 @@
   margin: 1rem;
   background-color: $note-background-color;
   border: 1px solid $note-border-color;
-  border-radius: 4px;
+  border-radius: $common-border-radius;
   color: $note-color;
   will-change: border-color;
   transition: 0.15s border-color ease-in-out;

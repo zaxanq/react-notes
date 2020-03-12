@@ -5,7 +5,6 @@
   @include size-max($single-note-max-width, $single-note-max-height);
   width: $single-note-width;
   padding: $single-note-padding;
-  overflow: hidden;
 
   &__toolbar {
     @include flex-row(space-between, center);
@@ -27,10 +26,23 @@
 
     &__list {
       position: absolute;
+      z-index: 1;
       top: calc(100% + 0.5rem);
       right: 0;
-      padding: 0.4rem 3rem 0.4rem 1rem;
-      background-color: black;
+      max-width: 21rem;
+      max-height: 32rem;
+      overflow: hidden auto;
+      padding: 1rem 3rem 1rem 1rem;
+      background-color: $note-categories-list-background-color;
+      border: 1px solid $note-categories-list-border-color;
+      border-radius: $common-border-radius;
+
+      .category-checkboxes__name {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
   }
 }

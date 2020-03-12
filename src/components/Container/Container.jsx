@@ -3,7 +3,7 @@ import './Container.scss';
 import { DataContext, UIContext } from '../../contexts';
 import NotesList from '../NotesList';
 import SingleNote from '../SingleNote';
-import UpdateNoteDialog from './components/UpdateNoteDialog/UpdateNoteDialog';
+import UpdateNoteDialog from './components/UpdateNoteDialog';
 import ConfirmDialog from './components/ConfirmDialog';
 import Snackbar from './components/Snackbar/Snackbar';
 import Button from '../Shell/components/Button/Button';
@@ -47,7 +47,7 @@ const Container = ({ cId }) => {
                     type="button"
                     buttonStyle="outlined"
                     className="add-note-button"
-                    click={ () => onAddNoteClick() }
+                    onClick={ () => onAddNoteClick() }
                 >
                     { Lang.common.addNote }
                 </Button>

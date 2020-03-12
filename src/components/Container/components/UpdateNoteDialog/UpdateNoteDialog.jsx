@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import './UpdateNoteDialog.scss';
 import { DataContext, UIContext } from '../../../../contexts';
 import Button from '../../../Shell/components/Button/Button';
+import CategoryCheckboxes from '../../../Shell/components/CategoryCheckboxes';
 import HttpClient, { Api } from '../../../../services/HttpClient';
 import Lang from '../../../../assets/i18n';
 import DialogType from '../../../Shell/enums/DialogType.enum';
@@ -62,47 +63,43 @@ const UpdateNoteDialog = ({ dialogType }) => {
         }
     };
 
-    const renderDialog = () => {
-        if (!common.categoryCheckboxes) common.getCategoryCheckboxes();
-
-        return (
+    const renderDialog = () => (
+        <div
+            className="absolute-container dialog-container"
+            onClick={ () => closeDialog(false) }
+        >
             <div
-                className="absolute-container dialog-container"
-                onClick={ () => closeDialog(false) }
+                className="dialog update-note-dialog"
+                onClick={ (e) => e.stopPropagation() }
             >
-                <div
-                    className="dialog update-note-dialog"
-                    onClick={ (e) => e.stopPropagation() }
-                >
-                    <h2 className="title--with-underline dialog__title">
-                        { dialogType === DialogType.addNote ? Lang.common.addNote : Lang.common.editNote }
-                    </h2>
-                    <form onSubmit={ (e) => handleSubmit(e) }>
-                        <div className="dialog__form-row">
-                            <label className="h3" htmlFor="noteTitle">{ Lang.note.title }</label>
-                            <input type="text" id="noteTitle" className="input input--text dialog__input"/>
+                <h2 className="title--with-underline dialog__title">
+                    { dialogType === DialogType.addNote ? Lang.common.addNote : Lang.common.editNote }
+                </h2>
+                <form onSubmit={ (e) => handleSubmit(e) }>
+                    <div className="dialog__form-row">
+                        <label className="h3" htmlFor="noteTitle">{ Lang.note.title }</label>
+                        <input type="text" id="noteTitle" className="input input--text dialog__input"/>
+                    </div>
+                    <div className="dialog__form-row">
+                        <label className="h3" htmlFor="noteContents">{ Lang.note.contents }</label>
+                        <textarea id="noteContents" className="input input--textarea dialog__input"/>
+                    </div>
+                    <div className="dialog__form-row">
+                        <h3>{ Lang.note.categories }</h3>
+                        <div className="update-note-dialog__categories-group">
+                            <CategoryCheckboxes />
                         </div>
-                        <div className="dialog__form-row">
-                            <label className="h3" htmlFor="noteContents">{ Lang.note.contents }</label>
-                            <textarea id="noteContents" className="input input--textarea dialog__input"/>
-                        </div>
-                        <div className="dialog__form-row">
-                            <h3>{ Lang.note.categories }</h3>
-                            <div className="update-note-dialog__categories-group">
-                                { common.categoryCheckboxes }
-                            </div>
-                        </div>
-                        <Button
-                            type="submit"
-                            buttonStyle="stretched"
-                            className="button input input--button"
-                        >{ Lang.common.addNote }
-                        </Button>
-                    </form>
-                </div>
+                    </div>
+                    <Button
+                        type="submit"
+                        buttonStyle="stretched"
+                        className="button input input--button"
+                    >{ Lang.common.addNote }
+                    </Button>
+                </form>
             </div>
-        );
-    };
+        </div>
+    );
 
     return dialog.visible ? renderDialog() : '';
 };
