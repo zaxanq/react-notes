@@ -26,8 +26,6 @@ const UpdateNoteDialog = ({ dialogType }) => {
     };
 
     const showSnackbar = (text, type) => {
-        snackbar.setVisible(true);
-        snackbar.setContent({ text, type });
     };
 
     const renderDialog = () => {
@@ -54,7 +52,7 @@ const UpdateNoteDialog = ({ dialogType }) => {
 
             if (!title.trim() && !contents.trim()) {
                 closeDialog(false);
-                showSnackbar(Lang.snackbar.noteNotAdded, 'warning');
+                snackbar.show(Lang.snackbar.noteNotAdded, 'warning');
                 return;
             }
 

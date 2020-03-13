@@ -6,10 +6,20 @@ const DataContext = React.createContext(null);
 const DataProvider = ({ children }) => {
     const [categories, setCategories] = useState([]);
     const [notes, setNotes] = useState([]);
+    const [editMode, setEditMode] = useState([]);
 
     const { Provider } = DataContext;
 
-    const getNextId = ( ofWhat ) => parseInt(ofWhat.map((item) => item.id)[ofWhat.length - 1]) + 1;
+    const isCategoryEmpty = (cId) => {
+        for (let note of notes) {
+            if (note.includedIn.includes(cId)) return false;
+        }
+        return true;
+    };
+
+    const clearEditMode = () => setEditMode([...categories].map(() => false));
+
+    const getNextId = (ofWhat) => parseInt(ofWhat.map((item) => item.id)[ofWhat.length - 1]) + 1;
 
     useEffect(() => {
         (new HttpClient()).get(Api.Categories)
@@ -21,11 +31,18 @@ const DataProvider = ({ children }) => {
             .then(json => setNotes(json));
     }, []);
 
+    useEffect(() => {
+        clearEditMode();
+    }, [categories]);
+
     return (
         <Provider value={{
             categories, setCategories,
             notes, setNotes,
-            getNextId
+            editMode, setEditMode,
+            clearEditMode,
+            getNextId,
+            isCategoryEmpty,
         }}>
             { children }
         </Provider>

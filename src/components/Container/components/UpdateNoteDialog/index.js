@@ -1,3 +1,3 @@
-import Container from './Container';
+import UpdateNoteDialog from './UpdateNoteDialog';
 
-export default Container;
+export default UpdateNoteDialog;

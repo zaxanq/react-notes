@@ -1,59 +1,41 @@
-import React, { useContext, useState } from 'react';
-import HttpClient, { Api } from '../../../../services/HttpClient';
-import { DataContext } from '../../../../contexts';
+import React from 'react';
 
-const Category = ({ title, id, onCategoryClick, closeSidebar }) => {
-    const { categories, setCategories } = useContext(DataContext);
-
-    const [editMode, setEditMode] = useState(false);
+const Category = ({ title, id, editMode,  onCategoryClick, onCategoryNameCancel, onCategoryNameEdit,
+                      onCategoryNameSubmit, onCategoryDelete, closeSidebar }) => {
     let newName = '';
+    const optionButtons = (
+        <React.Fragment>
+            <i className="category__edit category__control fas fa-edit"
+               onClick={ (e) => onCategoryNameEdit(e, id) }
+            />
+            <i className="category__delete category__control fas fa-trash"
+               onClick={ (e) => onCategoryDelete(e, id) }
+            />
+        </React.Fragment>
+    );
 
     const categoryTitleSpan = <span className="category__name">{ title }</span>;
     const editCategoryForm = (
-        <form onSubmit={ (e) => onSubmit(e) }>
+        <form onSubmit={ (e) => onCategoryNameSubmit(e, newName, id) }>
             <input
+                id="editCategory"
+                className="input input--transparent"
                 type="text"
                 defaultValue={ title }
                 onClick={ (e) => e.stopPropagation() }
                 onChange={ (e) => newName = e.target.value }
+                onBlur={ (e) => onCategoryNameCancel(e) }
             />
         </form>
     );
 
-    const onEdit = (e) => {
-        e.stopPropagation();
-        setEditMode(!editMode);
-    };
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-        const updatedCategories = [...categories];
-
-        updatedCategories.forEach((category) => {
-            if (category.id === id) {
-                category.name = newName;
-
-                (new HttpClient()).put(
-                    `${Api.Categories}/${id}`,
-                    category
-                ).then(() => {
-                    setCategories(updatedCategories);
-                    setEditMode(!editMode);
-                });
-            }
-        });
-    };
-
     return (
         <li className="category"
-            onClick={ () => { onCategoryClick(); closeSidebar() } }
+            onClick={ () => { onCategoryClick(id); closeSidebar() } }
         >
             <i className="category__icon fas fa-sticky-note" />
-            { editMode ? editCategoryForm : categoryTitleSpan }
-            <i
-                className="category__edit fas fa-edit"
-                onClick={ (e) => onEdit(e) }
-            />
+            { editMode[id] && id !== 0 ? editCategoryForm : categoryTitleSpan }
+            { id !== 0 ? optionButtons : '' }
         </li>
     );
 };

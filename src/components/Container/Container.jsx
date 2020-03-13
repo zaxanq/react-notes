@@ -8,8 +8,9 @@ import { UIContext } from '../../contexts';
 import UpdateNoteDialog from './components/UpdateNoteDialog/UpdateNoteDialog';
 import DialogType from '../Shell/enums/DialogType.enum';
 import Snackbar from './components/Snackbar/Snackbar';
+import ConfirmDialog from "./components/ConfirmDialog";
 
-const Container = ({ categoryId }) => {
+const Container = ({ cId }) => {
     const { dialog } = useContext(UIContext);
     const { categories } = useContext(DataContext);
 
@@ -19,18 +20,18 @@ const Container = ({ categoryId }) => {
 
     useEffect(() => { // find current category
         if (categories) setCurrentCategory([...Object.values(categories)]
-            .filter((category) => category.id === categoryId)[0]
+            .filter((category) => category.id === cId)[0]
         );
-    }, [categories, categoryId]);
+    }, [categories, cId]);
 
     useEffect(() => { // set category header
         if (currentCategory) {
-            setCategoryTitle(categoryId !== 0 ?
+            setCategoryTitle(cId !== 0 ?
                 <React.Fragment><span className="container__category-text">Category:</span> { currentCategory.name }</React.Fragment> :
                 currentCategory.name
             );
         }
-    }, [currentCategory, categoryId]);
+    }, [currentCategory, cId]);
 
     const onAddNoteClick = () => {
         /*
@@ -53,8 +54,9 @@ const Container = ({ categoryId }) => {
                     { Lang.common.addNote }
                 </Button>
             </div>
-           <NotesList categoryId={ categoryId } />
+           <NotesList cId={ cId } />
            <UpdateNoteDialog dialogType={ dialogType } />
+           <ConfirmDialog />
            <Snackbar />
         </main>
     );

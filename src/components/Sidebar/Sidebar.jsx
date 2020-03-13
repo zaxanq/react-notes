@@ -1,19 +1,79 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Sidebar.scss';
 import Category from './components/Category';
-import { DataContext } from '../../contexts';
+import { DataContext, UIContext } from '../../contexts';
 import Lang from '../../assets/i18n/';
 import HttpClient, { Api } from '../../services/HttpClient';
 
 const Sidebar = ({ onCategoryClick }) => {
-    const [active, setActive] = useState(false);
-    const [deactivate, setDeactivate] = useState(false);
-    const { categories, setCategories, getNextId } = useContext(DataContext);
+    const { sidebar, snackbar, confirmDialog } = useContext(UIContext);
+    const [editedCategoryId, setEditedCategoryId] = useState(null);
+
+    const { categories, setCategories, editMode, setEditMode, clearEditMode, getNextId, isCategoryEmpty } = useContext(DataContext);
 
     const closeSidebar = () => {
-        setDeactivate(true);
-        setTimeout(() => setActive(false), 0);
-        setTimeout(() => setDeactivate(false), 200);
+        sidebar.setActive(false);
+    };
+
+    const onCategoryNameEdit = (e, id) => {
+        e.stopPropagation();
+
+        sidebar.setActive(true);
+        setEditedCategoryId(id);
+        setEditMode([...editMode]
+            .map((categoryMode, index) => index === id ? !categoryMode : false)
+        );
+    };
+
+    const onCategoryDelete = (e, id) => {
+        e.stopPropagation();
+
+        sidebar.setActive(true);
+        confirmDialog.show(Lang.confirm.deleteNonEmptyCategory);
+    };
+
+    useEffect(() => {
+        const editCategoryInput = document.getElementById('editCategory');
+        if (editCategoryInput) editCategoryInput.focus();
+    }, [editMode]);
+
+    const onCategoryNameCancel = (e) => {
+        e.stopPropagation();
+        clearEditMode();
+    };
+
+    const onCategoryNameSubmit = (e, newName) => {
+        e.preventDefault();
+        let updatedCategories = [...categories];
+
+        const finishEditing = (isChanged = true) => {
+            if (isChanged) setCategories(updatedCategories);
+            setEditMode(!editMode);
+            setEditedCategoryId(null);
+        };
+
+        if (newName === '' && isCategoryEmpty(editedCategoryId)) {
+            updatedCategories = updatedCategories.filter((category) => category.id !== editedCategoryId);
+
+            (new HttpClient()).delete(
+                `${ Api.Categories }/${ editedCategoryId }`
+            ).then(() => finishEditing());
+        } else if (newName === '') {
+            snackbar.show(Lang.category.cannotRemoveNonEmpty, 'warning');
+            finishEditing(false);
+        }
+         else {
+            updatedCategories.forEach((category) => {
+                if (category.id === editedCategoryId) {
+                    category.name = newName;
+
+                    (new HttpClient()).put(
+                        `${Api.Categories}/${editedCategoryId}`,
+                        category
+                    ).then(() => finishEditing());
+                }
+            });
+        }
     };
 
     const onAddCategoryClick = () => {
@@ -38,7 +98,13 @@ const Sidebar = ({ onCategoryClick }) => {
                     title={ category.name  }
                     key={ category.id }
                     id={ category.id }
-                    onCategoryClick={ () => onCategoryClick(category.id) }
+                    editMode={ editMode }
+                    setEditMode={ setEditMode }
+                    onCategoryClick={ onCategoryClick }
+                    onCategoryNameCancel={ (e) => onCategoryNameCancel(e) }
+                    onCategoryNameEdit={ (e, id) => onCategoryNameEdit(e, id) }
+                    onCategoryNameSubmit={ (e, newName) => onCategoryNameSubmit(e, newName) }
+                    onCategoryDelete={ (e, id) => onCategoryDelete(e, id) }
                     closeSidebar={ () => closeSidebar() }
                 />
             )) }
@@ -48,8 +114,8 @@ const Sidebar = ({ onCategoryClick }) => {
     return (
         <React.Fragment>
             <aside
-                className={ 'sidebar' + (active ? ' active' : '') + (deactivate ? ' deactivate' : '') }
-                onClick={ () => setActive(!active) }
+                className={ 'sidebar' + (sidebar.active ? ' sidebar--active' : '') }
+                onClick={ () => sidebar.setActive(!sidebar.active) }
             >
                 <span
                     className="sidebar__add-category add-category"
@@ -62,7 +128,7 @@ const Sidebar = ({ onCategoryClick }) => {
             </aside>
             <div
                 className="sidebar-overlay"
-                onClick={ () => active ? setActive(!active) : undefined }
+                onClick={ () => sidebar.active ? sidebar.setActive(!sidebar.active) : undefined }
             />
         </React.Fragment>
     );

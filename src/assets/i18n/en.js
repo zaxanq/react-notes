@@ -1,8 +1,16 @@
 const EN = {
+  "category": {
+    "cannotRemoveNonEmpty": "Cannot remove a non-empty category.",
+  },
   "common": {
     "addNote": "Add note",
     "addCategory": "Add category",
     "editNote": "Edit note",
+  },
+  "confirm": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "deleteNonEmptyCategory": "Please confirm deleting a non-empty category.",
   },
   "note": {
     "categories": "Note categories",

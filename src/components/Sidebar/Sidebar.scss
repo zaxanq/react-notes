@@ -17,7 +17,7 @@
     pointer-events: none;
   }
 
-  @include active() { // active sidebar
+  @include active(sidebar--active) { // active sidebar
     width: $sidebar-active-width;
     padding-left: $sidebar-horizontal-padding * 2;
     padding-right: $sidebar-horizontal-padding * 2;
@@ -62,11 +62,16 @@
 
   .add-category,
   .category {
-    max-width: $sidebar-active-width - 2 * ($sidebar-horizontal-padding * 2);
+    $category-max-width: $sidebar-active-width - 2 * ($sidebar-horizontal-padding * 2);
+    max-width: $category-max-width;
     @include flex-row(flex-start, center);
     white-space: nowrap;
     font-size: $sidebar-item-font-size;
     cursor: pointer;
+
+    input {
+      width: $category-max-width - $sidebar-icon-size - $sidebar-horizontal-padding - $sidebar-edit-margin-left - $sidebar-item-font-size;
+    }
 
     &__name {
       white-space: nowrap;
@@ -91,16 +96,19 @@
   .category {
       margin-bottom: 1rem;
 
-    &__edit {
-      margin-left: 2rem;
+    &__control {
+      margin-left: $sidebar-edit-margin-left;
       color: $sidebar-color;
 
       @include active() {
         color: $sidebar-active-color;
       }
+
+      + .category__control {
+        margin-left: $sidebar-edit-margin-left / 4;
+      }
     }
   }
-
 
   .add-category {
     margin-bottom: 3rem;

@@ -19,6 +19,7 @@ $sidebar-width: 6rem;
 $sidebar-active-width: 28rem;
 $sidebar-icon-size: 3rem;
 $sidebar-item-font-size: 1.8rem;
+$sidebar-edit-margin-left: 2rem;
 
 $sidebar-horizontal-padding: ($sidebar-width - $sidebar-icon-size) / 2;
 $sidebar-top-padding: 2rem;
@@ -38,7 +39,7 @@ $container-padding: 3rem 3rem 3rem 3rem + $sidebar-width;
 
 
 $dialog-width: 50rem;
-$dialog-min-height: 40rem;
+$update-note-dialog-min-height: 40rem;
 $dialog-padding: 6rem 4rem;
 
 

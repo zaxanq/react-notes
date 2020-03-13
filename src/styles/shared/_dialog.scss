@@ -13,9 +13,16 @@
 .dialog {
   position: absolute;
   width: $dialog-width;
-  min-height: $dialog-min-height;
   padding: $dialog-padding;
   background-color: $dialog-background-color;
+
+  &.confirm-dialog {
+    text-align: center;
+  }
+  
+  &.update-note-dialog {
+    min-height: $update-note-dialog-min-height;
+  }
 
   &__title {
     margin-bottom: 3rem;
