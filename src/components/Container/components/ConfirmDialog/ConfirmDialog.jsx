@@ -7,16 +7,22 @@ import Lang from '../../../../assets/i18n/en';
 const ConfirmDialog = () => {
     const { confirmDialog } = useContext(UIContext);
 
-    const onConfirmClick = () => {
-        console.log('confirm');
+    const onConfirmClick = (e) => {
+        e.stopPropagation();
+        confirmDialog.setResult(true);
+        confirmDialog.close();
     };
 
-    const onCancelClick = () => {
-        console.log('cancel');
+    const onCancelClick = (e) => {
+        e.stopPropagation();
+        confirmDialog.close();
     };
 
     const dialog = (
-        <div className="dialog-container">
+        <div
+            className="dialog-container"
+            onClick={ (e) => onCancelClick(e) }
+        >
             <div className="dialog confirm-dialog">
                 <p>{ confirmDialog.content }</p>
                 <div className="confirm-dialog__controls">
@@ -24,13 +30,13 @@ const ConfirmDialog = () => {
                         type="submit"
                         buttonStyle="solid main"
                         className="confirm-dialog__confirm-button"
-                        click={ () => onConfirmClick() }
+                        click={ (e) => onConfirmClick(e) }
                     >{ Lang.confirm.confirm }</Button>
                     <Button
                         type="cancel"
                         buttonStyle="solid gray"
                         className="confirm-dialog__cancel-button"
-                        click={ () => onCancelClick() }
+                        click={ (e) => onCancelClick(e) }
                     >{ Lang.confirm.cancel }</Button>
                 </div>
             </div>

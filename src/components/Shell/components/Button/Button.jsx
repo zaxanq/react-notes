@@ -29,7 +29,7 @@ const Button = ({ children, type, buttonStyle, className, click }) => {
         <button
             type={ type }
             className={ `button ${getStyleClasses()} ${ className }` }
-            onClick={ click ? () => click() : undefined }
+            onClick={ click ? (e) => click(e) : undefined }
         >
             { children }
         </button>

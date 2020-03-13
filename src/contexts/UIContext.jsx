@@ -9,10 +9,18 @@ const UiProvider = ({ children }) => {
     const [snackbarContent, setSnackbarContent] = useState({ type: '', text: '' });
     const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
     const [confirmDialogContent, setConfirmDialogContent] = useState(null);
+    const [confirmDialogResult, setConfirmDialogResult] = useState(null);
+    const [confirmDialogData, setConfirmDialogData] = useState(null);
 
     const showConfirmDialog = (content) => {
         setConfirmDialogVisible(true);
         setConfirmDialogContent(content);
+    };
+
+    const clearConfirmDialog = () => {
+        closeConfirmDialog();
+        setConfirmDialogResult(null);
+        setConfirmDialogData(null);
     };
 
     const closeConfirmDialog = () => {
@@ -41,8 +49,13 @@ const UiProvider = ({ children }) => {
             confirmDialog: {
                 visible: confirmDialogVisible,
                 content: confirmDialogContent,
+                result: confirmDialogResult,
+                setResult: setConfirmDialogResult,
+                data: confirmDialogData,
+                setData: setConfirmDialogData,
                 show: showConfirmDialog,
                 close: closeConfirmDialog,
+                clear: clearConfirmDialog,
             },
             sidebar: {
                 active: sidebarActive,

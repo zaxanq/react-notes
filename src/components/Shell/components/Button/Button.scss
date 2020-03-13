@@ -32,4 +32,29 @@
     flex: 1;
     letter-spacing: 1px;
   }
+
+  &.button--solid {
+    padding: 0.6rem 2.4rem;
+    font-weight: 500;
+    transition: 0.2s ease-in-out;
+  }
+
+  &.button--main {
+    background-color: $button-main-background-color;
+    color: $button-main-color;
+    font-weight: 700;
+
+    &:hover {
+      background-color: $button-main-hover-background-color;
+    }
+  }
+
+  &.button--gray {
+    background-color: $button-gray-background-color;
+    color: $button-gray-color;
+
+    &:hover {
+      background-color: $button-gray-hover-background-color;
+    }
+  }
 }

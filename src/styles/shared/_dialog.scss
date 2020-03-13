@@ -18,6 +18,14 @@
 
   &.confirm-dialog {
     text-align: center;
+
+    .confirm-dialog__controls {
+      margin-top: 2rem;
+
+      * + * {
+        margin-left: 1rem;
+      }
+    }
   }
   
   &.update-note-dialog {

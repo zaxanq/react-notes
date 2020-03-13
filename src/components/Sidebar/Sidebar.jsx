@@ -5,37 +5,77 @@ import { DataContext, UIContext } from '../../contexts';
 import Lang from '../../assets/i18n/';
 import HttpClient, { Api } from '../../services/HttpClient';
 
-const Sidebar = ({ onCategoryClick }) => {
+const Sidebar = ({ handleCategoryClick }) => {
+    const { notes, setNotes, categories, setCategories, editMode, setEditMode, clearEditMode, getNextId, isCategoryEmpty } = useContext(DataContext);
     const { sidebar, snackbar, confirmDialog } = useContext(UIContext);
     const [editedCategoryId, setEditedCategoryId] = useState(null);
-
-    const { categories, setCategories, editMode, setEditMode, clearEditMode, getNextId, isCategoryEmpty } = useContext(DataContext);
-
-    const closeSidebar = () => {
-        sidebar.setActive(false);
-    };
-
-    const onCategoryNameEdit = (e, id) => {
-        e.stopPropagation();
-
-        sidebar.setActive(true);
-        setEditedCategoryId(id);
-        setEditMode([...editMode]
-            .map((categoryMode, index) => index === id ? !categoryMode : false)
-        );
-    };
-
-    const onCategoryDelete = (e, id) => {
-        e.stopPropagation();
-
-        sidebar.setActive(true);
-        confirmDialog.show(Lang.confirm.deleteNonEmptyCategory);
-    };
 
     useEffect(() => {
         const editCategoryInput = document.getElementById('editCategory');
         if (editCategoryInput) editCategoryInput.focus();
-    }, [editMode]);
+    }, [editMode, categories]);
+
+    useEffect(() => {
+        if (confirmDialog.result) {
+            setNotes([...notes].map((note) => {
+                if (note.includedIn.includes(confirmDialog.data.id)) {
+                    note.includedIn.splice(note.includedIn.indexOf(confirmDialog.data.id), 1);
+                }
+                return {
+                    ...note,
+                    includedIn: note.includedIn,
+                };
+            }));
+
+            console.log(notes);
+
+            // (new HttpClient()).put(
+            //     `${ Api.Notes }`,
+            //     notes
+            // );
+
+            deleteCategory(confirmDialog.data.id);
+            confirmDialog.setResult(null);
+        }
+    }, [notes, confirmDialog.result]);
+
+
+    const deleteCategory = (cId = editedCategoryId) => {
+        const updatedCategories = [...categories].filter((category) => category.id !== cId);
+
+        (new HttpClient()).delete(
+            `${ Api.Categories }/${ cId }`
+        ).then(() => finishEditing(updatedCategories));
+    };
+
+    const finishEditing = (updatedCategories, isChanged = true) => {
+        if (isChanged) setCategories(updatedCategories);
+        setEditMode(!editMode);
+        setEditedCategoryId(null);
+    };
+
+    const onCategoryNameEdit = (e, cId) => {
+        e.stopPropagation();
+
+        sidebar.setActive(true);
+        setEditedCategoryId(cId);
+        setEditMode([...editMode].map((categoryMode, index) => index === cId ? !categoryMode : false));
+    };
+
+    const onCategoryClick = (e, id) => {
+        e.stopPropagation();
+        handleCategoryClick(id);
+    };
+
+    const onCategoryDelete = (e, cId) => {
+        e.stopPropagation();
+
+        if (!isCategoryEmpty(cId)) {
+            confirmDialog.setData({ id: cId });
+            confirmDialog.show(Lang.confirm.deleteNonEmptyCategory);
+        }
+        else deleteCategory(cId);
+    };
 
     const onCategoryNameCancel = (e) => {
         e.stopPropagation();
@@ -44,25 +84,14 @@ const Sidebar = ({ onCategoryClick }) => {
 
     const onCategoryNameSubmit = (e, newName) => {
         e.preventDefault();
-        let updatedCategories = [...categories];
-
-        const finishEditing = (isChanged = true) => {
-            if (isChanged) setCategories(updatedCategories);
-            setEditMode(!editMode);
-            setEditedCategoryId(null);
-        };
 
         if (newName === '' && isCategoryEmpty(editedCategoryId)) {
-            updatedCategories = updatedCategories.filter((category) => category.id !== editedCategoryId);
-
-            (new HttpClient()).delete(
-                `${ Api.Categories }/${ editedCategoryId }`
-            ).then(() => finishEditing());
+            deleteCategory();
         } else if (newName === '') {
             snackbar.show(Lang.category.cannotRemoveNonEmpty, 'warning');
-            finishEditing(false);
-        }
-         else {
+            finishEditing(null,false);
+        } else {
+            const updatedCategories = [...categories];
             updatedCategories.forEach((category) => {
                 if (category.id === editedCategoryId) {
                     category.name = newName;
@@ -70,13 +99,15 @@ const Sidebar = ({ onCategoryClick }) => {
                     (new HttpClient()).put(
                         `${Api.Categories}/${editedCategoryId}`,
                         category
-                    ).then(() => finishEditing());
+                    ).then(() => finishEditing(updatedCategories));
                 }
             });
         }
     };
 
-    const onAddCategoryClick = () => {
+    const onAddCategoryClick = (e) => {
+        e.stopPropagation();
+
         const newCategory = {
             id: getNextId(categories),
             name: 'New category',
@@ -100,12 +131,11 @@ const Sidebar = ({ onCategoryClick }) => {
                     id={ category.id }
                     editMode={ editMode }
                     setEditMode={ setEditMode }
-                    onCategoryClick={ onCategoryClick }
+                    onCategoryClick={ (e, id) => onCategoryClick(e, id) }
                     onCategoryNameCancel={ (e) => onCategoryNameCancel(e) }
                     onCategoryNameEdit={ (e, id) => onCategoryNameEdit(e, id) }
                     onCategoryNameSubmit={ (e, newName) => onCategoryNameSubmit(e, newName) }
                     onCategoryDelete={ (e, id) => onCategoryDelete(e, id) }
-                    closeSidebar={ () => closeSidebar() }
                 />
             )) }
         </ul>
@@ -119,7 +149,7 @@ const Sidebar = ({ onCategoryClick }) => {
             >
                 <span
                     className="sidebar__add-category add-category"
-                    onClick={ () => onAddCategoryClick() }
+                    onClick={ (e) => onAddCategoryClick(e) }
                 >
                     <i className="add-category__icon fas fa-plus-square"/>
                     <span className="add-category__name">{ Lang.common.addCategory }</span>

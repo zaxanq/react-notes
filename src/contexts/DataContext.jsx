@@ -4,11 +4,11 @@ import HttpClient, { Api } from '../services/HttpClient';
 const DataContext = React.createContext(null);
 
 const DataProvider = ({ children }) => {
+    const { Provider } = DataContext;
+
     const [categories, setCategories] = useState([]);
     const [notes, setNotes] = useState([]);
-    const [editMode, setEditMode] = useState([]);
-
-    const { Provider } = DataContext;
+    const [editMode, setEditMode] = useState([...categories].map(() => false));
 
     const isCategoryEmpty = (cId) => {
         for (let note of notes) {
@@ -22,17 +22,15 @@ const DataProvider = ({ children }) => {
     const getNextId = (ofWhat) => parseInt(ofWhat.map((item) => item.id)[ofWhat.length - 1]) + 1;
 
     useEffect(() => {
-        (new HttpClient()).get(Api.Categories)
-            .then(json => setCategories(json));
+        (new HttpClient()).get(Api.Categories).then(json => setCategories(json));
     }, []);
 
     useEffect(() => {
-        (new HttpClient()).get(Api.Notes)
-            .then(json => setNotes(json));
+        (new HttpClient()).get(Api.Notes).then(json => setNotes(json));
     }, []);
 
     useEffect(() => {
-        clearEditMode();
+        if (categories.length !== 0) clearEditMode();
     }, [categories]);
 
     return (

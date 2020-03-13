@@ -72,6 +72,12 @@ $button-outlined-border-color: map-get($dark-palette, 800);
 $button-outlined-color: map-get($dark-palette, 1000);
 $button-outlined-active-color: map-get($light-palette, 900);
 $button-outlined-background: linear-gradient($button-outlined-border-color, $button-outlined-border-color);
+$button-main-background-color: map-get($main-palette, 500);
+$button-main-hover-background-color: map-get($main-palette, 400);
+$button-main-color: map-get($dark-palette, 100);
+$button-gray-background-color: map-get($dark-palette, 600);
+$button-gray-hover-background-color: map-get($dark-palette, 700);
+$button-gray-color: map-get($light-palette, 900);
 
 $sidebar-background-color: map-get($dark-palette, 200);
 $sidebar-overlay-color: rgba(map-get($dark-palette, 50), 0.6);

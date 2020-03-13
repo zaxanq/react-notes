@@ -53,6 +53,15 @@
       "includedIn": [
         0
       ]
+    },
+    {
+      "id": 8,
+      "title": "note in the New category",
+      "contents": "",
+      "includedIn": [
+        0,
+        4
+      ]
     }
   ],
   "categories": [
@@ -71,14 +80,6 @@
     {
       "id": 3,
       "name": "Work"
-    },
-    {
-      "id": 4,
-      "name": "New category"
-    },
-    {
-      "id": 5,
-      "name": "New categoryasdadasdasdasdasdasd"
     }
   ]
 }
