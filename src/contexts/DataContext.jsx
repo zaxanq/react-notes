@@ -10,12 +10,7 @@ const DataProvider = ({ children }) => {
     const [notes, setNotes] = useState([]);
     const [editMode, setEditMode] = useState([...categories].map(() => false));
 
-    const isCategoryEmpty = (cId) => {
-        for (let note of notes) {
-            if (note.includedIn.includes(cId)) return false;
-        }
-        return true;
-    };
+    const isCategoryEmpty = (cId) => categories.filter((category) => category.id === cId)[0].notes.length === 0;
 
     const clearEditMode = () => setEditMode([...categories].map(() => false));
 

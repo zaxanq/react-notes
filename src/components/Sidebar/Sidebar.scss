@@ -17,7 +17,7 @@
     pointer-events: none;
   }
 
-  @include active(sidebar--active) { // active sidebar
+  @include active(sidebar--opened) { // active sidebar
     width: $sidebar-active-width;
     padding-left: $sidebar-horizontal-padding * 2;
     padding-right: $sidebar-horizontal-padding * 2;

@@ -1,64 +1,46 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './Sidebar.scss';
-import Category from './components/Category';
 import { DataContext, UIContext } from '../../contexts';
-import Lang from '../../assets/i18n/';
+import Category from './components/Category';
 import HttpClient, { Api } from '../../services/HttpClient';
+import Lang from '../../assets/i18n/';
 
-const Sidebar = ({ handleCategoryClick }) => {
-    const { notes, setNotes, categories, setCategories, editMode, setEditMode, clearEditMode, getNextId, isCategoryEmpty } = useContext(DataContext);
-    const { sidebar, snackbar, confirmDialog } = useContext(UIContext);
+const Sidebar = ({handleCategoryClick}) => {
+    const {categories, setCategories, editMode, setEditMode, clearEditMode, getNextId, isCategoryEmpty} = useContext(DataContext);
+    const {sidebar, snackbar, confirmDialog} = useContext(UIContext);
     const [editedCategoryId, setEditedCategoryId] = useState(null);
 
-    useEffect(() => {
-        const editCategoryInput = document.getElementById('editCategory');
-        if (editCategoryInput) editCategoryInput.focus();
-    }, [editMode, categories]);
+    useEffect(() => { // each time editMode changes
+        if (editMode.includes(true)) { // if category edited
+            document.getElementById('editCategory').focus(); // focus edit category input
+        }
+    }, [editMode]);
 
-    useEffect(() => {
-        if (confirmDialog.result) {
-            setNotes([...notes].map((note) => {
-                if (note.includedIn.includes(confirmDialog.data.id)) {
-                    note.includedIn.splice(note.includedIn.indexOf(confirmDialog.data.id), 1);
-                }
-                return {
-                    ...note,
-                    includedIn: note.includedIn,
-                };
-            }));
-
-            console.log(notes);
-
-            // (new HttpClient()).put(
-            //     `${ Api.Notes }`,
-            //     notes
-            // );
-
-            deleteCategory(confirmDialog.data.id);
+    useEffect(() => { // each time confirmDialog result changes
+        if (confirmDialog.result) { // if category delete confirmed
+            deleteCategory(confirmDialog.data.id); // delete the category
             confirmDialog.setResult(null);
         }
-    }, [notes, confirmDialog.result]);
+    }, [confirmDialog.result]);
 
+    const deleteCategory = (cId) => {
+        const updatedCategories = [...categories].filter((category) => category.id !== cId); // removed deleted category
 
-    const deleteCategory = (cId = editedCategoryId) => {
-        const updatedCategories = [...categories].filter((category) => category.id !== cId);
-
-        (new HttpClient()).delete(
+        (new HttpClient()).delete( // send delete request
             `${ Api.Categories }/${ cId }`
-        ).then(() => finishEditing(updatedCategories));
+        ).then(() => finishEditing(updatedCategories, true)); // then update local state
     };
 
-    const finishEditing = (updatedCategories, isChanged = true) => {
+    const finishEditing = (updatedCategories, isChanged) => {
         if (isChanged) setCategories(updatedCategories);
-        setEditMode(!editMode);
+        setEditMode([...categories].map(() => false));
         setEditedCategoryId(null);
     };
 
     const onCategoryNameEdit = (e, cId) => {
         e.stopPropagation();
-
-        sidebar.setActive(true);
-        setEditedCategoryId(cId);
+        sidebar.setOpened(true); // keep the sidebar opened
+        setEditedCategoryId(cId); // set edited category id
         setEditMode([...editMode].map((categoryMode, index) => index === cId ? !categoryMode : false));
     };
 
@@ -69,12 +51,10 @@ const Sidebar = ({ handleCategoryClick }) => {
 
     const onCategoryDelete = (e, cId) => {
         e.stopPropagation();
-
-        if (!isCategoryEmpty(cId)) {
-            confirmDialog.setData({ id: cId });
+        if (!isCategoryEmpty(cId)) { // show confirmDialog if category is not empty
+            confirmDialog.setData({id: cId});
             confirmDialog.show(Lang.confirm.deleteNonEmptyCategory);
-        }
-        else deleteCategory(cId);
+        } else deleteCategory(cId); // otherwise delete category
     };
 
     const onCategoryNameCancel = (e) => {
@@ -84,24 +64,22 @@ const Sidebar = ({ handleCategoryClick }) => {
 
     const onCategoryNameSubmit = (e, newName) => {
         e.preventDefault();
-
-        if (newName === '' && isCategoryEmpty(editedCategoryId)) {
-            deleteCategory();
-        } else if (newName === '') {
+        if (newName === '' && isCategoryEmpty(editedCategoryId)) { // if no name and no categories
+            deleteCategory(editedCategoryId); // delete category
+        } else if (newName === '') { // if no name and categories
             snackbar.show(Lang.category.cannotRemoveNonEmpty, 'warning');
-            finishEditing(null,false);
-        } else {
-            const updatedCategories = [...categories];
-            updatedCategories.forEach((category) => {
-                if (category.id === editedCategoryId) {
-                    category.name = newName;
+            finishEditing(null, false);
+        } else { // if new name is submitted
+            const updatedCategory = [...categories].filter( // find category to update
+                (category) => category.id === editedCategoryId)[0];
+            updatedCategory.name = newName;
 
-                    (new HttpClient()).put(
-                        `${Api.Categories}/${editedCategoryId}`,
-                        category
-                    ).then(() => finishEditing(updatedCategories));
-                }
-            });
+            (new HttpClient()).put( // send request to update the category
+                `${ Api.Categories }/${ editedCategoryId }`,
+                updatedCategory
+            ).then(() => finishEditing([...categories].map( // update local state categories
+                (category) => category.id === editedCategoryId ? updatedCategory : category
+            ), true));
         }
     };
 
@@ -111,6 +89,7 @@ const Sidebar = ({ handleCategoryClick }) => {
         const newCategory = {
             id: getNextId(categories),
             name: 'New category',
+            notes: [],
         };
 
         (new HttpClient()).post(
@@ -126,7 +105,7 @@ const Sidebar = ({ handleCategoryClick }) => {
         <ul className="sidebar__categories-list">
             { categories.map(category => (
                 <Category
-                    title={ category.name  }
+                    title={ category.name }
                     key={ category.id }
                     id={ category.id }
                     editMode={ editMode }
@@ -144,8 +123,8 @@ const Sidebar = ({ handleCategoryClick }) => {
     return (
         <React.Fragment>
             <aside
-                className={ 'sidebar' + (sidebar.active ? ' sidebar--active' : '') }
-                onClick={ () => sidebar.setActive(!sidebar.active) }
+                className={ 'sidebar' + (sidebar.opened ? ' sidebar--opened' : '') }
+                onClick={ () => sidebar.setOpened(!sidebar.opened) }
             >
                 <span
                     className="sidebar__add-category add-category"
@@ -158,7 +137,7 @@ const Sidebar = ({ handleCategoryClick }) => {
             </aside>
             <div
                 className="sidebar-overlay"
-                onClick={ () => sidebar.active ? sidebar.setActive(!sidebar.active) : undefined }
+                onClick={ () => sidebar.opened ? sidebar.setOpened(!sidebar.opened) : undefined }
             />
         </React.Fragment>
     );

@@ -1,18 +1,17 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './NotesList.scss';
 import { DataContext } from '../../contexts';
 import Note from '../Note';
-import Lang from '../../assets/i18n/';
+import Lang from '../../assets/i18n';
 
 const NotesList = ({ cId }) => {
-    const { notes } = useContext(DataContext);
+    const { notes, categories } = useContext(DataContext);
     const [notesToDisplay, setNotesToDisplay] = useState([]);
 
     useEffect(() => {
-        if (notes && typeof cId !== 'undefined') { // if notes are received
-            setNotesToDisplay(notes
-                .filter((note) => note.includedIn.includes(cId)) // filter notes included in cId
-                .map((note) => <Note data={ note } key={ note.id } />) // and map them as Note component
+        if (categories.length !== 0 && notes.length !== 0 && typeof cId !== 'undefined') { // if categories are received
+            setNotesToDisplay(categories[cId].notes
+                .map((noteId) => <Note data={ notes.filter((note) => note.id === noteId)[0] } key={ noteId } />) // and map them as Note component
             );
         }
     }, [notes, cId]);

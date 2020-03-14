@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 const UIContext = React.createContext(null);
 
 const UiProvider = ({ children }) => {
-    const [sidebarActive, setSidebarActive] = useState(false);
+    const { Provider } = UIContext;
+
+    const [sidebarOpened, setSidebarOpened] = useState(false);
     const [visibleDialog, setVisibleDialog] = useState(false);
     const [snackbarVisible, setSnackbarVisible] = useState(false);
     const [snackbarContent, setSnackbarContent] = useState({ type: '', text: '' });
@@ -38,9 +40,7 @@ const UiProvider = ({ children }) => {
         setSnackbarContent({ type, text });
     };
 
-    const { Provider } = UIContext;
-
-    useEffect(() => {
+    useEffect(() => { // hide snackbar automatically after a delay
         if (snackbarVisible) setTimeout(() => clearSnackbar(), 8000);
     }, [snackbarVisible]);
 
@@ -58,14 +58,12 @@ const UiProvider = ({ children }) => {
                 clear: clearConfirmDialog,
             },
             sidebar: {
-                active: sidebarActive,
-                setActive: setSidebarActive,
+                opened: sidebarOpened,
+                setOpened: setSidebarOpened,
             },
             snackbar: {
                 visible: snackbarVisible,
-                setVisible: setSnackbarVisible,
                 content: snackbarContent,
-                setContent: setSnackbarContent,
                 clear: clearSnackbar,
                 show: showSnackbar,
             },

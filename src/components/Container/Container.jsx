@@ -1,14 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Container.scss';
-import NotesList from '../NotesList';
-import DataContext from '../../contexts/DataContext';
-import Lang from '../../assets/i18n/';
-import Button from '../Shell/components/Button/Button';
-import { UIContext } from '../../contexts';
-import UpdateNoteDialog from './components/UpdateNoteDialog/UpdateNoteDialog';
-import DialogType from '../Shell/enums/DialogType.enum';
+import { DataContext, UIContext } from '../../contexts';
 import Snackbar from './components/Snackbar/Snackbar';
+import NotesList from '../NotesList';
+import UpdateNoteDialog from './components/UpdateNoteDialog/UpdateNoteDialog';
 import ConfirmDialog from "./components/ConfirmDialog";
+import Button from '../Shell/components/Button/Button';
+import Lang from '../../assets/i18n/';
+import DialogType from '../Shell/enums/DialogType.enum';
 
 const Container = ({ cId }) => {
     const { dialog } = useContext(UIContext);
@@ -34,9 +33,6 @@ const Container = ({ cId }) => {
     }, [currentCategory, cId]);
 
     const onAddNoteClick = () => {
-        /*
-            on add-note button click set dialog type and show dialog
-         */
         setDialogType(DialogType.addNote);
         dialog.setVisible(true);
     };
