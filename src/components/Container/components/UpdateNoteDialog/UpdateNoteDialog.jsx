@@ -8,7 +8,7 @@ import HttpClient, { Api } from '../../../../services/HttpClient';
 
 const UpdateNoteDialog = ({ dialogType }) => {
     const { dialog, snackbar } = useContext(UIContext);
-    const { categories, setCategories, notes, setNotes, getNextId } = useContext(DataContext);
+    const { categories, setCategories, notes, setNotes, data } = useContext(DataContext);
 
     const handleSubmit = (e) => {
         /* on form submit */
@@ -30,7 +30,7 @@ const UpdateNoteDialog = ({ dialogType }) => {
         dialog.setVisible(!dialog.visible);
         if (submitted) { // if dialog form was submitted, use form data
             const newNote = { // create new note object
-                id: getNextId(notes),
+                id: data.getNextId(notes),
                 ...formData,
             };
 

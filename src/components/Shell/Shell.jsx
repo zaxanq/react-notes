@@ -7,7 +7,7 @@ const Shell = () => {
 
     return (
         <React.Fragment>
-            <Sidebar handleCategoryClick={ (id) => setCategoryId(id) } />
+            <Sidebar onCategoryClick={ (id) => setCategoryId(id) } />
             <Container cId={ categoryId } />
         </React.Fragment>
     );

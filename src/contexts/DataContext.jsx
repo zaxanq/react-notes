@@ -33,9 +33,11 @@ const DataProvider = ({ children }) => {
             categories, setCategories,
             notes, setNotes,
             editMode, setEditMode,
-            clearEditMode,
-            getNextId,
-            isCategoryEmpty,
+            data: {
+                getNextId,
+                isCategoryEmpty,
+                clearEditMode,
+            },
         }}>
             { children }
         </Provider>

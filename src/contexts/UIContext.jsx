@@ -6,7 +6,8 @@ const UiProvider = ({ children }) => {
     const { Provider } = UIContext;
 
     const [sidebarOpened, setSidebarOpened] = useState(false);
-    const [visibleDialog, setVisibleDialog] = useState(false);
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const [dialogType, setDialogType] = useState(null);
     const [snackbarVisible, setSnackbarVisible] = useState(false);
     const [snackbarContent, setSnackbarContent] = useState({ type: '', text: '' });
     const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
@@ -68,8 +69,10 @@ const UiProvider = ({ children }) => {
                 show: showSnackbar,
             },
             dialog: {
-                visible: visibleDialog,
-                setVisible: setVisibleDialog,
+                visible: dialogVisible,
+                setVisible: setDialogVisible,
+                type: dialogType,
+                setType: setDialogType,
             }
         }}>
             { children }

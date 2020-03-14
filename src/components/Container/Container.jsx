@@ -12,8 +12,6 @@ import DialogType from '../Shell/enums/DialogType.enum';
 const Container = ({ cId }) => {
     const { dialog } = useContext(UIContext);
     const { categories } = useContext(DataContext);
-
-    const [dialogType, setDialogType] = useState('');
     const [categoryTitle, setCategoryTitle] = useState('');
     const [currentCategory, setCurrentCategory] = useState(null);
 
@@ -33,7 +31,7 @@ const Container = ({ cId }) => {
     }, [currentCategory, cId]);
 
     const onAddNoteClick = () => {
-        setDialogType(DialogType.addNote);
+        dialog.setType(DialogType.addNote);
         dialog.setVisible(true);
     };
 
@@ -51,7 +49,7 @@ const Container = ({ cId }) => {
                 </Button>
             </div>
            <NotesList cId={ cId } />
-           <UpdateNoteDialog dialogType={ dialogType } />
+           <UpdateNoteDialog dialogType={ dialog.type } />
            <ConfirmDialog />
            <Snackbar />
         </main>
