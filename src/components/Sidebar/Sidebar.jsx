@@ -16,6 +16,7 @@ const Sidebar = ({ onCategoryClick }) => {
             id: data.getNextId(categories),
             name: 'New category',
             notes: [],
+            deleted: false,
         };
 
         (new HttpClient()).post(
@@ -29,7 +30,9 @@ const Sidebar = ({ onCategoryClick }) => {
             Each category of categories list the method maps as a Category component in the sidebar.
          */
         <ul className="sidebar__categories-list">
-            { categories.map(category => (
+            { categories
+                .filter((category) => !category.deleted) // use only not-deleted categories
+                .map(category => (
                 <Category
                     key={ category.id }
                     thisCategory={ category }

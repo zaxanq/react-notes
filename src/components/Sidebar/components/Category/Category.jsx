@@ -10,10 +10,16 @@ const Category = ({ thisCategory, onCategoryClick }) => {
     let newName = '';
 
     const deleteCategory = () => {
-        const updatedCategories = [...categories].filter((category) => category.id !== thisCategory.id);
+        thisCategory.deleted = true;
 
-        (new HttpClient()).delete( // send delete request
-            `${ Api.Categories }/${ thisCategory.id }`
+        const updatedCategories = [...categories].map((category) => {
+            if (category.id === thisCategory.id) category.deleted = true;
+            return category;
+        });
+
+        (new HttpClient()).put( // send update (soft delete) request
+            `${ Api.Categories }/${ thisCategory.id }`,
+            thisCategory,
         ).then(() => finishEditing(updatedCategories, true)); // then update local state
     };
 
@@ -22,15 +28,15 @@ const Category = ({ thisCategory, onCategoryClick }) => {
         setEditMode([...categories].map(() => false));
     };
 
-    const onNameEdit = (e, cId) => {
+    const onNameEdit = (e) => {
         e.stopPropagation();
         sidebar.setOpened(true); // keep the sidebar opened
-        setEditMode([...editMode].map((categoryMode, index) => index === cId ? !categoryMode : false));
+        setEditMode([...editMode].map((categoryMode, index) => index === thisCategory.id ? !categoryMode : false));
     };
 
-    const onClick = (e, id) => {
+    const onClick = (e) => {
         e.stopPropagation();
-        onCategoryClick(id);
+        onCategoryClick(thisCategory.id);
     };
 
     const onDelete = (e) => {
@@ -49,20 +55,19 @@ const Category = ({ thisCategory, onCategoryClick }) => {
     const onNameSubmit = (e, newName) => {
         e.preventDefault();
         if (newName === '' && data.isCategoryEmpty(thisCategory.id)) { // if no name and no categories
-            deleteCategory(thisCategory.id); // delete category
+            deleteCategory(); // delete category
         } else if (newName === '') { // if no name and categories
             snackbar.show(Lang.category.cannotRemoveNonEmpty, 'warning');
             finishEditing(null, false);
         } else { // if new name is submitted
-            const updatedCategory = [...categories].filter( // find category to update
-                (category) => category.id === thisCategory.id)[0];
-            updatedCategory.name = newName;
+            thisCategory.name = newName;
+
 
             (new HttpClient()).put( // send request to update the category
                 `${ Api.Categories }/${ thisCategory.id }`,
-                updatedCategory
+                thisCategory
             ).then(() => finishEditing([...categories].map( // update local state categories
-                (category) => category.id === thisCategory.id ? updatedCategory : category
+                (category) => category.id === thisCategory.id ? thisCategory : category
             ), true));
         }
     };
@@ -75,7 +80,7 @@ const Category = ({ thisCategory, onCategoryClick }) => {
 
     useEffect(() => { // each time confirmDialog result changes
         if (confirmDialog.result) { // if category delete confirmed
-            deleteCategory(confirmDialog.data.id); // delete the category
+            deleteCategory(); // delete the category
             confirmDialog.setResult(null);
         }
     }, [confirmDialog.result]);
@@ -83,17 +88,17 @@ const Category = ({ thisCategory, onCategoryClick }) => {
     const optionButtons = (
         <React.Fragment>
             <i className="category__edit category__control fas fa-edit"
-               onClick={ (e) => onNameEdit(e, thisCategory.id) }
+               onClick={ (e) => onNameEdit(e) }
             />
             <i className="category__delete category__control fas fa-trash"
-               onClick={ (e) => onDelete(e, thisCategory.id) }
+               onClick={ (e) => onDelete(e) }
             />
         </React.Fragment>
     );
 
     const categoryTitleSpan = <span className="category__name">{ thisCategory.name }</span>;
     const editCategoryForm = (
-        <form onSubmit={ (e) => onNameSubmit(e, newName, thisCategory.id) }>
+        <form onSubmit={ (e) => onNameSubmit(e, newName) }>
             <input
                 id="editCategory"
                 className="input input--transparent"
@@ -108,7 +113,7 @@ const Category = ({ thisCategory, onCategoryClick }) => {
 
     return (
         <li className="category"
-            onClick={ (e) => { onClick(e, thisCategory.id); } }
+            onClick={ (e) => { onClick(e); } }
         >
             <i className="category__icon fas fa-sticky-note" />
             { editMode[thisCategory.id] && thisCategory.id !== 0 ? editCategoryForm : categoryTitleSpan }
