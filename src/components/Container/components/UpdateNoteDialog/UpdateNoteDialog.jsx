@@ -8,72 +8,81 @@ import HttpClient, { Api } from '../../../../services/HttpClient';
 
 const UpdateNoteDialog = ({ dialogType }) => {
     const { dialog, snackbar } = useContext(UIContext);
-    const { categories, notes, setNotes } = useContext(DataContext);
+    const { categories, setCategories, notes, setNotes, data } = useContext(DataContext);
+
+    const handleSubmit = (e) => {
+        /* on form submit */
+        e.preventDefault();
+        const title = document.getElementById('noteTitle').value;
+        const contents = document.getElementById('noteContents').value;
+
+        if (!title.trim() && !contents.trim()) { // if title and contents are empty
+            closeDialog(false); // close the dialog without any actions
+            snackbar.show(Lang.snackbar.noteNotAdded, 'warning'); // and display warning snackbar
+            return;
+        }
+
+        closeDialog(true, { title, contents }); // otherwise return form data
+    };
 
     const closeDialog = (submitted, formData) => {
+        /* closes dialog and if dialog form was submitted, creates new note and updates categories */
         dialog.setVisible(!dialog.visible);
         if (submitted) { // if dialog form was submitted, use form data
-            const highestId = parseInt(notes.map((note) => note.id)[notes.length - 1]) + 1; // get next id number
-
             const newNote = { // create new note object
-                id: highestId,
-                ...formData
+                id: data.getNextId(notes),
+                ...formData,
             };
+
+            const pushNoteToCategoryAndUpdateCategory = (category) => {
+                /* helper method used to update categories */
+                category.notes.push(newNote.id);
+
+                (new HttpClient()).put( // send request to update category
+                    `${Api.Categories}/${category.id}`,
+                    category
+                );
+            };
+
+            let updatedCategories = categories.slice(1, categories.length); // copy categories & remove root category 'All'
+            updatedCategories = updatedCategories.map(category => {
+                if (document.getElementById(`category-checkbox-${ category.id }`).checked) { // if this category was selected
+                    pushNoteToCategoryAndUpdateCategory(category); // update this category
+                }
+                return category; // whether updated or not, map category to category
+            });
+
+            updatedCategories.unshift(categories[0]); // add root category back
+            pushNoteToCategoryAndUpdateCategory(categories[0]); // update root category
+            setCategories(updatedCategories); // update local categories state
 
             (new HttpClient()).post( // send request to add new note
                 Api.Notes,
                 newNote
-            ).then(() => setNotes([...notes, newNote])); // add new note to local state as well
+            ).then(() => setNotes([...notes, newNote])); // add new note to local state
         }
     };
 
-    const showSnackbar = (text, type) => {
-        snackbar.setVisible(true);
-        snackbar.setContent({ text, type });
-    };
-
     const renderDialog = () => {
-        /*
-            dialogType: DialogType - should the dialog be rendered to add a new note or to edit an existing one
-            categories: Category[] - list of categories taken from CategoriesContext
-            closeDialog: function - callback on when the dialog is closed, can provide data from the dialog
-         */
-        const slicedCategories = categories.slice(1, categories.length); // remove "All" category
-        const categoryCheckboxes = slicedCategories.map( // map each category into checkbox
+        let categoryCheckboxes = categories.slice(1, categories.length); // copy categories & remove root category 'All'
+        categoryCheckboxes = categoryCheckboxes.map( // map each category into a checkbox
             (category) => (
                 <div key={ category.id }>
-                    <input type="checkbox" className="input input--checkbox" id={ category.name } value={ category.name } />
-                    <label htmlFor={ category.name }>{ category.name }</label>
+                    <input
+                        type="checkbox"
+                        className="input input--checkbox"
+                        id={ 'category-checkbox-' + category.id }
+                        value={ category.name }
+                    />
+                    <label htmlFor={ 'category-checkbox-' + category.id }>{ category.name }</label>
                 </div>
             )
         );
 
-        const handleSubmit = (e) => {
-            e.preventDefault();
-
-            const title = document.getElementById('noteTitle').value;
-            const contents = document.getElementById('noteContents').value;
-
-            if (!title.trim() && !contents.trim()) {
-                closeDialog(false);
-                showSnackbar(Lang.snackbar.noteNotAdded, 'warning');
-                return;
-            }
-
-            const data = { // collect data from the inputs
-                title,
-                contents,
-                includedIn: [0, ...slicedCategories // add 0th category, as all notes should be included in it
-                    .filter((category) => document.getElementById(category.name).checked)
-                    .map(category => category.id)]
-            };
-            closeDialog(true, data); // return submitted=true & form data
-        };
-
         return (
             <div
                 className={ 'dialog-container' }
-                onClick={ () => closeDialog(false) } // return submitted=false and close the dialog
+                onClick={ () => closeDialog(false) }
             >
                 <div
                     className="dialog update-note-dialog"
@@ -109,7 +118,7 @@ const UpdateNoteDialog = ({ dialogType }) => {
         );
     };
 
-    return dialog.visible ? renderDialog(dialogType, categories, closeDialog, showSnackbar) : '';
+    return dialog.visible ? renderDialog(dialogType, categories, closeDialog, snackbar.show) : '';
 };
 
 export default UpdateNoteDialog;

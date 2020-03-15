@@ -17,13 +17,13 @@
     pointer-events: none;
   }
 
-  @include active() { // active sidebar
+  @include active(sidebar--opened) { // active sidebar
     width: $sidebar-active-width;
     padding-left: $sidebar-horizontal-padding * 2;
     padding-right: $sidebar-horizontal-padding * 2;
     cursor: pointer;
 
-    .categories-list,
+    .category,
     .add-category {
       &__icon {
         margin-right: $sidebar-horizontal-padding / 2;
@@ -47,12 +47,12 @@
     pointer-events: none;
   }
 
-  .categories-list,
+  .category,
   .add-category {
     color: $sidebar-color;
 
     &__icon {
-      @include size($sidebar-icon-size);
+      @include size-absolute($sidebar-icon-size);
       margin-right: $sidebar-horizontal-padding;
       color: $sidebar-icon-color;
       font-size: $sidebar-icon-size;
@@ -61,39 +61,52 @@
   }
 
   .add-category,
-  .categories-list__item {
-    width: 100%;
+  .category {
+    $category-max-width: $sidebar-active-width - 2 * ($sidebar-horizontal-padding * 2);
+    max-width: $category-max-width;
     @include flex-row(flex-start, center);
     white-space: nowrap;
     font-size: $sidebar-item-font-size;
     cursor: pointer;
 
+    input {
+      width: $category-max-width - $sidebar-icon-size - $sidebar-horizontal-padding - $sidebar-edit-margin-left - $sidebar-item-font-size;
+    }
+
     &__name {
-      width: 100%;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
     }
 
     @include active() { // active sidebar item
-      color: $sidebar-active-color;
-
       .add-category,
-      .categories-list {
+      .category {
         &__icon {
           margin-right: $sidebar-horizontal-padding;
         }
 
         &__name {
-          text-decoration: underline;
+          color: $sidebar-active-color;
         }
       }
     }
   }
 
-  .categories-list {
-    &__item {
+  .category {
       margin-bottom: 1rem;
+
+    &__control {
+      margin-left: $sidebar-edit-margin-left;
+      color: $sidebar-color;
+
+      @include active() {
+        color: $sidebar-active-color;
+      }
+
+      + .category__control {
+        margin-left: $sidebar-edit-margin-left / 4;
+      }
     }
   }
 

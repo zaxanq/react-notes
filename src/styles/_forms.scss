@@ -39,5 +39,15 @@ button {
       height: 10rem;
       resize: none;
     }
+
+    &--transparent {
+      padding: 0;
+      margin: 0;
+      background-color: transparent;
+      border: none;
+      color: inherit;
+      font: inherit;
+      outline: none;
+    }
   }
 }

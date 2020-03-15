@@ -1,42 +1,37 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Container.scss';
-import NotesList from '../NotesList';
-import DataContext from '../../contexts/DataContext';
-import Lang from '../../assets/i18n/';
-import Button from '../Shell/components/Button/Button';
-import { UIContext } from '../../contexts';
-import UpdateNoteDialog from './components/UpdateNoteDialog/UpdateNoteDialog';
-import DialogType from '../Shell/enums/DialogType.enum';
+import { DataContext, UIContext } from '../../contexts';
 import Snackbar from './components/Snackbar/Snackbar';
+import NotesList from '../NotesList';
+import UpdateNoteDialog from './components/UpdateNoteDialog/UpdateNoteDialog';
+import ConfirmDialog from "./components/ConfirmDialog";
+import Button from '../Shell/components/Button/Button';
+import Lang from '../../assets/i18n/';
+import DialogType from '../Shell/enums/DialogType.enum';
 
-const Container = ({ categoryId }) => {
+const Container = ({ cId }) => {
     const { dialog } = useContext(UIContext);
     const { categories } = useContext(DataContext);
-
-    const [dialogType, setDialogType] = useState('');
     const [categoryTitle, setCategoryTitle] = useState('');
     const [currentCategory, setCurrentCategory] = useState(null);
 
     useEffect(() => { // find current category
         if (categories) setCurrentCategory([...Object.values(categories)]
-            .filter((category) => category.id === categoryId)[0]
+            .filter((category) => category.id === cId)[0]
         );
-    }, [categories, categoryId]);
+    }, [categories, cId]);
 
     useEffect(() => { // set category header
         if (currentCategory) {
-            setCategoryTitle(categoryId !== 0 ?
+            setCategoryTitle(cId !== 0 ?
                 <React.Fragment><span className="container__category-text">Category:</span> { currentCategory.name }</React.Fragment> :
                 currentCategory.name
             );
         }
-    }, [currentCategory, categoryId]);
+    }, [currentCategory, cId]);
 
     const onAddNoteClick = () => {
-        /*
-            on add-note button click set dialog type and show dialog
-         */
-        setDialogType(DialogType.addNote);
+        dialog.setType(DialogType.addNote);
         dialog.setVisible(true);
     };
 
@@ -53,8 +48,9 @@ const Container = ({ categoryId }) => {
                     { Lang.common.addNote }
                 </Button>
             </div>
-           <NotesList categoryId={ categoryId } />
-           <UpdateNoteDialog dialogType={ dialogType } />
+           <NotesList cId={ cId } />
+           <UpdateNoteDialog dialogType={ dialog.type } />
+           <ConfirmDialog />
            <Snackbar />
         </main>
     );

@@ -1,32 +1,42 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import './Sidebar.scss';
+import { DataContext, UIContext } from '../../contexts';
 import Category from './components/Category';
-import { DataContext } from '../../contexts';
+import HttpClient, { Api } from '../../services/HttpClient';
 import Lang from '../../assets/i18n/';
 
 const Sidebar = ({ onCategoryClick }) => {
-    const [active, setActive] = useState(false);
-    const [deactivate, setDeactivate] = useState(false);
-    const { categories } = useContext(DataContext);
+    const { categories, setCategories, data } = useContext(DataContext);
+    const { sidebar } = useContext(UIContext);
 
-    const closeSidebar = () => {
-        setDeactivate(true);
+    const onAddCategoryClick = (e) => {
+        e.stopPropagation();
 
-        setTimeout(() => setActive(false), 0);
-        setTimeout(() => setDeactivate(false), 200);
+        const newCategory = {
+            id: data.getNextId(categories),
+            name: 'New category',
+            notes: [],
+            deleted: false,
+        };
+
+        (new HttpClient()).post(
+            Api.Categories,
+            newCategory
+        ).then(() => setCategories([...categories, newCategory]));
     };
 
     const renderCategories = () => (
         /*
             Each category of categories list the method maps as a Category component in the sidebar.
          */
-        <ul className="sidebar__categories-list categories-list">
-            { categories.map(category => (
+        <ul className="sidebar__categories-list">
+            { categories
+                .filter((category) => !category.deleted) // use only not-deleted categories
+                .map(category => (
                 <Category
-                    title={ category.name  }
                     key={ category.id }
-                    onCategoryClick={ () => onCategoryClick(category.id) }
-                    closeSidebar={ () => closeSidebar() }
+                    thisCategory={ category }
+                    onCategoryClick={ onCategoryClick }
                 />
             )) }
         </ul>
@@ -35,10 +45,13 @@ const Sidebar = ({ onCategoryClick }) => {
     return (
         <React.Fragment>
             <aside
-                className={ 'sidebar' + (active ? ' active' : '') + (deactivate ? ' deactivate' : '') }
-                onClick={ () => setActive(!active) }
+                className={ 'sidebar' + (sidebar.opened ? ' sidebar--opened' : '') }
+                onClick={ () => sidebar.setOpened(!sidebar.opened) }
             >
-                <span className="sidebar__add-category add-category">
+                <span
+                    className="sidebar__add-category add-category"
+                    onClick={ (e) => onAddCategoryClick(e) }
+                >
                     <i className="add-category__icon fas fa-plus-square"/>
                     <span className="add-category__name">{ Lang.common.addCategory }</span>
                 </span>
@@ -46,7 +59,7 @@ const Sidebar = ({ onCategoryClick }) => {
             </aside>
             <div
                 className="sidebar-overlay"
-                onClick={ () => active ? setActive(!active) : undefined }
+                onClick={ () => sidebar.opened ? sidebar.setOpened(!sidebar.opened) : undefined }
             />
         </React.Fragment>
     );
