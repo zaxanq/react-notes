@@ -68,6 +68,9 @@ $warning-palette: (
   900: #cd7e0c,
 );
 
+$common-sidebar-thumb-color: map-get($dark-palette, 500);
+$common-sidebar-background-color: map-get($dark-palette, 250);
+
 $button-outlined-border-color: map-get($dark-palette, 800);
 $button-outlined-color: map-get($dark-palette, 1000);
 $button-outlined-active-color: map-get($light-palette, 900);

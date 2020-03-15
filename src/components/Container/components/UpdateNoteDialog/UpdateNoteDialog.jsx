@@ -8,11 +8,10 @@ import Lang from '../../../../assets/i18n';
 import DialogType from '../../../Shell/enums/DialogType.enum';
 
 const UpdateNoteDialog = ({ dialogType }) => {
-    const { dialog, snackbar, common } = useContext(UIContext);
+    const { dialog, snackbar } = useContext(UIContext);
     const { categories, setCategories, notes, setNotes, data } = useContext(DataContext);
 
     const handleSubmit = (e) => {
-        /* on form submit */
         e.preventDefault();
         const title = document.getElementById('noteTitle').value;
         const contents = document.getElementById('noteContents').value;
@@ -25,42 +24,50 @@ const UpdateNoteDialog = ({ dialogType }) => {
 
         closeDialog(true, { title, contents }); // otherwise return form data
     };
+
     const closeDialog = (submitted, formData) => {
         /* closes dialog and if dialog form was submitted, creates new note and updates categories */
-        dialog.setVisible(!dialog.visible);
         if (submitted) { // if dialog form was submitted, use form data
             const newNote = { // create new note object
                 id: data.getNextId(notes),
                 ...formData,
+                deleted: false,
             };
-
-            const pushNoteToCategoryAndUpdateCategory = (category) => {
-                /* helper method used to update categories */
-                category.notes.push(newNote.id);
-
-                (new HttpClient()).put( // send request to update category
-                    `${Api.Categories}/${category.id}`,
-                    category
-                );
-            };
-
-            let updatedCategories = categories.slice(1, categories.length); // copy categories & remove root category 'All'
-            updatedCategories = updatedCategories.map(category => {
-                if (document.getElementById(`category-checkbox-${ category.id }`).checked) { // if this category was selected
-                    pushNoteToCategoryAndUpdateCategory(category); // update this category
-                }
-                return category; // whether updated or not, map category to category
-            });
-
-            updatedCategories.unshift(categories[0]); // add root category back
-            pushNoteToCategoryAndUpdateCategory(categories[0]); // update root category
-            setCategories(updatedCategories); // update local categories state
 
             (new HttpClient()).post( // send request to add new note
                 Api.Notes,
                 newNote
-            ).then(() => setNotes([...notes, newNote])); // add new note to local state
-        }
+            ).then(() => {
+                /* It is crucial to first update notes and then categories, because NotesList useEffect update changes
+                    whenever either categories, notes or cId changes, meaning if we first change categories then new note
+                    is not yet in local notes state and that will mean an error.
+                */
+                setNotes([...notes, newNote]);
+
+                let updatedCategories = categories.slice(1, categories.length); // copy categories & remove root category 'All'
+                const pushNoteToCategoryAndUpdateCategory = (category) => {
+                    /* helper method used to update categories */
+                    category.notes.push(newNote.id);
+
+                    (new HttpClient()).put( // send request to update category
+                        `${Api.Categories}/${category.id}`,
+                        category
+                    );
+                };
+
+                pushNoteToCategoryAndUpdateCategory(categories[0]); // update root category
+                updatedCategories = updatedCategories.map(category => {
+                    if (document.getElementById(`category-checkbox-${ category.id }`).checked) { // if this category was selected
+                        pushNoteToCategoryAndUpdateCategory(category); // update this category
+                    }
+                    return category; // whether updated or not, map category to category
+                });
+
+                updatedCategories.unshift(categories[0]); // add root category back
+                setCategories(updatedCategories); // update local categories state
+                dialog.setVisible(!dialog.visible); // only then hide the dialog
+            }); // add new note to local state
+        } else dialog.setVisible(!dialog.visible); // if not submitted, hide the dialog immediately
     };
 
     const renderDialog = () => (

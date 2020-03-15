@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { DataContext } from './index';
+import React, { useEffect, useState } from 'react';
 
 const UIContext = React.createContext(null);
 
@@ -17,19 +16,6 @@ const UiProvider = ({ children }) => {
     const [confirmDialogData, setConfirmDialogData] = useState(null);
     const [visibleSingleNote, setVisibleSingleNote] = useState(false);
     const [selectedNote, setSelectedNote] = useState(null);
-    const [categoryCheckboxes, setCategoryCheckboxes] = useState(null);
-    const { categories } = useContext(DataContext);
-
-    const getCategoryCheckboxes = () => {
-        setCategoryCheckboxes(categories.slice(1, categories.length).map( // map each category into checkbox
-            (category) => (
-                <div key={ category.id }>
-                    <input type="checkbox" className="input input--checkbox" id={ category.name } value={ category.name } />
-                    <label htmlFor={ category.name }>{ category.name }</label>
-                </div>
-            )
-        ));
-    };
 
     const showConfirmDialog = (content) => {
         setConfirmDialogVisible(true);

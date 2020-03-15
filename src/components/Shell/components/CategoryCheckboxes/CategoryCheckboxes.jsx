@@ -1,29 +1,30 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { DataContext } from '../../../../contexts';
-import HttpClient from "../../../../services/HttpClient";
+import HttpClient, { Api } from '../../../../services/HttpClient';
 
 const CategoryCheckboxes = ({ note = null }) => {
     let checkboxes;
-    const { categories, notes, setNotes } = useContext(DataContext);
-    const [selectedCategory, setSelectedCategory] = useState([]);
+    const { categories, setCategories } = useContext(DataContext);
+    const [selectedCategories, setSelectedCategories] = useState([]);
 
     useEffect(() => {
-        if (note) setSelectedCategory(note.includedIn);
-        return () => {
-            console.log('unmount');
-            // (new HttpClient().put());
-        }
+        if (note) setSelectedCategories(categories.filter((category) => category.notes.includes(note.id)));
     }, [note]);
 
-    const categoryChecked = (categoryId, e) => {
+    const categoryChecked = (cId, e) => {
+        const updateCategories = [...categories];
+
         if (e.target.checked) { // if category checked
-            note.includedIn.push(categoryId);
+            updateCategories[cId].notes.push(note.id); // add current note to selected category notes
         } else { // if unchecked
-            let index = note.includedIn.indexOf(categoryId);
-            note.includedIn.splice(index, index+1);
+            let index = updateCategories[cId].notes.indexOf(note.id);
+            updateCategories[cId].notes.splice(index, 1); // remove current note from selected category notes
         }
-        setNotes([...(notes.map((item) => item.id === note.id ? note : item))]);
-        // console.log(note.includedIn);
+
+        (new HttpClient().put(
+            `${Api.Categories}/${cId}`,
+            updateCategories[cId],
+        ).then(() => setCategories(updateCategories)));
     };
 
     if (categories) {
@@ -33,12 +34,12 @@ const CategoryCheckboxes = ({ note = null }) => {
                     <input
                         type="checkbox"
                         className="input input--checkbox"
-                        id={ category.name }
+                        id={ `category-checkbox-${ category.id }` }
                         value={ category.name }
                         onChange={ (e) => note ? categoryChecked(category.id, e) : null }
-                        defaultChecked={ note.includedIn.includes(category.id) }
+                        defaultChecked={ note ? category.notes.includes(note.id) : false }
                     />
-                    <label htmlFor={ category.name }>
+                    <label htmlFor={ `category-checkbox-${ category.id }` }>
                         <span className="category-checkboxes__name">
                             { category.name }
                         </span>

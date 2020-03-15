@@ -9,17 +9,19 @@ const Category = ({ thisCategory, onCategoryClick }) => {
 
     let newName = '';
 
-    const deleteCategory = () => {
-        thisCategory.deleted = true;
-
+    const deleteCategory = (cId = thisCategory.id) => {
+        /*
+            usually this method doesn't require a parameter as it is deleting this instances' data
+            when the deletion happens through confirmDialog it is necessary to specify the cI to be removed
+        */
         const updatedCategories = [...categories].map((category) => {
-            if (category.id === thisCategory.id) category.deleted = true;
+            if (category.id === cId) category.deleted = true;
             return category;
         });
 
         (new HttpClient()).put( // send update (soft delete) request
-            `${ Api.Categories }/${ thisCategory.id }`,
-            thisCategory,
+            `${ Api.Categories }/${ cId }`,
+            updatedCategories[cId],
         ).then(() => finishEditing(updatedCategories, true)); // then update local state
     };
 
@@ -80,10 +82,10 @@ const Category = ({ thisCategory, onCategoryClick }) => {
 
     useEffect(() => { // each time confirmDialog result changes
         if (confirmDialog.result) { // if category delete confirmed
-            deleteCategory(); // delete the category
-            confirmDialog.setResult(null);
+            deleteCategory(confirmDialog.data.id); // delete the category
+            confirmDialog.clear(); // hide confirmDialog and remove all data it contained
         }
-    }, [confirmDialog.result]);
+    }, [confirmDialog.result, deleteCategory, confirmDialog]);
 
     const optionButtons = (
         <React.Fragment>

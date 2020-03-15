@@ -4,7 +4,9 @@
   min-width: $single-note-min-width;
   @include size-max($single-note-max-width, $single-note-max-height);
   width: $single-note-width;
+  @include flex-column(flex-start, stretch);
   padding: $single-note-padding;
+  overflow: hidden;
 
   &__toolbar {
     @include flex-row(space-between, center);
@@ -19,6 +21,15 @@
     > li:not(:first-child) {
       margin-left: 0.8rem;
     }
+  }
+
+  &__contents {
+    flex: 1;
+    overflow: hidden auto;
+    width: calc(100% + #{$single-note-scrollbar-width});
+    padding-right: $single-note-scrollbar-width;
+
+    @include styled-scrollbar($common-sidebar-thumb-color, $common-sidebar-background-color);
   }
 
   .note-categories {

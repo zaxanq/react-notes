@@ -29,4 +29,8 @@ body {
   overflow: hidden;
   background-color: $dialog-container-background-color;
   cursor: pointer;
+
+  > * {
+    cursor: default;
+  }
 }

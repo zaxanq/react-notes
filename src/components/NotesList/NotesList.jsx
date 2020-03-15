@@ -14,7 +14,7 @@ const NotesList = ({ cId }) => {
                 .map((noteId) => <Note data={ notes.filter((note) => note.id === noteId)[0] } key={ noteId } />) // and map them as Note component
             );
         }
-    }, [notes, cId]);
+    }, [categories, notes, cId]);
 
     const notesList = notesToDisplay.length > 0 ? // if notesToDisplay contain notes, display them
         notesToDisplay :
