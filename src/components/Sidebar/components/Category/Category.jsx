@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { DataContext, UIContext } from '../../../../contexts';
 import HttpClient, { Api } from '../../../../services/HttpClient';
 import Lang from '../../../../assets/i18n';
@@ -9,7 +9,12 @@ const Category = ({ thisCategory, onCategoryClick }) => {
 
     let newName = '';
 
-    const deleteCategory = (cId = thisCategory.id) => {
+    const finishEditing = useCallback((updatedCategories, isChanged) => {
+        if (isChanged) setCategories(updatedCategories);
+        setEditMode([...categories].map(() => false));
+    }, [categories, setCategories, setEditMode]);
+
+    const deleteCategory = useCallback((cId = thisCategory.id) => {
         /*
             usually this method doesn't require a parameter as it is deleting this instances' data
             when the deletion happens through confirmDialog it is necessary to specify the cI to be removed
@@ -23,12 +28,7 @@ const Category = ({ thisCategory, onCategoryClick }) => {
             `${ Api.Categories }/${ cId }`,
             updatedCategories[cId],
         ).then(() => finishEditing(updatedCategories, true)); // then update local state
-    };
-
-    const finishEditing = (updatedCategories, isChanged) => {
-        if (isChanged) setCategories(updatedCategories);
-        setEditMode([...categories].map(() => false));
-    };
+    }, [categories, finishEditing, thisCategory]);
 
     const onNameEdit = (e) => {
         e.stopPropagation();

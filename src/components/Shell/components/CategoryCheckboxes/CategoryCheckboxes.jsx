@@ -1,15 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { DataContext } from '../../../../contexts';
 import HttpClient, { Api } from '../../../../services/HttpClient';
 
 const CategoryCheckboxes = ({ note = null }) => {
     let checkboxes;
     const { categories, setCategories } = useContext(DataContext);
-    const [selectedCategories, setSelectedCategories] = useState([]);
-
-    useEffect(() => {
-        if (note) setSelectedCategories(categories.filter((category) => category.notes.includes(note.id)));
-    }, [note]);
 
     const categoryChecked = (cId, e) => {
         const updateCategories = [...categories];
