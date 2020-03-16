@@ -6,95 +6,50 @@ import Lang from '../../assets/i18n/en';
 import CategoryCheckboxes from '../Shell/components/CategoryCheckboxes';
 
 const SingleNote = () => {
+    /*  Available edit scenarios: (qEM = quickEditMode, fEM = fullEditMode)
+        * double click on title -> qEM=true
+            when blur, cancels -> qEM=false
+            when submitted (enter) -> sends request -> qEM=false
+        * double click on content -> qEM=true
+            when blur -> sends request -> qEM=false
+            when cancelled (esc/cancel button) -> qEM=false
+        * click on edit button -> fEM=true
+            when title input blur -> nothing happens
+            when content textarea blur -> nothing happens
+            when title blur onto save button -> send request -> fEM=false
+            when content blur onto save button -> send request -> fEM=false
+            when cancelled (cancel button) -> fEM=false
+    */
     const { singleNote, snackbar } = useContext(UIContext);
     const { update } = useContext(DataContext);
+
+    const [edited, setEdited] = useState({ title: false, content: false });
+    const [quickEditMode, setQuickEditMode] = useState(false);
+    const [fullEditMode, setFullEditMode] = useState(false);
+
     const [categoriesListVisible, setCategoriesListVisible] = useState(false);
-    const [editMode, setEditMode] = useState({ title: false, content: false });
     const [contentHeight, setContentHeight] = useState(0);
     const displayedNote = singleNote.selected;
 
     const titleInputRef = useRef();
     const contentTextareaRef = useRef();
-    let newTitle = '';
+    let newTitle = displayedNote?.title;
     let newContent = displayedNote?.content;
 
     const noteContent = displayedNote?.content.length > 0 ?
         displayedNote?.content :
         <span className="italic note__no-content">No contents.</span>;
 
-    const clearEditMode = () => setEditMode({ title: false, content: false });
-
     useEffect(() => {
         if (titleInputRef.current) titleInputRef.current.focus();
-    }, [editMode.title]);
+    }, [edited.title]);
 
     useEffect(() => {
-        if (contentTextareaRef.current) {
+        if (contentTextareaRef.current && !edited.title) {
             contentTextareaRef.current.parentNode.style.height = `${contentHeight}px`;
             contentTextareaRef.current.focus();
         }
-    }, [editMode.content]);
-
-    const deleteNote = () => {
-        displayedNote.deleted = true;
-
-        update.note(displayedNote).then(() => {
-            snackbar.show(Lang.notifications.noteRemoved, 'delete-confirmation');
-            closeNote(); // close the deleted note
-        });
-    };
-
-    const closeNote = () => {
-        singleNote.setVisible(false);
-        clearEditMode();
-        setCategoriesListVisible(false);
-    };
-
-    const onEdit = () => {
-        setEditMode({ title: true, content: true });
-    };
-
-    const onQuickEdit = (e, element) => {
-        e.stopPropagation();
-        if (element === 'content') setContentHeight(document.querySelector('.single-note__content').offsetHeight);
-        setEditMode({ ...editMode, [element]: true });
-    };
-
-    const onTitleSubmit = (e) => {
-        e.preventDefault();
-        if (newTitle === '' && newContent === '') {
-            deleteNote();
-        } else if (displayedNote.title !== newTitle) {
-            displayedNote.title = newTitle;
-
-            update.note(displayedNote).then(() => clearEditMode());
-        } else clearEditMode();
-    };
-
-    const onCancel = () => {
-        clearEditMode();
-    };
-
-    const onTextareaBlur = (e) => {
-        if (e.relatedTarget === document.querySelector('.single-note__content-cancel')) {
-            clearEditMode();
-        } else if (displayedNote.content !== newContent) {
-            displayedNote.content = newContent;
-
-            update.note(displayedNote).then(() => clearEditMode());
-        } else clearEditMode();
-    };
-
-    const onContentChange = (e) => {
-        newContent = e.target.value;
-    };
-
-    const onKeyDown = (e) => e.key === 'Escape' ? onCancel() : null;
-
-    const onDelete = (e) => {
-        if (e) e.stopPropagation();
-        deleteNote();
-    };
+    }, [edited.content]);
 
     const onSingleNoteClick = (e) => {
         e.stopPropagation();
@@ -106,13 +61,117 @@ const SingleNote = () => {
         setCategoriesListVisible(!categoriesListVisible);
     };
 
+    const onDelete = (e) => { // on delete icon click
+        if (e) e.stopPropagation();
+        deleteNote();
+    };
+
+    const deleteNote = () => {
+        displayedNote.deleted = true;
+
+        update.note(displayedNote).then(() => {
+            snackbar.show(Lang.notifications.noteRemoved, 'delete-confirmation');
+            closeNote(); // close the deleted note
+        });
+    };
+
+    const closeNote = () => {
+        clearEdited(); // clear edited fields
+        setQuickEditMode(false); // end quick-edit mode
+        setFullEditMode(false); // end full-edit mode
+        setCategoriesListVisible(false); // hide categories dropdown
+        singleNote.setVisible(false); // hide single note
+    };
+
+    const onQuickEdit = (e, element) => { // when double clicked on title or content
+        e.stopPropagation();
+        setQuickEditMode(true); // set quick-edit mode
+        if (element === 'content') { // if content quick-edited, set textarea height to content height
+            setContentHeight(document.querySelector('.single-note__content').offsetHeight);
+        }
+        setEdited({ ...edited, [element]: true }); // set edited mode for edited element
+    };
+
+    const onFullEdit = () => { // when edit icon clicked (full edit)
+        setFullEditMode(true); // set full-edit mode
+        setEdited({ title: true, content: true }); // both elements are now editable
+    };
+
+    const onContentChange = (e) => newContent = e.target.value; // pass new content value to variable
+
+    const onContentKeyDown = (e) => e.key === 'Escape' ? onCancel(e) : null; // cancel on Escape
+
+    const onCancel = (e, element, forceClose) => {
+        if (fullEditMode) {
+            if (e.relatedTarget === document.querySelector('.single-note__content-save') && fullEditMode) {
+                displayedNote.title = newTitle;
+                displayedNote.content = newContent;
+
+                update.note(displayedNote).then(() => clearEdited());
+            }
+            else if (e.relatedTarget === document.querySelector('.single-note__content-cancel') || forceClose) {
+                // forceClose will close the edition on casual button click
+                clearEdited(); // cancel button pressed in onCancel will only happen in fullEditMode
+            }
+        }
+        if (!fullEditMode) {
+            setQuickEditMode(false);
+            if (element) clearEdited(element);
+            else clearEdited(); // stop editing both fields
+        }
+    };
+
+    const clearEdited = (element = null) => { // clear edited for an element or for all if none specified
+        if (quickEditMode && element) {
+            setEdited({ ...edited, [element]: false });
+            setQuickEditMode(false);
+        }
+        else if (fullEditMode) {
+            setEdited({ title: false, content: false });
+            setFullEditMode(false);
+        }
+        else setEdited({ title: false, content: false });
+    };
+
+    const onTextareaBlur = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.relatedTarget === document.querySelector('.single-note__content-cancel')) {
+            quickEditMode ? clearEdited('content') : clearEdited();
+        }
+        else if (displayedNote.content !== newContent && quickEditMode) { // if new content and quick-edit mode
+            displayedNote.content = newContent;
+
+            update.note(displayedNote).then(() => clearEdited('content'));
+        }
+        else if (e.relatedTarget === document.querySelector('.single-note__content-save') && fullEditMode) {
+            displayedNote.title = newTitle;
+            displayedNote.content = newContent;
+
+            update.note(displayedNote).then(() => clearEdited());
+        }
+        else if (!fullEditMode) {
+            clearEdited();
+        }
+    };
+
+    const onTitleSubmit = (e) => {
+        e.preventDefault();
+        if (newTitle === '' && newContent === '') {
+            deleteNote();
+        } else if (displayedNote.title !== newTitle) {
+            if (fullEditMode && displayedNote.content !== newContent) displayedNote.content = newContent;
+            displayedNote.title = newTitle;
+
+            update.note(displayedNote).then(() => clearEdited('title'));
+        } else clearEdited();
+    };
+
     const titleHeading = (
         <h3
             className="title--with-underline single-note__title note__title"
             onDoubleClick={ (e) => onQuickEdit(e, 'title') }
-        >
-            { displayedNote?.title }
-        </h3>
+        >{ displayedNote?.title }</h3>
     );
 
     const titleInput = (
@@ -126,7 +185,7 @@ const SingleNote = () => {
                    defaultValue={ displayedNote?.title }
                    onClick={ (e) => e.stopPropagation() }
                    onChange={ (e) => newTitle = e.target.value }
-                   onBlur={ (e) => onCancel(e) }
+                   onBlur={ (e) => onCancel(e,'title') }
             />
         </form>
     );
@@ -135,9 +194,7 @@ const SingleNote = () => {
         <p
             className="single-note__content note__content"
             onDoubleClick={ (e) => onQuickEdit(e, 'content') }
-        >
-            { noteContent }
-        </p>
+        >{ noteContent }</p>
     );
 
     const contentTextarea = (
@@ -150,15 +207,22 @@ const SingleNote = () => {
                    defaultValue={ displayedNote?.content }
                    onClick={ (e) => e.stopPropagation() }
                    onChange={ (e) => onContentChange(e) }
-                   onKeyDown={ (e) => onKeyDown(e) }
+                   onKeyDown={ (e) => onContentKeyDown(e) }
                    onBlur={ (e) => onTextareaBlur(e) }
             />
             <Button
-                type="reset"
+                type="button"
                 buttonStyle="icon cancel"
                 className="single-note__content-cancel"
-                onClick={ (e) => onCancel(e) }
+                onClick={ (e) => onCancel(e,'content', true) }
             />
+            { fullEditMode ?
+            <Button
+                type="button"
+                buttonStyle="icon save"
+                className="single-note__content-save"
+                onClick={ (e) => onTextareaBlur(e) }
+            /> : '' }
 
         </form>
     );
@@ -179,7 +243,7 @@ const SingleNote = () => {
                                 type="button"
                                 buttonStyle="icon edit"
                                 className="single-note__button--edit"
-                                onClick={ () => onEdit() }
+                                onClick={ () => onFullEdit() }
                             />
                         </li>
                         <li>
@@ -204,11 +268,10 @@ const SingleNote = () => {
                         }
                     </div>
                 </div>
-                { editMode.title ? titleInput : titleHeading }
-                { editMode.content ? contentTextarea : contentParagraph }
+                { edited.title ? titleInput : titleHeading }
+                { edited.content ? contentTextarea : contentParagraph }
             </article>
         </div>
-
     );
 
     return singleNote.visible ? note : '';
