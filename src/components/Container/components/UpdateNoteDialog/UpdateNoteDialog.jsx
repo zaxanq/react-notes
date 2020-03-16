@@ -14,15 +14,15 @@ const UpdateNoteDialog = ({ dialogType }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const title = document.getElementById('noteTitle').value;
-        const contents = document.getElementById('noteContents').value;
+        const content = document.getElementById('noteContent').value;
 
-        if (!title.trim() && !contents.trim()) { // if title and contents are empty
+        if (!title.trim() && !content.trim()) { // if title and content are empty
             closeDialog(false); // close the dialog without any actions
             snackbar.show(Lang.snackbar.noteNotAdded, 'warning'); // and display warning snackbar
             return;
         }
 
-        closeDialog(true, { title, contents }); // otherwise return form data
+        closeDialog(true, { title, content }); // otherwise return form data
     };
 
     const closeDialog = (submitted, formData) => {
@@ -88,8 +88,8 @@ const UpdateNoteDialog = ({ dialogType }) => {
                         <input type="text" id="noteTitle" className="input input--text dialog__input"/>
                     </div>
                     <div className="dialog__form-row">
-                        <label className="h3" htmlFor="noteContents">{ Lang.note.contents }</label>
-                        <textarea id="noteContents" className="input input--textarea dialog__input"/>
+                        <label className="h3" htmlFor="noteContent">{ Lang.note.content }</label>
+                        <textarea id="noteContent" className="input input--textarea dialog__input"/>
                     </div>
                     <div className="dialog__form-row">
                         <h3>{ Lang.note.categories }</h3>

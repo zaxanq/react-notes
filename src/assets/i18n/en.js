@@ -15,7 +15,7 @@ const EN = {
   },
   "note": {
     "categories": "Note categories",
-    "contents": "Note contents",
+    "content": "Note content",
     "title": "Note title",
   },
   "notifications": {

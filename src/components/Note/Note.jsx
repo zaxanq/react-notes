@@ -6,9 +6,13 @@ const Note = ({ data }) => {
     const noteContentLengthToDisplay = 255;
     const { singleNote } = useContext(UIContext);
 
-    const shortenedNoteContent = data.contents.length > noteContentLengthToDisplay
-        ? data.contents.substr(0, noteContentLengthToDisplay) + '...'
-        : data.contents;
+    const noteContent = data.content.length > 0 ?
+        data.content :
+        <span className="italic note__no-content">No contents.</span>;
+
+    const shortenedNoteContent = data.content.length > noteContentLengthToDisplay
+        ? data.content.substr(0, noteContentLengthToDisplay) + '...'
+        : noteContent;
 
     const onNoteClick = () => {
         singleNote.setSelected(data);
@@ -24,7 +28,7 @@ const Note = ({ data }) => {
                 className="title--with-underline note__title"
                 onClick={ () => onNoteClick() }
             >{ data.title }</h3>
-            <p className="note__contents">{ shortenedNoteContent }</p>
+            <p className="note__content">{ shortenedNoteContent }</p>
         </article>
     );
 };

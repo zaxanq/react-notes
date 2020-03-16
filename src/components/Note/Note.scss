@@ -28,4 +28,12 @@
       color: $note-active-title-color;
     }
   }
+
+  &__content {
+    white-space: pre-line;
+  }
+
+  &__no-content {
+    opacity: 0.4;
+  }
 }

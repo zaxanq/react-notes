@@ -1,18 +1,20 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { DataContext, UIContext } from '../../../../contexts';
 import HttpClient, { Api } from '../../../../services/HttpClient';
 import Lang from '../../../../assets/i18n';
 
 const Category = ({ thisCategory, onCategoryClick }) => {
-    const { categories, setCategories, editMode, setEditMode, data } = useContext(DataContext);
+    const { categories, setCategories, data } = useContext(DataContext);
     const { sidebar, snackbar, confirmDialog } = useContext(UIContext);
 
+    const [editMode, setEditMode] = useState(false);
+
+    const nameEditRef = useRef();
     let newName = '';
 
     const finishEditing = useCallback((updatedCategories, isChanged) => {
         if (isChanged) setCategories(updatedCategories);
-        setEditMode([...categories].map(() => false));
-    }, [categories, setCategories, setEditMode]);
+    }, [categories, setCategories]);
 
     const deleteCategory = useCallback((cId = thisCategory.id) => {
         /*
@@ -33,7 +35,7 @@ const Category = ({ thisCategory, onCategoryClick }) => {
     const onNameEdit = (e) => {
         e.stopPropagation();
         sidebar.setOpened(true); // keep the sidebar opened
-        setEditMode([...editMode].map((categoryMode, index) => index === thisCategory.id ? !categoryMode : false));
+        setEditMode(true);
     };
 
     const onClick = (e) => {
@@ -51,7 +53,7 @@ const Category = ({ thisCategory, onCategoryClick }) => {
 
     const onNameCancel = (e) => {
         e.stopPropagation();
-        data.clearEditMode();
+        setEditMode(false);
     };
 
     const onNameSubmit = (e, newName) => {
@@ -75,9 +77,7 @@ const Category = ({ thisCategory, onCategoryClick }) => {
     };
 
     useEffect(() => { // each time editMode changes
-        if (editMode.includes(true)) { // if category edited
-            document.getElementById('editCategory').focus(); // focus edit category input
-        }
+        if (nameEditRef.current) nameEditRef.current.focus(); // if category edited
     }, [editMode]);
 
     useEffect(() => { // each time confirmDialog result changes
@@ -102,6 +102,7 @@ const Category = ({ thisCategory, onCategoryClick }) => {
     const editCategoryForm = (
         <form onSubmit={ (e) => onNameSubmit(e, newName) }>
             <input
+                ref={ nameEditRef }
                 id="editCategory"
                 className="input input--transparent"
                 type="text"
@@ -118,7 +119,7 @@ const Category = ({ thisCategory, onCategoryClick }) => {
             onClick={ (e) => { onClick(e); } }
         >
             <i className="category__icon fas fa-sticky-note" />
-            { editMode[thisCategory.id] && thisCategory.id !== 0 ? editCategoryForm : categoryTitleSpan }
+            { editMode && thisCategory.id !== 0 ? editCategoryForm : categoryTitleSpan }
             { thisCategory.id !== 0 ? optionButtons : '' }
         </li>
     );
