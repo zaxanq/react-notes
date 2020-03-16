@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { DataContext } from '.';
 
 const UIContext = React.createContext(null);
 
 const UiProvider = ({ children }) => {
     const { Provider } = UIContext;
+    const { update } = useContext(DataContext);
 
     const [sidebarOpened, setSidebarOpened] = useState(false);
     const [dialogVisible, setDialogVisible] = useState(false);
@@ -48,8 +50,15 @@ const UiProvider = ({ children }) => {
         setVisibleSingleNote(false);
     };
 
+    const singleNoteRestoreNote = () => {
+        selectedNote.deleted = false;
+        setSelectedNote(null);
+
+        return update.note(selectedNote);
+    };
+
     useEffect(() => { // hide snackbar automatically after a delay
-        if (snackbarVisible) setTimeout(() => clearSnackbar(), 8000);
+        if (snackbarVisible) setTimeout(() => clearSnackbar(), 12000);
     }, [snackbarVisible]);
 
     return (
@@ -87,6 +96,7 @@ const UiProvider = ({ children }) => {
                 selected: selectedNote,
                 setSelected: setSelectedNote,
                 clear: clearSelectedNote,
+                restoreNote: singleNoteRestoreNote,
             }
         }}>
             { children }

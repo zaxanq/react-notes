@@ -1,10 +1,9 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { DataContext, UIContext } from '../../../../contexts';
-import HttpClient, { Api } from '../../../../services/HttpClient';
 import Lang from '../../../../assets/i18n';
 
 const Category = ({ thisCategory, onCategoryClick }) => {
-    const { categories, setCategories, data } = useContext(DataContext);
+    const { categories, setCategories, data, update } = useContext(DataContext);
     const { sidebar, snackbar, confirmDialog } = useContext(UIContext);
 
     const [editMode, setEditMode] = useState(false);
@@ -26,10 +25,8 @@ const Category = ({ thisCategory, onCategoryClick }) => {
             return category;
         });
 
-        (new HttpClient()).put( // send update (soft delete) request
-            `${ Api.Categories }/${ cId }`,
-            updatedCategories[cId],
-        ).then(() => finishEditing(updatedCategories, true)); // then update local state
+        update.category(updatedCategories[cId], false)
+            .then(() => finishEditing(updatedCategories, true)); // then update local state
     }, [categories, finishEditing, thisCategory]);
 
     const onNameEdit = (e) => {
@@ -66,12 +63,9 @@ const Category = ({ thisCategory, onCategoryClick }) => {
         } else { // if new name is submitted
             thisCategory.name = newName;
 
-
-            (new HttpClient()).put( // send request to update the category
-                `${ Api.Categories }/${ thisCategory.id }`,
-                thisCategory
-            ).then(() => finishEditing([...categories].map( // update local state categories
-                (category) => category.id === thisCategory.id ? thisCategory : category
+            update.category(thisCategory, false)
+                .then(() => finishEditing([...categories].map( // update local state categories
+                    (category) => category.id === thisCategory.id ? thisCategory : category
             ), true));
         }
     };

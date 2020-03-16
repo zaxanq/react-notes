@@ -1,25 +1,21 @@
 import React, { useContext } from 'react';
 import { DataContext } from '../../../../contexts';
-import HttpClient, { Api } from '../../../../services/HttpClient';
 
 const CategoryCheckboxes = ({ note = null }) => {
     let checkboxes;
-    const { categories, setCategories } = useContext(DataContext);
+    const { categories, update } = useContext(DataContext);
 
     const categoryChecked = (cId, e) => {
-        const updateCategories = [...categories];
+        const updatedCategories = [...categories];
 
         if (e.target.checked) { // if category checked
-            updateCategories[cId].notes.push(note.id); // add current note to selected category notes
+            updatedCategories[cId].notes.push(note.id); // add current note to selected category notes
         } else { // if unchecked
-            let index = updateCategories[cId].notes.indexOf(note.id);
-            updateCategories[cId].notes.splice(index, 1); // remove current note from selected category notes
+            let index = updatedCategories[cId].notes.indexOf(note.id);
+            updatedCategories[cId].notes.splice(index, 1); // remove current note from selected category notes
         }
 
-        (new HttpClient().put(
-            `${Api.Categories}/${cId}`,
-            updateCategories[cId],
-        ).then(() => setCategories(updateCategories)));
+        update.category(updatedCategories[cId]);
     };
 
     if (categories) {

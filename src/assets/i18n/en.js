@@ -20,6 +20,7 @@ const EN = {
   },
   "notifications": {
     "noNotes": "No existing notes.",
+    "noteRemoved": "Note removed. You can restore it here:"
   },
   "snackbar": {
     "noteNotAdded": "Note was not added because it was empty.",

@@ -119,6 +119,7 @@ $snackbar-border-color: map-get($dark-palette, 600);
 $snackbar-color: map-get($light-palette, 400);
 $snackbar-error-color: map-get($error-palette, 500);
 $snackbar-warning-color: map-get($warning-palette, 500);
+$snackbar-confirmation-color: map-get($main-palette, 400);
 $snackbar-close-background-color: map-get($dark-palette, 800);
 $snackbar-close-background-hover-color: map-get($dark-palette, 950);
 $snackbar-close-color: map-get($dark-palette, 50);

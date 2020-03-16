@@ -4,11 +4,10 @@ import { DataContext, UIContext } from '../../contexts';
 import Button from '../Shell/components/Button/Button';
 import Lang from '../../assets/i18n/en';
 import CategoryCheckboxes from '../Shell/components/CategoryCheckboxes';
-import HttpClient, { Api } from '../../services/HttpClient';
 
 const SingleNote = () => {
-    const { singleNote } = useContext(UIContext);
-    const { notes, setNotes } = useContext(DataContext);
+    const { singleNote, snackbar } = useContext(UIContext);
+    const { update } = useContext(DataContext);
     const [categoriesListVisible, setCategoriesListVisible] = useState(false);
     const [editMode, setEditMode] = useState({ title: false, content: false });
     const [contentHeight, setContentHeight] = useState(0);
@@ -39,17 +38,14 @@ const SingleNote = () => {
     const deleteNote = () => {
         displayedNote.deleted = true;
 
-        (new HttpClient().put(
-            `${ Api.Notes }/${ displayedNote.id }`,
-            displayedNote,
-        ).then(() => {
-            setNotes([...notes], displayedNote);
+        update.note(displayedNote).then(() => {
+            snackbar.show(Lang.notifications.noteRemoved, 'delete-confirmation');
             closeNote(); // close the deleted note
-        }));
+        });
     };
 
     const closeNote = () => {
-        singleNote.clear();
+        singleNote.setVisible(false);
         clearEditMode();
         setCategoriesListVisible(false);
     };
@@ -71,13 +67,7 @@ const SingleNote = () => {
         } else if (displayedNote.title !== newTitle) {
             displayedNote.title = newTitle;
 
-            (new HttpClient().put(
-                `${ Api.Notes }/${ displayedNote.id }`,
-                displayedNote,
-            ).then(() => {
-                setNotes([...notes], displayedNote);
-                clearEditMode();
-            }));
+            update.note(displayedNote).then(() => clearEditMode());
         } else clearEditMode();
     };
 
@@ -91,13 +81,7 @@ const SingleNote = () => {
         } else if (displayedNote.content !== newContent) {
             displayedNote.content = newContent;
 
-            (new HttpClient().put(
-                `${ Api.Notes }/${ displayedNote.id }`,
-                displayedNote,
-            ).then(() => {
-                setNotes([...notes], displayedNote);
-                clearEditMode();
-            }));
+            update.note(displayedNote).then(() => clearEditMode());
         } else clearEditMode();
     };
 

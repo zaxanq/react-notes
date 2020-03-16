@@ -3,13 +3,12 @@ import './UpdateNoteDialog.scss';
 import { DataContext, UIContext } from '../../../../contexts';
 import Button from '../../../Shell/components/Button/Button';
 import CategoryCheckboxes from '../../../Shell/components/CategoryCheckboxes';
-import HttpClient, { Api } from '../../../../services/HttpClient';
 import Lang from '../../../../assets/i18n';
 import DialogType from '../../../Shell/enums/DialogType.enum';
 
 const UpdateNoteDialog = ({ dialogType }) => {
     const { dialog, snackbar } = useContext(UIContext);
-    const { categories, setCategories, notes, setNotes, data } = useContext(DataContext);
+    const { categories, setCategories, notes, setNotes, data, update } = useContext(DataContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -34,10 +33,7 @@ const UpdateNoteDialog = ({ dialogType }) => {
                 deleted: false,
             };
 
-            (new HttpClient()).post( // send request to add new note
-                Api.Notes,
-                newNote
-            ).then(() => {
+            update.notes(newNote).then(() => {
                 /* It is crucial to first update notes and then categories, because NotesList useEffect update changes
                     whenever either categories, notes or cId changes, meaning if we first change categories then new note
                     is not yet in local notes state and that will mean an error.
@@ -49,10 +45,7 @@ const UpdateNoteDialog = ({ dialogType }) => {
                     /* helper method used to update categories */
                     category.notes.push(newNote.id);
 
-                    (new HttpClient()).put( // send request to update category
-                        `${Api.Categories}/${category.id}`,
-                        category
-                    );
+                    update.category(category, false);
                 };
 
                 pushNoteToCategoryAndUpdateCategory(categories[0]); // update root category

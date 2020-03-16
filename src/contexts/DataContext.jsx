@@ -30,6 +30,24 @@ const DataProvider = ({ children }) => {
         if (categories.length !== 0) clearEditMode();
     }, [categories, clearEditMode]);
 
+    const updateNote = (note, updateState = true) => {
+        return (new HttpClient()).put(
+            `${ Api.Notes }/${ note.id }`,
+            note,
+        ).then(() => {
+            if (updateState) setNotes([...notes, note])
+        });
+    };
+
+    const updateCategory = (category, updateState = true) => {
+        return (new HttpClient()).put(
+            `${ Api.Categories }/${ category.id }`,
+            category,
+        ).then(() => {
+            if (updateState) setCategories([...categories, category])
+        });
+    };
+
     return (
         <Provider value={{
             categories, setCategories,
@@ -40,6 +58,10 @@ const DataProvider = ({ children }) => {
                 isCategoryEmpty,
                 clearEditMode,
             },
+            update: {
+                note: updateNote,
+                category: updateCategory,
+            }
         }}>
             { children }
         </Provider>

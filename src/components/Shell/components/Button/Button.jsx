@@ -26,6 +26,7 @@ const Button = ({ children, type, buttonStyle, className, onClick }) => {
         if (buttonStyle.includes('edit')) children = <i className="fas fa-pen" />;
         else if (buttonStyle.includes('delete')) children = <i className="fas fa-trash" />;
         else if (buttonStyle.includes('cancel')) children = <i className="fas fa-times" />;
+        else if (buttonStyle.includes('undo')) children = <i className="fas fa-undo" />;
 
         return buttonStyle;
     };
@@ -33,7 +34,7 @@ const Button = ({ children, type, buttonStyle, className, onClick }) => {
     return (
         <button
             type={ type }
-            className={ `button ${getStyleClasses()} ${ className }` }
+            className={ `button ${ getStyleClasses() } ${ className }` }
             onClick={ onClick ? (e) => onClick(e) : undefined }
         >
             { children }

@@ -17,9 +17,8 @@ const Container = ({ cId }) => {
     const [currentCategory, setCurrentCategory] = useState(null);
 
     useEffect(() => { // find current category
-        if (categories) setCurrentCategory([...Object.values(categories)]
-            .filter((category) => category.id === cId)[0]
-        );
+        if (categories) setCurrentCategory([...categories
+            .filter((category) => category.id === cId)][0]);
     }, [categories, cId]);
 
     useEffect(() => { // set category header
