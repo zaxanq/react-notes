@@ -146,7 +146,7 @@ const SingleNote = () => {
         else setEdited({ title: false, content: false });
     };
 
-    const onTextareaBlur = (e) => {
+    const onTextareaBlur = (e, forceSave) => {
         e.preventDefault();
         e.stopPropagation();
         if (e.relatedTarget === document.querySelector('.single-note__content-cancel')) {
@@ -157,7 +157,10 @@ const SingleNote = () => {
 
             update.note(displayedNote).then(() => clearEdited('content'));
         }
-        else if (e.relatedTarget === document.querySelector('.single-note__content-save') && fullEditMode) {
+        else if (
+            (e.relatedTarget === document.querySelector('.single-note__content-save') && fullEditMode ) ||
+            forceSave
+        ) {
             displayedNote.title = newTitle;
             displayedNote.content = newContent;
 
@@ -236,7 +239,7 @@ const SingleNote = () => {
                     type="button"
                     buttonStyle="icon save"
                     className="single-note__content-save"
-                    onClick={ (e) => onTextareaBlur(e) }
+                    onClick={ (e) => onTextareaBlur(e, true) }
                 /> : '' }
             </div>
 
