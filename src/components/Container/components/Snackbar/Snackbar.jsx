@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import './Snackbar.scss';
 import { UIContext } from '../../../../contexts';
-import Button from "../../../Shell/components/Button";
+import Button from '../../../Shell/components/Button';
 
 const Snackbar = () => {
     const { snackbar, singleNote } = useContext(UIContext);

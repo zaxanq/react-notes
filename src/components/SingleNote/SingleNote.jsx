@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { createRef, useContext, useEffect, useRef, useState } from 'react';
 import './SingleNote.scss';
 import { DataContext, UIContext } from '../../contexts';
 import Button from '../Shell/components/Button/Button';
@@ -26,6 +26,7 @@ const SingleNote = () => {
     const [edited, setEdited] = useState({ title: false, content: false });
     const [quickEditMode, setQuickEditMode] = useState(false);
     const [fullEditMode, setFullEditMode] = useState(false);
+    const [formControlsColumnClass, setFormControlsColumnClass] = useState('');
 
     const [categoriesListVisible, setCategoriesListVisible] = useState(false);
     const [contentHeight, setContentHeight] = useState(0);
@@ -33,6 +34,8 @@ const SingleNote = () => {
 
     const titleInputRef = useRef();
     const contentTextareaRef = useRef();
+    const contentParagraphRef = createRef();
+
     let newTitle = displayedNote?.title;
     let newContent = displayedNote?.content;
 
@@ -45,9 +48,13 @@ const SingleNote = () => {
     }, [edited.title]);
 
     useEffect(() => {
-        if (contentTextareaRef.current && !edited.title) {
+        if (contentTextareaRef.current) {
             contentTextareaRef.current.parentNode.style.height = `${contentHeight}px`;
-            contentTextareaRef.current.focus();
+
+            if (contentHeight >= 64) setFormControlsColumnClass(' single-note__content-form-controls-column');
+            else setFormControlsColumnClass('');
+
+            if (!edited.title) contentTextareaRef.current.focus();
         }
     }, [edited.content]);
 
@@ -87,14 +94,15 @@ const SingleNote = () => {
         e.stopPropagation();
         setQuickEditMode(true); // set quick-edit mode
         if (element === 'content') { // if content quick-edited, set textarea height to content height
-            setContentHeight(document.querySelector('.single-note__content').offsetHeight);
+            setContentHeight(contentParagraphRef.current.offsetHeight);
         }
         setEdited({ ...edited, [element]: true }); // set edited mode for edited element
     };
 
-    const onFullEdit = () => { // when edit icon clicked (full edit)
-        setFullEditMode(true); // set full-edit mode
-        setEdited({ title: true, content: true }); // both elements are now editable
+    const onFullEdit = () => { // when edit icon clicked (full edit), on another click toggles states
+        if (!fullEditMode) setContentHeight(contentParagraphRef.current.offsetHeight); // if fullEditMode, ignore
+        setFullEditMode(!fullEditMode); // toggle full-edit mode
+        setEdited({ title: !edited.title, content: !edited.content }); // both elements are now toggled
     };
 
     const onContentChange = (e) => newContent = e.target.value; // pass new content value to variable
@@ -176,7 +184,7 @@ const SingleNote = () => {
 
     const titleInput = (
         <form
-            className="title--with-underline single-note__title note__title h3"
+            className="title--with-underline note__title h3"
             onSubmit={ (e) => onTitleSubmit(e) }
         >
             <input type="text"
@@ -192,6 +200,7 @@ const SingleNote = () => {
 
     const contentParagraph = (
         <p
+            ref={ contentParagraphRef }
             className="single-note__content note__content"
             onDoubleClick={ (e) => onQuickEdit(e, 'content') }
         >{ noteContent }</p>
@@ -210,19 +219,21 @@ const SingleNote = () => {
                    onKeyDown={ (e) => onContentKeyDown(e) }
                    onBlur={ (e) => onTextareaBlur(e) }
             />
-            <Button
-                type="button"
-                buttonStyle="icon cancel"
-                className="single-note__content-cancel"
-                onClick={ (e) => onCancel(e,'content', true) }
-            />
-            { fullEditMode ?
-            <Button
-                type="button"
-                buttonStyle="icon save"
-                className="single-note__content-save"
-                onClick={ (e) => onTextareaBlur(e) }
-            /> : '' }
+            <div className={ 'single-note__content-form-controls' + formControlsColumnClass }>
+                <Button
+                    type="button"
+                    buttonStyle="icon cancel"
+                    className="single-note__content-cancel"
+                    onClick={ (e) => onCancel(e,'content', true) }
+                />
+                { fullEditMode ?
+                <Button
+                    type="button"
+                    buttonStyle="icon save"
+                    className="single-note__content-save"
+                    onClick={ (e) => onTextareaBlur(e) }
+                /> : '' }
+            </div>
 
         </form>
     );
@@ -237,7 +248,7 @@ const SingleNote = () => {
                 onClick={ (e) => onSingleNoteClick(e) }
             >
                 <div className="single-note__toolbar">
-                    <ul className="single-note__options">
+                    <ul className={ 'single-note__options' }>
                         <li>
                             <Button
                                 type="button"

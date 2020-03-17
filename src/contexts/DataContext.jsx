@@ -39,12 +39,16 @@ const DataProvider = ({ children }) => {
         });
     };
 
-    const updateCategory = (category, updateState = true) => {
+    const updateCategory = (updatedCategory, updateState = true) => {
         return (new HttpClient()).put(
-            `${ Api.Categories }/${ category.id }`,
-            category,
+            `${ Api.Categories }/${ updatedCategory.id }`,
+            updatedCategory,
         ).then(() => {
-            if (updateState) setCategories([...categories, category])
+            if (updateState) {
+                setCategories(categories
+                    .map((category) => category.id === updatedCategory.id ? updatedCategory : category)
+                );
+            }
         });
     };
 

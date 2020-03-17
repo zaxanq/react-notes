@@ -6,13 +6,24 @@
   width: $single-note-width;
   @include flex-column(flex-start, stretch);
   padding: $single-note-padding;
-  overflow: hidden;
 
   &__toolbar {
     @include flex-row(space-between, center);
     border-bottom: 1px solid $single-note-toolbar-border-color;
     padding-bottom: 1rem;
     margin-bottom: 1.6rem;
+  }
+
+  form {
+    &::after {
+      left: 0;
+    }
+
+    @include flex-row(stretch, center);
+
+    .input {
+      flex: 1;
+    }
   }
 
   &__options {
@@ -23,8 +34,9 @@
     }
   }
 
-  &__content-form {
-    @include flex-row(flex-start, center);
+  &__title,
+  &__content {
+    margin-left: 1rem;
   }
 
   &__content {
@@ -36,12 +48,31 @@
 
   &__content,
   &__content-textarea {
+  }
+
+  &__content,
+  &__content-textarea {
     @include styled-scrollbar($common-sidebar-thumb-color, $common-sidebar-background-color);
   }
 
   .single-note__content-textarea {
     height: 100%;
-    margin-right: 1rem;
+  }
+
+  &__content-form-controls {
+    @include flex-row(flex-start, flex-start);
+
+    .button--icon {
+      margin-left: 0.6rem;
+    }
+
+    &-column {
+      flex-direction: column;
+
+      .button--icon:not(:first-child) {
+        margin-top: 0.6rem;
+      }
+    }
   }
 
   .note-categories {
