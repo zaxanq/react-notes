@@ -90,8 +90,12 @@ $sidebar-background-color: map-get($dark-palette, 200);
 $sidebar-overlay-color: rgba(map-get($dark-palette, 50), 0.6);
 $sidebar-border-color: map-get($dark-palette, 800);
 $sidebar-icon-color: map-get($dark-palette, 1000);
+$sidebar-active-icon-color: map-get($light-palette, 900);
+$sidebar-active-item-background-color: rgba(255, 255, 255, 0.03);
 $sidebar-color: map-get($light-palette, 900);
 $sidebar-active-color: map-get($dark-palette, 1000);
+$category-edit-active-color: map-get($main-palette, 400);
+$category-delete-active-color: map-get($error-palette, 400);
 
 $container-background-color: map-get($dark-palette, 300);
 $container-color: map-get($light-palette, 900);

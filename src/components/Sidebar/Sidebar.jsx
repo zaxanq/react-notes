@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import './Sidebar.scss';
 import { DataContext, UIContext } from '../../contexts';
 import Category from './components/Category';
@@ -8,6 +8,12 @@ import Lang from '../../assets/i18n/';
 const Sidebar = ({ onCategoryClick }) => {
     const { categories, setCategories, data } = useContext(DataContext);
     const { sidebar } = useContext(UIContext);
+    const [activeCategory, setActiveCategory] = useState(0);
+
+    const handleCategoryClick = (cId) => {
+        setActiveCategory(cId);
+        onCategoryClick(cId);
+    };
 
     const onAddCategoryClick = (e) => {
         e.stopPropagation();
@@ -36,7 +42,8 @@ const Sidebar = ({ onCategoryClick }) => {
                 <Category
                     key={ category.id }
                     thisCategory={ category }
-                    onCategoryClick={ onCategoryClick }
+                    onCategoryClick={ (id) => handleCategoryClick(id) }
+                    active={ category.id === activeCategory }
                 />
             )) }
         </ul>

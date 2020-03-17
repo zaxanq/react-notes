@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from 'rea
 import { DataContext, UIContext } from '../../../../contexts';
 import Lang from '../../../../assets/i18n';
 
-const Category = ({ thisCategory, onCategoryClick }) => {
+const Category = ({ thisCategory, onCategoryClick, active }) => {
     const { categories, setCategories, data, update } = useContext(DataContext);
     const { sidebar, snackbar, confirmDialog } = useContext(UIContext);
 
@@ -98,7 +98,7 @@ const Category = ({ thisCategory, onCategoryClick }) => {
             <input
                 ref={ nameEditRef }
                 id="editCategory"
-                className="input input--transparent"
+                className="input input--transparent category__name-input"
                 type="text"
                 defaultValue={ thisCategory.name }
                 onClick={ (e) => e.stopPropagation() }
@@ -109,10 +109,10 @@ const Category = ({ thisCategory, onCategoryClick }) => {
     );
 
     return (
-        <li className="category"
+        <li className={ 'category' + (active ? ' category--active' : '') }
             onClick={ (e) => { onClick(e); } }
         >
-            <i className="category__icon fas fa-sticky-note" />
+            <i className={ 'category__icon fas fa-folder' + (active ? '-open' : '') } />
             { editMode && thisCategory.id !== 0 ? editCategoryForm : categoryTitleSpan }
             { thisCategory.id !== 0 ? optionButtons : '' }
         </li>
