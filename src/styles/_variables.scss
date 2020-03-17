@@ -4,6 +4,9 @@
 $tick-mark: '\2713';
 
 
+$common-border-radius: 4px;
+
+
 $global-font-size: 1.8rem;
 $global-line-height: 1.5;
 
@@ -38,9 +41,19 @@ $note-title-underline: 2px solid $note-title-underline-color;
 $container-padding: 3rem 3rem 3rem 3rem + $sidebar-width;
 
 
+$single-note-width: 50%;
+$single-note-min-width: 40rem;
+$single-note-max-width: 60rem;
+$single-note-max-height: 80%;
+$single-note-vertical-padding: 4rem;
+$single-note-horizontal-padding: 3.2rem;
+$single-note-padding: $single-note-vertical-padding / 2 $single-note-horizontal-padding $single-note-vertical-padding;
+$single-note-scrollbar-width: 1rem;
+
+
 $dialog-width: 50rem;
 $update-note-dialog-min-height: 40rem;
 $dialog-padding: 6rem 4rem;
 
 
-$snackbar-padding: 1.6rem 4rem 1rem;
+$snackbar-padding: 1.6rem 6rem 1rem;

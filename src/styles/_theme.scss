@@ -68,6 +68,9 @@ $warning-palette: (
   900: #cd7e0c,
 );
 
+$common-sidebar-thumb-color: map-get($dark-palette, 500);
+$common-sidebar-background-color: map-get($dark-palette, 250);
+
 $button-outlined-border-color: map-get($dark-palette, 800);
 $button-outlined-color: map-get($dark-palette, 1000);
 $button-outlined-active-color: map-get($light-palette, 900);
@@ -78,6 +81,10 @@ $button-main-color: map-get($dark-palette, 100);
 $button-gray-background-color: map-get($dark-palette, 600);
 $button-gray-hover-background-color: map-get($dark-palette, 700);
 $button-gray-color: map-get($light-palette, 900);
+$button-icon-background-color: rgba(255, 255, 255, 0.05);
+$button-icon-active-background-color: rgba(255, 255, 255, 0.125);
+$button-icon-color: map-get($light-palette, 500);
+$button-icon-active-color: map-get($main-palette, 300);
 
 $sidebar-background-color: map-get($dark-palette, 200);
 $sidebar-overlay-color: rgba(map-get($dark-palette, 50), 0.6);
@@ -93,8 +100,10 @@ $container-topbar-border-color: map-get($dark-palette, 500);
 
 $note-background-color: map-get($dark-palette, 350);
 $note-border-color: map-get($dark-palette, 600);
+$note-selected-border-color: map-get($main-palette, 300);
 $note-color: map-get($light-palette, 500);
 $note-title-underline-color: map-get($dark-palette, 800);
+$note-active-title-color: map-get($main-palette, 300);
 
 $dialog-container-background-color: rgba(map-get($dark-palette, 50), 0.6);
 $dialog-background-color: map-get($dark-palette, 250);
@@ -110,7 +119,12 @@ $snackbar-border-color: map-get($dark-palette, 600);
 $snackbar-color: map-get($light-palette, 400);
 $snackbar-error-color: map-get($error-palette, 500);
 $snackbar-warning-color: map-get($warning-palette, 500);
+$snackbar-confirmation-color: map-get($main-palette, 400);
 $snackbar-close-background-color: map-get($dark-palette, 800);
 $snackbar-close-background-hover-color: map-get($dark-palette, 950);
 $snackbar-close-color: map-get($dark-palette, 50);
+
+$single-note-toolbar-border-color: map-get($dark-palette, 500);
+$note-categories-list-background-color: map-get($dark-palette, 300);
+$note-categories-list-border-color: map-get($dark-palette, 500);
 

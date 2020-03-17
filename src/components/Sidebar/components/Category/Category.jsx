@@ -1,37 +1,38 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { DataContext, UIContext } from '../../../../contexts';
-import HttpClient, { Api } from '../../../../services/HttpClient';
 import Lang from '../../../../assets/i18n';
 
 const Category = ({ thisCategory, onCategoryClick }) => {
-    const { categories, setCategories, editMode, setEditMode, data } = useContext(DataContext);
+    const { categories, setCategories, data, update } = useContext(DataContext);
     const { sidebar, snackbar, confirmDialog } = useContext(UIContext);
 
+    const [editMode, setEditMode] = useState(false);
+
+    const nameEditRef = useRef();
     let newName = '';
 
-    const deleteCategory = () => {
-        thisCategory.deleted = true;
+    const finishEditing = useCallback((updatedCategories, isChanged) => {
+        if (isChanged) setCategories(updatedCategories);
+    }, [categories, setCategories]);
 
+    const deleteCategory = useCallback((cId = thisCategory.id) => {
+        /*
+            usually this method doesn't require a parameter as it is deleting this instances' data
+            when the deletion happens through confirmDialog it is necessary to specify the cI to be removed
+        */
         const updatedCategories = [...categories].map((category) => {
-            if (category.id === thisCategory.id) category.deleted = true;
+            if (category.id === cId) category.deleted = true;
             return category;
         });
 
-        (new HttpClient()).put( // send update (soft delete) request
-            `${ Api.Categories }/${ thisCategory.id }`,
-            thisCategory,
-        ).then(() => finishEditing(updatedCategories, true)); // then update local state
-    };
-
-    const finishEditing = (updatedCategories, isChanged) => {
-        if (isChanged) setCategories(updatedCategories);
-        setEditMode([...categories].map(() => false));
-    };
+        update.category(updatedCategories[cId], false)
+            .then(() => finishEditing(updatedCategories, true)); // then update local state
+    }, [categories, finishEditing, thisCategory]);
 
     const onNameEdit = (e) => {
         e.stopPropagation();
         sidebar.setOpened(true); // keep the sidebar opened
-        setEditMode([...editMode].map((categoryMode, index) => index === thisCategory.id ? !categoryMode : false));
+        setEditMode(true);
     };
 
     const onClick = (e) => {
@@ -49,7 +50,7 @@ const Category = ({ thisCategory, onCategoryClick }) => {
 
     const onNameCancel = (e) => {
         e.stopPropagation();
-        data.clearEditMode();
+        setEditMode(false);
     };
 
     const onNameSubmit = (e, newName) => {
@@ -62,28 +63,23 @@ const Category = ({ thisCategory, onCategoryClick }) => {
         } else { // if new name is submitted
             thisCategory.name = newName;
 
-
-            (new HttpClient()).put( // send request to update the category
-                `${ Api.Categories }/${ thisCategory.id }`,
-                thisCategory
-            ).then(() => finishEditing([...categories].map( // update local state categories
-                (category) => category.id === thisCategory.id ? thisCategory : category
+            update.category(thisCategory, false)
+                .then(() => finishEditing([...categories].map( // update local state categories
+                    (category) => category.id === thisCategory.id ? thisCategory : category
             ), true));
         }
     };
 
     useEffect(() => { // each time editMode changes
-        if (editMode.includes(true)) { // if category edited
-            document.getElementById('editCategory').focus(); // focus edit category input
-        }
+        if (nameEditRef.current) nameEditRef.current.focus(); // if category edited
     }, [editMode]);
 
     useEffect(() => { // each time confirmDialog result changes
         if (confirmDialog.result) { // if category delete confirmed
-            deleteCategory(); // delete the category
-            confirmDialog.setResult(null);
+            deleteCategory(confirmDialog.data.id); // delete the category
+            confirmDialog.clear(); // hide confirmDialog and remove all data it contained
         }
-    }, [confirmDialog.result]);
+    }, [confirmDialog.result, deleteCategory, confirmDialog]);
 
     const optionButtons = (
         <React.Fragment>
@@ -100,6 +96,7 @@ const Category = ({ thisCategory, onCategoryClick }) => {
     const editCategoryForm = (
         <form onSubmit={ (e) => onNameSubmit(e, newName) }>
             <input
+                ref={ nameEditRef }
                 id="editCategory"
                 className="input input--transparent"
                 type="text"
@@ -116,7 +113,7 @@ const Category = ({ thisCategory, onCategoryClick }) => {
             onClick={ (e) => { onClick(e); } }
         >
             <i className="category__icon fas fa-sticky-note" />
-            { editMode[thisCategory.id] && thisCategory.id !== 0 ? editCategoryForm : categoryTitleSpan }
+            { editMode && thisCategory.id !== 0 ? editCategoryForm : categoryTitleSpan }
             { thisCategory.id !== 0 ? optionButtons : '' }
         </li>
     );

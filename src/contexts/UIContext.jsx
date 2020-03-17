@@ -1,19 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { DataContext } from '.';
 
 const UIContext = React.createContext(null);
 
 const UiProvider = ({ children }) => {
     const { Provider } = UIContext;
+    const { update } = useContext(DataContext);
 
     const [sidebarOpened, setSidebarOpened] = useState(false);
+
     const [dialogVisible, setDialogVisible] = useState(false);
     const [dialogType, setDialogType] = useState(null);
+
     const [snackbarVisible, setSnackbarVisible] = useState(false);
     const [snackbarContent, setSnackbarContent] = useState({ type: '', text: '' });
+    const [snackbarTimeout, setSnackbarTimeout] = useState(null);
+
     const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
     const [confirmDialogContent, setConfirmDialogContent] = useState(null);
     const [confirmDialogResult, setConfirmDialogResult] = useState(null);
     const [confirmDialogData, setConfirmDialogData] = useState(null);
+
+    const [visibleSingleNote, setVisibleSingleNote] = useState(false);
+    const [selectedNote, setSelectedNote] = useState(null);
 
     const showConfirmDialog = (content) => {
         setConfirmDialogVisible(true);
@@ -32,8 +41,16 @@ const UiProvider = ({ children }) => {
     };
 
     const clearSnackbar = () => {
+        /*
+            ClearTimeout is important to assure that if we show 2 snackbars during the timeout, they will be visible
+            for established period of time. In other words, if we set hide timeout to 12 seconds:
+            If a snackbar is shown, and then hidden after 2 seconds, and then shown again after 6 seconds,
+            without useState and clearTimeout the second snackbar would hide after 4 seconds.
+            TODO: Find out why it works and if it should be improved.
+        */
         setSnackbarVisible(false);
         setSnackbarContent({ type: '', text: ''});
+        setSnackbarTimeout(clearTimeout(snackbarTimeout));
     };
 
     const showSnackbar = (text, type) => {
@@ -41,8 +58,22 @@ const UiProvider = ({ children }) => {
         setSnackbarContent({ type, text });
     };
 
+    const clearSelectedNote = () => {
+        setSelectedNote(null);
+        setVisibleSingleNote(false);
+    };
+
+    const singleNoteRestoreNote = () => {
+        selectedNote.deleted = false;
+        setSelectedNote(null);
+
+        return update.note(selectedNote);
+    };
+
     useEffect(() => { // hide snackbar automatically after a delay
-        if (snackbarVisible) setTimeout(() => clearSnackbar(), 8000);
+        if (snackbarVisible) {
+            setSnackbarTimeout(setTimeout(() => clearSnackbar(), 12000));
+        }
     }, [snackbarVisible]);
 
     return (
@@ -73,6 +104,14 @@ const UiProvider = ({ children }) => {
                 setVisible: setDialogVisible,
                 type: dialogType,
                 setType: setDialogType,
+            },
+            singleNote: {
+                visible: visibleSingleNote,
+                setVisible: setVisibleSingleNote,
+                selected: selectedNote,
+                setSelected: setSelectedNote,
+                clear: clearSelectedNote,
+                restoreNote: singleNoteRestoreNote,
             }
         }}>
             { children }

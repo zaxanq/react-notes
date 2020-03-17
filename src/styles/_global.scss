@@ -17,3 +17,20 @@ body {
   @include flex-row(flex-start, flex-start);
   @include size(inherit);
 }
+
+.absolute-container {
+  position: absolute;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  @include size(100%);
+  @include flex-row(center, center);
+  padding: $container-padding;
+  overflow: hidden;
+  background-color: $dialog-container-background-color;
+  cursor: pointer;
+
+  > * {
+    cursor: default;
+  }
+}

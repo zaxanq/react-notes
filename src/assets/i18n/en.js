@@ -5,6 +5,7 @@ const EN = {
   "common": {
     "addNote": "Add note",
     "addCategory": "Add category",
+    "categories": "Categories",
     "editNote": "Edit note",
   },
   "confirm": {
@@ -14,11 +15,12 @@ const EN = {
   },
   "note": {
     "categories": "Note categories",
-    "contents": "Note contents",
+    "content": "Note content",
     "title": "Note title",
   },
   "notifications": {
     "noNotes": "No existing notes.",
+    "noteRemoved": "Note removed. You can restore it here:"
   },
   "snackbar": {
     "noteNotAdded": "Note was not added because it was empty.",

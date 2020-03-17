@@ -20,8 +20,8 @@ const ConfirmDialog = () => {
 
     const dialog = (
         <div
-            className="dialog-container"
-            onClick={ (e) => onCancelClick(e) }
+            className="absolute-container dialog-container"
+            onDoubleClick={ (e) => onCancelClick(e) }
         >
             <div className="dialog confirm-dialog">
                 <p>{ confirmDialog.content }</p>
@@ -30,13 +30,13 @@ const ConfirmDialog = () => {
                         type="submit"
                         buttonStyle="solid main"
                         className="confirm-dialog__confirm-button"
-                        click={ (e) => onConfirmClick(e) }
+                        onClick={ (e) => onConfirmClick(e) }
                     >{ Lang.confirm.confirm }</Button>
                     <Button
                         type="cancel"
                         buttonStyle="solid gray"
                         className="confirm-dialog__cancel-button"
-                        click={ (e) => onCancelClick(e) }
+                        onClick={ (e) => onCancelClick(e) }
                     >{ Lang.confirm.cancel }</Button>
                 </div>
             </div>

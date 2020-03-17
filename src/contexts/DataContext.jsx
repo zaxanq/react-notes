@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import HttpClient, { Api } from '../services/HttpClient';
 
 const DataContext = React.createContext(null);
@@ -12,7 +12,9 @@ const DataProvider = ({ children }) => {
 
     const isCategoryEmpty = (cId) => categories.filter((category) => category.id === cId)[0].notes.length === 0;
 
-    const clearEditMode = () => setEditMode([...categories].map(() => false));
+    const clearEditMode = useCallback(() => {
+        setEditMode([...categories].map(() => false))
+    }, [categories]);
 
     const getNextId = (ofWhat) => parseInt(ofWhat.map((item) => item.id)[ofWhat.length - 1]) + 1;
 
@@ -26,7 +28,29 @@ const DataProvider = ({ children }) => {
 
     useEffect(() => {
         if (categories.length !== 0) clearEditMode();
-    }, [categories]);
+    }, [categories, clearEditMode]);
+
+    const updateNote = (note, updateState = true) => {
+        return (new HttpClient()).put(
+            `${ Api.Notes }/${ note.id }`,
+            note,
+        ).then(() => {
+            if (updateState) setNotes([...notes, note])
+        });
+    };
+
+    const updateCategory = (updatedCategory, updateState = true) => {
+        return (new HttpClient()).put(
+            `${ Api.Categories }/${ updatedCategory.id }`,
+            updatedCategory,
+        ).then(() => {
+            if (updateState) {
+                setCategories(categories
+                    .map((category) => category.id === updatedCategory.id ? updatedCategory : category)
+                );
+            }
+        });
+    };
 
     return (
         <Provider value={{
@@ -38,6 +62,10 @@ const DataProvider = ({ children }) => {
                 isCategoryEmpty,
                 clearEditMode,
             },
+            update: {
+                note: updateNote,
+                category: updateCategory,
+            }
         }}>
             { children }
         </Provider>

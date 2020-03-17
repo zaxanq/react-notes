@@ -1,0 +1,101 @@
+@import 'src/styles/variables';
+
+.single-note {
+  min-width: $single-note-min-width;
+  @include size-max($single-note-max-width, $single-note-max-height);
+  width: $single-note-width;
+  @include flex-column(flex-start, stretch);
+  padding: $single-note-padding;
+
+  &__toolbar {
+    @include flex-row(space-between, center);
+    border-bottom: 1px solid $single-note-toolbar-border-color;
+    padding-bottom: 1rem;
+    margin-bottom: 1.6rem;
+  }
+
+  form {
+    &::after {
+      left: 1rem;
+    }
+
+    @include flex-row(stretch, center);
+
+    .input {
+      flex: 1;
+    }
+  }
+
+  &__options {
+    @include flex-row(flex-start, center);
+
+    > li:not(:first-child) {
+      margin-left: 0.8rem;
+    }
+  }
+
+  &__title,
+  &__content {
+    margin-left: 1rem;
+  }
+
+  &__content {
+    flex: 1;
+    overflow: hidden auto;
+    width: calc(100% + #{$single-note-scrollbar-width});
+    cursor: pointer;
+  }
+
+  &__content,
+  &__content-textarea {
+    @include styled-scrollbar($common-sidebar-thumb-color, $common-sidebar-background-color);
+  }
+
+  .single-note__content-textarea {
+    min-height: $global-font-size * $global-line-height;
+    height: 100%;
+    max-height: 52.6rem;
+    resize: none;
+  }
+
+  &__content-form-controls {
+    @include flex-row(flex-start, flex-start);
+
+    .button--icon {
+      margin-left: 0.6rem;
+    }
+
+    &-column {
+      flex-direction: column;
+
+      .button--icon:not(:first-child) {
+        margin-top: 0.6rem;
+      }
+    }
+  }
+
+  .note-categories {
+    position: relative;
+
+    &__list {
+      position: absolute;
+      z-index: 1;
+      top: calc(100% + 0.5rem);
+      right: 0;
+      max-width: 21rem;
+      max-height: 32rem;
+      overflow: hidden auto;
+      padding: 1rem 3rem 1rem 1rem;
+      background-color: $note-categories-list-background-color;
+      border: 1px solid $note-categories-list-border-color;
+      border-radius: $common-border-radius;
+
+      .category-checkboxes__name {
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}

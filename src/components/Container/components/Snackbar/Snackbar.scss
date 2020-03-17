@@ -21,6 +21,14 @@
     color: $snackbar-error-color;
   }
 
+  &[class*='confirmation'] {
+    color: $snackbar-confirmation-color;
+  }
+
+  &__control {
+    margin-left: 0.4rem;
+  }
+
   &__close {
     $close-size: 1.7rem;
     position: absolute;

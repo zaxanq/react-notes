@@ -2,32 +2,38 @@
   "notes": [
     {
       "id": 1,
-      "title": "Note name",
-      "contents": "Some text",
+      "title": "No longer an important note",
+      "content": "Some text",
       "deleted": false
     },
     {
       "id": 2,
       "title": "Another note name",
-      "contents": "Some other text",
+      "content": "Some other text",
       "deleted": false
     },
     {
       "id": 3,
       "title": "One more note name",
-      "contents": "Even more other text",
+      "content": "Even more other text",
       "deleted": false
     },
     {
       "id": 4,
       "title": "A bit longer note",
-      "contents": "Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum. Integer aliquam purus. Quisque lorem tortor fringilla sed, vestibulum id, eleifend justo vel bibendum sapien massa ac turpis faucibus orci luctus non, consectetuer lobortis quis, varius in, purus. Integer ultrices posuere cubilia Curae, Nulla ipsum dolor lacus, suscipit adipiscing. Cum sociis natoque penatibus et ultrices volutpat. Nullam wisi ultricies a, gravida vitae, dapibus risus ante sodales lectus blandit eu, tempor diam pede cursus vitae, ultricies eu, faucibus quis, porttitor eros cursus lectus, pellentesque eget, bibendum a, gravida ullamcorper quam. Nullam viverra consectetuer. Quisque cursus et, porttitor risus. Aliquam sem. In hendrerit nulla quam nunc, accumsan congue. Lorem ipsum primis in nibh vel risus. Sed vel lectus. Ut sagittis, ipsum dolor quam.",
+      "content": "Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum. Integer aliquam purus. Quisque lorem tortor fringilla sed, vestibulum id, eleifend sjusto vel bibendum sapien massa ac turpis faucibus orci luctus non, consectetuer lobortis quis, varius in, purus. Integer ultrices posuere cubilia Curae, Nulla ipsum dolor lacus, suscipit adipiscing. Cum sociis natoque penatibus et ultrices volutpat. Nullam wisi ultricies a, gravida vitae, dapibus risus ante sodales lectus blandit eu, tempor diam pede cursus vitae, ultricies eu, faucibus quis, porttitor eros cursus lectus, pellentesque eget, bibendum a, gravida ullamcorper quam. Nullam viverra consectetuer. Quisque cursus et, porttitor risus. Aliquam sem. In hendrerit nulla quam nunc, accumsan congue. Lorem ipsum primis in nibh vel risus. Sed vel lectus. Ut sagittis, ipsum dolor quam.",
       "deleted": false
     },
     {
       "id": 5,
-      "title": "This is the first note created in dialog",
-      "contents": "And hopefully it will work!",
+      "title": "asdasd",
+      "content": "",
+      "deleted": false
+    },
+    {
+      "id": 6,
+      "title": "A bit better name",
+      "content": "A bit better content",
       "deleted": false
     }
   ],
@@ -40,7 +46,8 @@
         2,
         3,
         4,
-        5
+        5,
+        6
       ],
       "deleted": false
     },
@@ -48,8 +55,9 @@
       "id": 1,
       "name": "Important",
       "notes": [
-        1,
-        3
+        3,
+        4,
+        2
       ],
       "deleted": false
     },
@@ -58,7 +66,6 @@
       "name": "School",
       "notes": [
         1,
-        2,
         4
       ],
       "deleted": false

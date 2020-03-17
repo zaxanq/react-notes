@@ -1,7 +1,7 @@
 import React from 'react';
 import './Button.scss';
 
-const Button = ({ children, type, buttonStyle, className, click }) => {
+const Button = ({ children, type, buttonStyle, className, onClick }) => {
     /*
         type: string - defines type of string, i.e. 'button', 'submit', 'reset'
         buttonStyle: string - defines single or multiple styles of button, they serve as modifiers in button classes
@@ -22,14 +22,21 @@ const Button = ({ children, type, buttonStyle, className, click }) => {
         } else {
             buttonStyle = 'button--' + buttonStyle;
         }
+
+        if (buttonStyle.includes('edit')) children = <i className="fas fa-pen" />;
+        else if (buttonStyle.includes('delete')) children = <i className="fas fa-trash" />;
+        else if (buttonStyle.includes('cancel')) children = <i className="fas fa-times" />;
+        else if (buttonStyle.includes('undo')) children = <i className="fas fa-undo" />;
+        else if (buttonStyle.includes('save')) children = <i className="fas fa-check" />;
+
         return buttonStyle;
     };
 
     return (
         <button
             type={ type }
-            className={ `button ${getStyleClasses()} ${ className }` }
-            onClick={ click ? (e) => click(e) : undefined }
+            className={ `button ${ getStyleClasses() } ${ className }` }
+            onClick={ onClick ? (e) => onClick(e) : undefined }
         >
             { children }
         </button>
