@@ -16,7 +16,7 @@
 
   form {
     &::after {
-      left: 0;
+      left: 1rem;
     }
 
     @include flex-row(stretch, center);
@@ -48,15 +48,14 @@
 
   &__content,
   &__content-textarea {
-  }
-
-  &__content,
-  &__content-textarea {
     @include styled-scrollbar($common-sidebar-thumb-color, $common-sidebar-background-color);
   }
 
   .single-note__content-textarea {
+    min-height: $global-font-size * $global-line-height;
     height: 100%;
+    max-height: 52.6rem;
+    resize: none;
   }
 
   &__content-form-controls {

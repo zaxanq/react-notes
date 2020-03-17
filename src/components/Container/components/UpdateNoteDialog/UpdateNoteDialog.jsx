@@ -70,7 +70,7 @@ const UpdateNoteDialog = ({ dialogType }) => {
     const renderDialog = () => (
         <div
             className="absolute-container dialog-container"
-            onClick={ () => closeDialog(false) }
+            onDoubleClick={ () => closeDialog(false) }
         >
             <div
                 className="dialog update-note-dialog"

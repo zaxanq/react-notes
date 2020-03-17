@@ -21,7 +21,7 @@ const ConfirmDialog = () => {
     const dialog = (
         <div
             className="absolute-container dialog-container"
-            onClick={ (e) => onCancelClick(e) }
+            onDoubleClick={ (e) => onCancelClick(e) }
         >
             <div className="dialog confirm-dialog">
                 <p>{ confirmDialog.content }</p>

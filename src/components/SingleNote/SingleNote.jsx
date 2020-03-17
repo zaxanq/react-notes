@@ -44,19 +44,21 @@ const SingleNote = () => {
         <span className="italic note__no-content">No contents.</span>;
 
     useEffect(() => {
-        if (titleInputRef.current) titleInputRef.current.focus();
-    }, [edited.title]);
-
-    useEffect(() => {
-        if (contentTextareaRef.current) {
-            contentTextareaRef.current.parentNode.style.height = `${contentHeight}px`;
-
+        if (contentHeight) {
             if (contentHeight >= 64) setFormControlsColumnClass(' single-note__content-form-controls-column');
             else setFormControlsColumnClass('');
 
-            if (!edited.title) contentTextareaRef.current.focus();
+            if (contentTextareaRef.current) {
+                contentTextareaRef.current.parentNode.style.height = `${contentHeight}px`;
+                if (!edited.title) contentTextareaRef.current.focus();
+            }
         }
-    }, [edited.content]);
+    }, [contentHeight, edited.content]);
+
+    useEffect(() => {
+        if (titleInputRef.current) titleInputRef.current.focus();
+    }, [edited.title]);
+
 
     const onSingleNoteClick = (e) => {
         e.stopPropagation();
@@ -105,9 +107,12 @@ const SingleNote = () => {
         setEdited({ title: !edited.title, content: !edited.content }); // both elements are now toggled
     };
 
-    const onContentChange = (e) => newContent = e.target.value; // pass new content value to variable
+    const onContentChange = (e) => newContent = e.target.value.trim(); // pass new content value to variable
 
-    const onContentKeyDown = (e) => e.key === 'Escape' ? onCancel(e) : null; // cancel on Escape
+    const onContentKeyDown = (e) => {
+        if (e.key === 'Escape') return onCancel(e);
+        else if (e.key === 'Enter') setContentHeight(contentHeight + 27);
+    }; // cancel on Escape
 
     const onCancel = (e, element, forceClose) => {
         if (fullEditMode) {
@@ -192,7 +197,7 @@ const SingleNote = () => {
                    className="input input--transparent h3 single-note__title-input"
                    defaultValue={ displayedNote?.title }
                    onClick={ (e) => e.stopPropagation() }
-                   onChange={ (e) => newTitle = e.target.value }
+                   onChange={ (e) => newTitle = e.target.value.trim() }
                    onBlur={ (e) => onCancel(e,'title') }
             />
         </form>
@@ -238,10 +243,11 @@ const SingleNote = () => {
         </form>
     );
 
+    // TODO: Make absolute-container a separate component and create custom event for closing the modal
     const note = (
         <div
             className="absolute-container single-note-container"
-            onClick={ () => closeNote() }
+            onDoubleClick={ () => closeNote() }
         >
             <article
                 className="single-note note"
