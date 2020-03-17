@@ -6,27 +6,22 @@
   left: 0;
   top: 0;
   @include size($sidebar-width, 100%);
-  @include flex-column(flex-start, flex-start);
+  @include flex-column(flex-start, stretch);
   padding: $sidebar-padding;
   transition: 0.5s 0.05s ease-in-out;
   overflow: hidden;
   background-color: $sidebar-background-color;
 
-  &.deactivate {
-    transition: 0.2s ease-in-out; // temporarily quicken the transition
-    pointer-events: none;
-  }
-
   @include active(sidebar--opened) { // active sidebar
     width: $sidebar-active-width;
-    padding-left: $sidebar-horizontal-padding * 2;
-    padding-right: $sidebar-horizontal-padding * 2;
     cursor: pointer;
 
     .category,
     .add-category {
+      padding: $category-active-padding;
+
       &__icon {
-        margin-right: $sidebar-horizontal-padding / 2;
+        margin-right: $category-horizontal-padding / 2;
       }
     }
 
@@ -50,28 +45,24 @@
   .category,
   .add-category {
     color: $sidebar-color;
+    transition: 0.4s 0.05s ease-in-out;
 
     &__icon {
       @include size-absolute($sidebar-icon-size);
-      margin-right: $sidebar-horizontal-padding;
+      margin-right: $category-horizontal-padding;
       color: $sidebar-icon-color;
       font-size: $sidebar-icon-size;
-      transition: 0.2s ease-in-out;
+      transition: 0.4s 0.05s margin ease-in-out, 0.3s color ease-in-out;
     }
   }
 
   .add-category,
   .category {
-    $category-max-width: $sidebar-active-width - 2 * ($sidebar-horizontal-padding * 2);
-    max-width: $category-max-width;
     @include flex-row(flex-start, center);
+    padding: $category-padding;
     white-space: nowrap;
     font-size: $sidebar-item-font-size;
     cursor: pointer;
-
-    input {
-      width: $category-max-width - $sidebar-icon-size - $sidebar-horizontal-padding - $sidebar-edit-margin-left - $sidebar-item-font-size;
-    }
 
     &__name {
       white-space: nowrap;
@@ -83,7 +74,7 @@
       .add-category,
       .category {
         &__icon {
-          margin-right: $sidebar-horizontal-padding;
+          margin-right: $category-horizontal-padding;
         }
 
         &__name {
@@ -94,18 +85,45 @@
   }
 
   .category {
-      margin-bottom: 1rem;
+    margin-bottom: 1rem - 2 * $category-vertical-padding;
+
+    &--active {
+      background-color: $sidebar-active-item-background-color;
+
+      .category__icon { // font-awesome icon fix
+        transform: translate(2px, 0);
+        color: $sidebar-active-icon-color;
+      }
+    }
+
+    &__name {
+      flex: 1;
+      min-width: 10rem; // used to avoid icons showing first on sidebar expand animation
+      padding-right: 0.8rem;
+    }
+
+    &__name-input {
+      margin-left: -1rem;
+      width: 100%;
+    }
 
     &__control {
-      margin-left: $sidebar-edit-margin-left;
       color: $sidebar-color;
-
-      @include active() {
-        color: $sidebar-active-color;
-      }
 
       + .category__control {
         margin-left: $sidebar-edit-margin-left / 4;
+      }
+    }
+
+    &__edit {
+      @include active() {
+        color: $category-edit-active-color;
+      }
+    }
+
+    &__delete {
+      @include active() {
+        color: $category-delete-active-color;
       }
     }
   }
