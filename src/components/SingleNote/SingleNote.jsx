@@ -254,6 +254,7 @@ const SingleNote = () => {
         >
             <article
                 className="single-note note"
+                onDoubleClick={ (e) => e.stopPropagation() }
                 onClick={ (e) => onSingleNoteClick(e) }
             >
                 <div className="single-note__toolbar">

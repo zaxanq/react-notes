@@ -6,7 +6,6 @@ const EN = {
     "addNote": "Add note",
     "addCategory": "Add category",
     "categories": "Categories",
-    "editNote": "Edit note",
   },
   "confirm": {
     "cancel": "Cancel",

@@ -23,7 +23,10 @@ const ConfirmDialog = () => {
             className="absolute-container dialog-container"
             onDoubleClick={ (e) => onCancelClick(e) }
         >
-            <div className="dialog confirm-dialog">
+            <div
+                className="dialog confirm-dialog"
+                onDoubleClick={ (e) => e.stopPropagation() }
+            >
                 <p>{ confirmDialog.content }</p>
                 <div className="confirm-dialog__controls">
                     <Button

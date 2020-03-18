@@ -3,12 +3,11 @@ import './Container.scss';
 import { DataContext, UIContext } from '../../contexts';
 import NotesList from '../NotesList';
 import SingleNote from '../SingleNote';
-import UpdateNoteDialog from './components/UpdateNoteDialog';
+import AddNoteDialog from './components/AddNoteDialog';
 import ConfirmDialog from './components/ConfirmDialog';
 import Snackbar from './components/Snackbar/Snackbar';
 import Button from '../Shell/components/Button/Button';
 import Lang from '../../assets/i18n/';
-import DialogType from '../Shell/enums/DialogType.enum';
 
 const Container = ({ cId }) => {
     const { dialog } = useContext(UIContext);
@@ -34,7 +33,6 @@ const Container = ({ cId }) => {
         /*
             on add-note button click set dialog type and show dialog
          */
-        dialog.setType(DialogType.addNote);
         dialog.setVisible(true);
     };
 
@@ -53,7 +51,7 @@ const Container = ({ cId }) => {
             </div>
             <NotesList cId={ cId } />
             <SingleNote />
-            <UpdateNoteDialog dialogType={ dialog.type } />
+            <AddNoteDialog currentCategoryId={ cId } />
             <ConfirmDialog />
             <Snackbar />
         </main>
