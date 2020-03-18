@@ -1,0 +1,11 @@
+@import 'src/styles/variables';
+
+.category-checkbox {
+  &__name {
+    line-height: .9;
+  }
+
+  input.input--checkbox + label {
+    align-items: baseline;
+  }
+}

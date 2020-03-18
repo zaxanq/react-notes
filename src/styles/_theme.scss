@@ -71,10 +71,6 @@ $warning-palette: (
 $common-sidebar-thumb-color: map-get($dark-palette, 500);
 $common-sidebar-background-color: map-get($dark-palette, 250);
 
-$button-outlined-border-color: map-get($dark-palette, 800);
-$button-outlined-color: map-get($dark-palette, 1000);
-$button-outlined-active-color: map-get($light-palette, 900);
-$button-outlined-background: linear-gradient($button-outlined-border-color, $button-outlined-border-color);
 $button-main-background-color: map-get($main-palette, 500);
 $button-main-hover-background-color: map-get($main-palette, 400);
 $button-main-color: map-get($dark-palette, 100);
@@ -85,6 +81,14 @@ $button-icon-background-color: rgba(255, 255, 255, 0.05);
 $button-icon-active-background-color: rgba(255, 255, 255, 0.125);
 $button-icon-color: map-get($light-palette, 500);
 $button-icon-active-color: map-get($main-palette, 300);
+$button-outlined-border-color: map-get($dark-palette, 800);
+$button-outlined-color: map-get($dark-palette, 1000);
+$button-outlined-active-color: map-get($light-palette, 900);
+$button-outlined-background: linear-gradient($button-outlined-border-color, $button-outlined-border-color);
+$button-outlined-main-border-color: map-get($main-palette, 600);
+$button-outlined-main-color: map-get($light-palette, 400);
+$button-outlined-main-background: linear-gradient($button-outlined-main-border-color, $button-outlined-main-border-color);
+
 
 $sidebar-background-color: map-get($dark-palette, 200);
 $sidebar-overlay-color: rgba(map-get($dark-palette, 50), 0.6);
@@ -96,6 +100,7 @@ $sidebar-color: map-get($light-palette, 900);
 $sidebar-active-color: map-get($dark-palette, 1000);
 $category-edit-active-color: map-get($main-palette, 400);
 $category-delete-active-color: map-get($error-palette, 400);
+$sidebar-add-category-active-color: map-get($main-palette, 400);
 
 $container-background-color: map-get($dark-palette, 300);
 $container-color: map-get($light-palette, 900);
@@ -108,6 +113,10 @@ $note-selected-border-color: map-get($main-palette, 300);
 $note-color: map-get($light-palette, 500);
 $note-title-underline-color: map-get($dark-palette, 800);
 $note-active-title-color: map-get($main-palette, 300);
+$note-view-note-background-color: map-get($dark-palette, 500);
+$note-view-note-active-background-color: map-get($main-palette, 700);
+$note-view-note-color: map-get($dark-palette, 1000);
+$note-view-note-active-color: map-get($light-palette, 600);
 
 $dialog-container-background-color: rgba(map-get($dark-palette, 50), 0.6);
 $dialog-background-color: map-get($dark-palette, 250);

@@ -1,11 +1,16 @@
 @import 'src/styles/variables';
 
 .notes-list {
-  width: 100%;
+  width: calc(100% + #{$note-margin});
+  margin-left: -$note-margin;
   overflow: auto;
+  @include styled-scrollbar();
 
   .note {
+    position: relative;
+    max-height: $note-max-height;
     display: inline-block;
     vertical-align: top;
+    overflow: hidden;
   }
 }

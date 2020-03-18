@@ -9,12 +9,23 @@
   @include flex-column(flex-start, stretch);
   padding: $sidebar-padding;
   transition: 0.5s 0.05s ease-in-out;
+  will-change: width;
   overflow: hidden;
   background-color: $sidebar-background-color;
+
+  &__categories-list {
+    overflow: hidden;
+    will-change: overflow;
+    @include styled-scrollbar();
+  }
 
   @include active(sidebar--opened) { // active sidebar
     width: $sidebar-active-width;
     cursor: pointer;
+
+    .sidebar__categories-list {
+      overflow: hidden auto;
+    }
 
     .category,
     .add-category {
@@ -38,6 +49,7 @@
     @include size(100%);
     background-color: $sidebar-overlay-color;
     transition: 0.5s 0.05s ease-in-out;
+    will-change: opacity;
     opacity: 0;
     pointer-events: none;
   }
@@ -45,6 +57,7 @@
   .category,
   .add-category {
     color: $sidebar-color;
+    will-change: padding;
     transition: 0.4s 0.05s ease-in-out;
 
     &__icon {
@@ -76,9 +89,18 @@
         &__icon {
           margin-right: $category-horizontal-padding;
         }
+      }
 
+      .category {
         &__name {
           color: $sidebar-active-color;
+        }
+      }
+
+      .add-category {
+        &__icon,
+        &__name {
+          color: $sidebar-add-category-active-color;
         }
       }
     }

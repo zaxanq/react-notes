@@ -48,7 +48,7 @@
 
   &__content,
   &__content-textarea {
-    @include styled-scrollbar($common-sidebar-thumb-color, $common-sidebar-background-color);
+    @include styled-scrollbar();
   }
 
   .single-note__content-textarea {

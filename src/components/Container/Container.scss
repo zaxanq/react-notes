@@ -1,6 +1,7 @@
 @import 'src/styles/variables';
 
 .container {
+  @include flex-column(flex-start, stretch);
   @include size(100%);
   padding: $container-padding;
   background-color: $container-background-color;
@@ -9,7 +10,7 @@
   &__topbar {
     @include flex-row(flex-start, center);
     padding: 0.4rem 2rem;
-    margin: 0 1rem 2rem;
+    margin-bottom: 2rem;
     background-color: $container-topbar-background-color;
     border-bottom: 4px solid $container-topbar-border-color;
   }

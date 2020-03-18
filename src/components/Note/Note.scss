@@ -3,7 +3,7 @@
 .note {
   width: $note-width;
   padding: $note-padding;
-  margin: 1rem;
+  margin: $note-margin;
   background-color: $note-background-color;
   border: 1px solid $note-border-color;
   border-radius: $common-border-radius;
@@ -35,5 +35,26 @@
 
   &__no-content {
     opacity: 0.4;
+  }
+
+  &__view-note {
+    position: absolute;
+    top: $note-max-height - $note-view-note-height;
+    left: 0;
+    @include size(100%, $note-view-note-height);
+    @include flex-row(center, center);
+    padding-bottom: 2px; // vertical alignment fix
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    background-color: $note-view-note-background-color;
+    color: $note-view-note-color;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+
+    @include active() {
+      background-color: $note-view-note-active-background-color;
+      color: $note-view-note-active-color;
+    }
   }
 }

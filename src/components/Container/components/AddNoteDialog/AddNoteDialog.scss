@@ -1,8 +1,12 @@
 @import 'src/styles/variables';
 
-.update-note-dialog {
+.add-note-dialog {
   &__categories-group {
+    max-height: 22rem;
     display:grid;
     grid: auto / repeat(3, 1fr);
+    grid-gap: 1.2rem 0;
+    overflow: hidden auto;
+    @include styled-scrollbar();
   }
 }

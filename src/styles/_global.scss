@@ -11,6 +11,7 @@ body {
   @include flex-column(flex-start, flex-start);
   @include size(inherit);
   font: 300 #{$global-font-size}/#{$global-line-height} Lato, Roboto, Arial, sans-serif;
+  overflow: hidden;
 }
 
 #root {
