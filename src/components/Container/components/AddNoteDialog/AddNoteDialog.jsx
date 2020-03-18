@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
-import './UpdateNoteDialog.scss';
+import './AddNoteDialog.scss';
 import { DataContext, UIContext } from '../../../../contexts';
 import Button from '../../../Shell/components/Button/Button';
 import CategoryCheckboxes from '../../../Shell/components/CategoryCheckboxes';
 import Lang from '../../../../assets/i18n';
-import DialogType from '../../../Shell/enums/DialogType.enum';
 import HttpClient, { Api } from "../../../../services/HttpClient";
 
-const UpdateNoteDialog = ({ dialogType }) => {
+const AddNoteDialog = ({ currentCategoryId }) => {
     const { dialog, snackbar } = useContext(UIContext);
     const { categories, setCategories, notes, setNotes, data, update } = useContext(DataContext);
 
@@ -54,7 +53,7 @@ const UpdateNoteDialog = ({ dialogType }) => {
 
                 pushNoteToCategoryAndUpdateCategory(categories[0]); // update root category
                 updatedCategories = updatedCategories.map(category => {
-                    if (document.getElementById(`category-checkbox-${ category.id }`).checked) { // if this category was selected
+                    if (!category.deleted && document.getElementById(`category-checkbox-${ category.id }`).checked) { // if this category was selected
                         pushNoteToCategoryAndUpdateCategory(category); // update this category
                     }
                     return category; // whether updated or not, map category to category
@@ -74,10 +73,10 @@ const UpdateNoteDialog = ({ dialogType }) => {
         >
             <div
                 className="dialog update-note-dialog"
-                onClick={ (e) => e.stopPropagation() }
+                onDoubleClick={ (e) => e.stopPropagation() }
             >
                 <h2 className="title--with-underline dialog__title">
-                    { dialogType === DialogType.addNote ? Lang.common.addNote : Lang.common.editNote }
+                    { Lang.common.addNote }
                 </h2>
                 <form onSubmit={ (e) => handleSubmit(e) }>
                     <div className="dialog__form-row">
@@ -91,7 +90,7 @@ const UpdateNoteDialog = ({ dialogType }) => {
                     <div className="dialog__form-row">
                         <h3>{ Lang.note.categories }</h3>
                         <div className="update-note-dialog__categories-group">
-                            <CategoryCheckboxes />
+                            <CategoryCheckboxes currentCategoryId={ currentCategoryId } />
                         </div>
                     </div>
                     <Button
@@ -108,4 +107,4 @@ const UpdateNoteDialog = ({ dialogType }) => {
     return dialog.visible ? renderDialog() : '';
 };
 
-export default UpdateNoteDialog;
+export default AddNoteDialog;

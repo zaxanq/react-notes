@@ -10,7 +10,6 @@ const UiProvider = ({ children }) => {
     const [sidebarOpened, setSidebarOpened] = useState(false);
 
     const [dialogVisible, setDialogVisible] = useState(false);
-    const [dialogType, setDialogType] = useState(null);
 
     const [snackbarVisible, setSnackbarVisible] = useState(false);
     const [snackbarContent, setSnackbarContent] = useState({ type: '', text: '' });
@@ -102,8 +101,6 @@ const UiProvider = ({ children }) => {
             dialog: {
                 visible: dialogVisible,
                 setVisible: setDialogVisible,
-                type: dialogType,
-                setType: setDialogType,
             },
             singleNote: {
                 visible: visibleSingleNote,

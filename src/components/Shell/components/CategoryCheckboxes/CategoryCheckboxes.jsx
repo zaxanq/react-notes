@@ -1,9 +1,17 @@
 import React, { useContext } from 'react';
 import { DataContext } from '../../../../contexts';
 
-const CategoryCheckboxes = ({ note = null }) => {
-    let checkboxes;
+const CategoryCheckboxes = ({ note = null, currentCategoryId = null }) => {
     const { categories, update } = useContext(DataContext);
+    let checkboxes;
+    const defaultChecked = (category) => {
+        let checked = false; // by default it should not be checked
+
+        if (note) checked = category.notes.includes(note.id);
+        else if (currentCategoryId) checked = currentCategoryId === category.id;
+
+        return checked;
+    };
 
     const categoryChecked = (cId, e) => {
         const updatedCategories = [...categories];
@@ -19,8 +27,9 @@ const CategoryCheckboxes = ({ note = null }) => {
     };
 
     if (categories) {
-        checkboxes = categories.slice(1, categories.length).map( // map each category into checkbox
-            (category) => (
+        checkboxes = categories.slice(1, categories.length)
+            .filter((category) => !category.deleted)
+            .map((category) => ( // map each category into checkbox
                 <div key={ category.id }>
                     <input
                         type="checkbox"
@@ -28,7 +37,7 @@ const CategoryCheckboxes = ({ note = null }) => {
                         id={ `category-checkbox-${ category.id }` }
                         value={ category.name }
                         onChange={ (e) => note ? categoryChecked(category.id, e) : null }
-                        defaultChecked={ note ? category.notes.includes(note.id) : false }
+                        defaultChecked={ defaultChecked(category) }
                     />
                     <label htmlFor={ `category-checkbox-${ category.id }` }>
                         <span className="category-checkboxes__name">
