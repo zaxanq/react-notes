@@ -1,12 +1,17 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { DataContext, UIContext } from '../../../../contexts';
 import Lang from '../../../../assets/i18n';
+import HttpClient, { Api } from "../../../../services/HttpClient";
 
-const Category = ({ thisCategory, onCategoryClick, active }) => {
+const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
     const { categories, setCategories, data, update } = useContext(DataContext);
     const { sidebar, snackbar, confirmDialog } = useContext(UIContext);
 
     const [editMode, setEditMode] = useState(false);
+
+    useEffect(() => {
+        if (newCategory) setEditMode(true);
+    }, [newCategory]);
 
     const nameEditRef = useRef();
     let newName = thisCategory.name;
@@ -15,18 +20,24 @@ const Category = ({ thisCategory, onCategoryClick, active }) => {
         if (isChanged) setCategories(updatedCategories);
     }, [categories, setCategories]);
 
-    const deleteCategory = useCallback((cId = thisCategory.id) => {
+    const deleteCategory = useCallback((cId = thisCategory.id, withRequest = true) => {
         /*
             usually this method doesn't require a parameter as it is deleting this instances' data
             when the deletion happens through confirmDialog it is necessary to specify the cI to be removed
         */
-        const updatedCategories = [...categories].map((category) => {
-            if (category.id === cId) category.deleted = true;
-            return category;
-        });
+        if (withRequest) {
+            const updatedCategories = [...categories].map((category) => {
+                if (category.id === cId) category.deleted = true;
+                return category;
+            });
 
-        update.category(updatedCategories[cId], false)
-            .then(() => finishEditing(updatedCategories, true)); // then update local state
+            update.category(updatedCategories[cId], false)
+                .then(() => finishEditing(updatedCategories, true)); // then update local state
+        } else { // if deleting newly created category
+            const updatedCategories = [...categories].filter((category) => category.id !== cId);
+            setCategories(updatedCategories);
+            newCategory = null;
+        }
     }, [categories, finishEditing, thisCategory]);
 
     const onNameEdit = (e) => {
@@ -51,16 +62,32 @@ const Category = ({ thisCategory, onCategoryClick, active }) => {
     const onNameCancel = (e) => {
         e.stopPropagation();
         setEditMode(false);
+
+        if (newCategory) deleteCategory(thisCategory.id, false);
     };
 
     const onNameSubmit = (e, newName) => {
         e.preventDefault();
-        if (newName === '' && data.isCategoryEmpty(thisCategory.id)) { // if no name and no categories
-            deleteCategory(); // delete category
-        } else if (newName === '') { // if no name and categories
+        if (newName.trim() === '' && data.isCategoryEmpty(thisCategory.id)) { // if no name and no categories
+            if (newCategory) deleteCategory(thisCategory.id, false); // delete new category from state only
+            else deleteCategory(); // delete category
+        } else if (newName.trim() === '') { // if no name and categories
             snackbar.show(Lang.category.cannotRemoveNonEmpty, 'warning');
             finishEditing(null, false);
-        } else { // if new name is submitted
+            if (newCategory) deleteCategory(thisCategory.id, false); // delete new category from state only
+        } else if (newCategory) { // if adding completely new category
+            thisCategory.name = newName;
+
+            (new HttpClient()).post(
+                Api.Categories,
+                thisCategory
+            ).then(() => {
+                setCategories([...categories]
+                    .map((category) => category.id === thisCategory.id ? thisCategory : category)
+                );
+                setEditMode(false);
+            });
+        } else { // if existing category edit and new name is submitted
             if (thisCategory.name !== newName.trim()) {
                 thisCategory.name = newName;
 

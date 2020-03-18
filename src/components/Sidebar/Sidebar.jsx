@@ -9,6 +9,7 @@ const Sidebar = ({ onCategoryClick }) => {
     const { categories, setCategories, data } = useContext(DataContext);
     const { sidebar } = useContext(UIContext);
     const [activeCategory, setActiveCategory] = useState(0);
+    const [newCategoryId, setNewCategoryId] = useState(null);
 
     const handleCategoryClick = (cId) => {
         setActiveCategory(cId);
@@ -25,10 +26,8 @@ const Sidebar = ({ onCategoryClick }) => {
             deleted: false,
         };
 
-        (new HttpClient()).post(
-            Api.Categories,
-            newCategory
-        ).then(() => setCategories([...categories, newCategory]));
+        setNewCategoryId(newCategory.id);
+        setCategories([...categories, newCategory])
     };
 
     const renderCategories = () => (
@@ -44,6 +43,7 @@ const Sidebar = ({ onCategoryClick }) => {
                     thisCategory={ category }
                     onCategoryClick={ (id) => handleCategoryClick(id) }
                     active={ category.id === activeCategory }
+                    newCategory={ category.id === newCategoryId }
                 />
             )) }
         </ul>
