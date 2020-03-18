@@ -9,7 +9,7 @@ const Category = ({ thisCategory, onCategoryClick, active }) => {
     const [editMode, setEditMode] = useState(false);
 
     const nameEditRef = useRef();
-    let newName = '';
+    let newName = thisCategory.name;
 
     const finishEditing = useCallback((updatedCategories, isChanged) => {
         if (isChanged) setCategories(updatedCategories);
@@ -61,12 +61,18 @@ const Category = ({ thisCategory, onCategoryClick, active }) => {
             snackbar.show(Lang.category.cannotRemoveNonEmpty, 'warning');
             finishEditing(null, false);
         } else { // if new name is submitted
-            thisCategory.name = newName;
+            if (thisCategory.name !== newName.trim()) {
+                thisCategory.name = newName;
 
-            update.category(thisCategory, false)
-                .then(() => finishEditing([...categories].map( // update local state categories
-                    (category) => category.id === thisCategory.id ? thisCategory : category
-            ), true));
+                update.category(thisCategory, false)
+                    .then(() => {
+                        finishEditing([...categories]
+                            .map((category) => category.id === thisCategory.id ? thisCategory : category), true);
+                        setEditMode(false);
+                    });
+            } else {
+                setEditMode(false);
+            }
         }
     };
 
@@ -92,7 +98,7 @@ const Category = ({ thisCategory, onCategoryClick, active }) => {
         </React.Fragment>
     );
 
-    const categoryTitleSpan = <span className="category__name">{ thisCategory.name }</span>;
+    const categoryNameSpan = <span className="category__name">{ thisCategory.name }</span>;
     const editCategoryForm = (
         <form onSubmit={ (e) => onNameSubmit(e, newName) }>
             <input
@@ -113,7 +119,7 @@ const Category = ({ thisCategory, onCategoryClick, active }) => {
             onClick={ (e) => { onClick(e); } }
         >
             <i className={ 'category__icon fas fa-folder' + (active ? '-open' : '') } />
-            { editMode && thisCategory.id !== 0 ? editCategoryForm : categoryTitleSpan }
+            { editMode && thisCategory.id !== 0 ? editCategoryForm : categoryNameSpan }
             { thisCategory.id !== 0 ? optionButtons : '' }
         </li>
     );
