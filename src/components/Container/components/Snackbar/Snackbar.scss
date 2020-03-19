@@ -1,4 +1,5 @@
 @import 'src/styles/variables';
+@import 'src/styles/animations';
 
 @keyframes showSnackbar {
   0% {
@@ -22,15 +23,7 @@
   border-bottom: 0;
   color: $snackbar-color;
   text-align: center;
-  animation: 0.25s 1 normal forwards showSnackbar ease-in-out;
-
-  &.change {
-    animation-name: none;
-
-    &.hide {
-      animation: 0.25s 1 reverse forwards showSnackbar ease-in-out;
-    }
-  }
+  @include animate(slideUpCenteredHorizontally, 0.25s);
 
   &--warning {
     color: $snackbar-warning-color;
