@@ -1,8 +1,11 @@
 @import 'src/styles/variables';
 
 .category-checkbox {
+  @include inline-flex-row(flex-start, flex-start);
+  line-height: 1.2;
+
   &__name {
-    line-height: .9;
+    flex: 1;
   }
 
   input.input--checkbox + label {

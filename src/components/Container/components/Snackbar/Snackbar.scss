@@ -1,17 +1,36 @@
 @import 'src/styles/variables';
 
+@keyframes showSnackbar {
+  0% {
+    transform: translate(-50%, 100%);
+  }
+  100% {
+    transform: translate(-50%, 0);
+  }
+}
+
 .snackbar {
   position: absolute;
+  z-index: 30;
   bottom: 0;
   left: 50%;
+  transform: translate(-50%, 0);
   max-width: (2/3) * 100%;
-  transform: translateX(-50%);
   padding: $snackbar-padding;
   background-color: $snackbar-background-color;
   border: 1px solid $snackbar-border-color;
   border-bottom: 0;
   color: $snackbar-color;
   text-align: center;
+  animation: 0.25s 1 normal forwards showSnackbar ease-in-out;
+
+  &.change {
+    animation-name: none;
+
+    &.hide {
+      animation: 0.25s 1 reverse forwards showSnackbar ease-in-out;
+    }
+  }
 
   &--warning {
     color: $snackbar-warning-color;

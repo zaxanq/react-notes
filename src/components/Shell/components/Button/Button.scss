@@ -14,6 +14,20 @@
     width: 100%;
     flex: 1;
     letter-spacing: 1px;
+
+    &.button--submit {
+      background-image: $button-submit-background;
+      background-position: 50% 50%;
+      background-size: 0 100%;
+      background-repeat: no-repeat;
+      transition: 0.2s ease-in-out;
+      font-weight: 500;
+
+      @include active() {
+        background-size: 100% 100%;
+        color: $button-submit-color;
+      }
+    }
   }
 
   &.button--solid {
@@ -77,6 +91,13 @@
         border-color: $button-main-background-color;
         color: $button-outlined-main-color;
       }
+    }
+  }
+
+  &.button--delete {
+
+    @include active() {
+      color: $common-delete-color;
     }
   }
 }

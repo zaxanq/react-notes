@@ -47,9 +47,13 @@ const UiProvider = ({ children }) => {
             without useState and clearTimeout the second snackbar would hide after 4 seconds.
             TODO: Find out why it works and if it should be improved.
         */
-        setSnackbarVisible(false);
-        setSnackbarContent({ type: '', text: ''});
-        setSnackbarTimeout(clearTimeout(snackbarTimeout));
+        document.querySelector('.snackbar').classList.add('change');
+        setTimeout(() => document.querySelector('.snackbar').classList.add('hide'), 0);
+        setTimeout(() => {
+            setSnackbarVisible(false);
+            setSnackbarContent({ type: '', text: ''});
+            setSnackbarTimeout(clearTimeout(snackbarTimeout));
+        }, 300);
     };
 
     const showSnackbar = (text, type) => {
@@ -70,9 +74,7 @@ const UiProvider = ({ children }) => {
     };
 
     useEffect(() => { // hide snackbar automatically after a delay
-        if (snackbarVisible) {
-            setSnackbarTimeout(setTimeout(() => clearSnackbar(), 12000));
-        }
+        if (snackbarVisible) setSnackbarTimeout(setTimeout(() => clearSnackbar(), 11700));
     }, [snackbarVisible]);
 
     return (

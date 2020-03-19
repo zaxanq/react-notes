@@ -95,7 +95,7 @@ const AddNoteDialog = ({ currentCategoryId }) => {
                     </div>
                     <Button
                         type="submit"
-                        buttonStyle="stretched"
+                        buttonStyle="stretched submit"
                         className="button input input--button"
                     >{ Lang.common.addNote }
                     </Button>
