@@ -48,7 +48,7 @@
 
   &__content,
   &__content-textarea {
-    @include styled-scrollbar($common-sidebar-thumb-color, $common-sidebar-background-color);
+    @include styled-scrollbar();
   }
 
   .single-note__content-textarea {
@@ -76,16 +76,19 @@
 
   .note-categories {
     position: relative;
+    flex: 1;
+    @include flex-row(flex-end, center);
 
     &__list {
       position: absolute;
       z-index: 1;
       top: calc(100% + 0.5rem);
       right: 0;
-      max-width: 21rem;
+      @include flex-column(flex-start, flex-start);
+      max-width: 25rem;
       max-height: 32rem;
       overflow: hidden auto;
-      padding: 1rem 3rem 1rem 1rem;
+      padding: 1.6rem;
       background-color: $note-categories-list-background-color;
       border: 1px solid $note-categories-list-border-color;
       border-radius: $common-border-radius;

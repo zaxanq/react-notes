@@ -10,28 +10,24 @@
   font-size: 1.4rem;
   transition: 0.2s ease-in-out;
 
-  &.button--outlined {
-    padding: 0.2rem 1.6rem;
-    border: 2px solid $button-outlined-border-color;
-    transition: 0.2s 0.05s ease-in-out;
-    font-weight: 400;
-    color: $button-outlined-color;
-    background-image: $button-outlined-background;
-    background-position: 100% 0;
-    background-size: 100% 0;
-    background-repeat: no-repeat;
-    border-radius: 8px;
-
-    @include active() {
-      background-size: 100% 100%;
-      color: $button-outlined-active-color;
-    }
-  }
-
   &.button--stretched {
     width: 100%;
     flex: 1;
     letter-spacing: 1px;
+
+    &.button--submit {
+      background-image: $button-submit-background;
+      background-position: 50% 50%;
+      background-size: 0 100%;
+      background-repeat: no-repeat;
+      transition: 0.2s ease-in-out;
+      font-weight: 500;
+
+      @include active() {
+        background-size: 100% 100%;
+        color: $button-submit-color;
+      }
+    }
   }
 
   &.button--solid {
@@ -67,6 +63,41 @@
     @include active() {
       background-color: $button-icon-active-background-color;
       color: $button-icon-active-color;
+    }
+  }
+
+  &.button--outlined {
+    padding: 0.2rem 1.6rem;
+    border: 2px solid $button-outlined-border-color;
+    transition: 0.2s 0.05s ease-in-out;
+    font-weight: 400;
+    color: $button-outlined-color;
+    background-image: $button-outlined-background;
+    background-position: 100% 0;
+    background-size: 100% 0;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+
+    @include active() {
+      background-size: 100% 100%;
+      color: $button-outlined-active-color;
+    }
+
+    &.button--main {
+      background-color: transparent;
+      background-image: $button-outlined-main-background;
+
+      @include active() {
+        border-color: $button-main-background-color;
+        color: $button-outlined-main-color;
+      }
+    }
+  }
+
+  &.button--delete {
+
+    @include active() {
+      color: $common-delete-color;
     }
   }
 }

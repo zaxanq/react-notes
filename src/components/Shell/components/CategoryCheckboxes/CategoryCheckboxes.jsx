@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import './CategoryCheckboxes.scss';
 import { DataContext } from '../../../../contexts';
 
 const CategoryCheckboxes = ({ note = null, currentCategoryId = null }) => {
@@ -30,7 +31,7 @@ const CategoryCheckboxes = ({ note = null, currentCategoryId = null }) => {
         checkboxes = categories.slice(1, categories.length)
             .filter((category) => !category.deleted)
             .map((category) => ( // map each category into checkbox
-                <div key={ category.id }>
+                <div key={ category.id } className="category-checkbox">
                     <input
                         type="checkbox"
                         className="input input--checkbox"
@@ -40,7 +41,7 @@ const CategoryCheckboxes = ({ note = null, currentCategoryId = null }) => {
                         defaultChecked={ defaultChecked(category) }
                     />
                     <label htmlFor={ `category-checkbox-${ category.id }` }>
-                        <span className="category-checkboxes__name">
+                        <span className="category-checkbox__name">
                             { category.name }
                         </span>
                     </label>

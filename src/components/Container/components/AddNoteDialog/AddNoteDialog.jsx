@@ -72,7 +72,7 @@ const AddNoteDialog = ({ currentCategoryId }) => {
             onDoubleClick={ () => closeDialog(false) }
         >
             <div
-                className="dialog update-note-dialog"
+                className="dialog add-note-dialog"
                 onDoubleClick={ (e) => e.stopPropagation() }
             >
                 <h2 className="title--with-underline dialog__title">
@@ -89,13 +89,13 @@ const AddNoteDialog = ({ currentCategoryId }) => {
                     </div>
                     <div className="dialog__form-row">
                         <h3>{ Lang.note.categories }</h3>
-                        <div className="update-note-dialog__categories-group">
+                        <div className="add-note-dialog__categories-group">
                             <CategoryCheckboxes currentCategoryId={ currentCategoryId } />
                         </div>
                     </div>
                     <Button
                         type="submit"
-                        buttonStyle="stretched"
+                        buttonStyle="stretched submit"
                         className="button input input--button"
                     >{ Lang.common.addNote }
                     </Button>

@@ -42,7 +42,7 @@ const Container = ({ cId }) => {
                 <h2>{ categoryTitle }</h2>
                 <Button
                     type="button"
-                    buttonStyle="outlined"
+                    buttonStyle="outlined main"
                     className="add-note-button"
                     onClick={ () => onAddNoteClick() }
                 >

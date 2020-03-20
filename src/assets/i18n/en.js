@@ -16,6 +16,7 @@ const EN = {
     "categories": "Note categories",
     "content": "Note content",
     "title": "Note title",
+    "viewNoteToSeeWhole": "View note to see whole content",
   },
   "notifications": {
     "noNotes": "No existing notes.",

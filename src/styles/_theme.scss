@@ -13,10 +13,11 @@ $main-palette: (
 
 $dark-palette: (
   50: #000,
-  100: #0f0f0f,
+  100: #0b0b0b,
+  150: #101010,
   200: #141414,
-  250: #191919,
-  300: #1e1e1e,
+  250: #181818,
+  300: #1d1d1d,
   350: #222,
   400: #262626,
   450: #2a2a2a,
@@ -25,7 +26,7 @@ $dark-palette: (
   700: #404040,
   800: #4f4f4f,
   900: #555,
-  950: #626262,
+  950: #666,
   1000: #888,
 );
 
@@ -40,6 +41,8 @@ $light-palette: (
   700: #d0d0d0,
   800: #cecece,
   900: #c4c4c4,
+  950: #bbb,
+  1000: #aaa,
 );
 
 $error-palette: (
@@ -68,67 +71,80 @@ $warning-palette: (
   900: #cd7e0c,
 );
 
+$common-delete-color: map-get($error-palette, 500);
+
 $common-sidebar-thumb-color: map-get($dark-palette, 500);
 $common-sidebar-background-color: map-get($dark-palette, 250);
 
-$button-outlined-border-color: map-get($dark-palette, 800);
-$button-outlined-color: map-get($dark-palette, 1000);
-$button-outlined-active-color: map-get($light-palette, 900);
-$button-outlined-background: linear-gradient($button-outlined-border-color, $button-outlined-border-color);
 $button-main-background-color: map-get($main-palette, 500);
 $button-main-hover-background-color: map-get($main-palette, 400);
 $button-main-color: map-get($dark-palette, 100);
 $button-gray-background-color: map-get($dark-palette, 600);
 $button-gray-hover-background-color: map-get($dark-palette, 700);
 $button-gray-color: map-get($light-palette, 900);
-$button-icon-background-color: rgba(255, 255, 255, 0.05);
-$button-icon-active-background-color: rgba(255, 255, 255, 0.125);
+$button-icon-background-color: rgba(255, 255, 255, 0.075);
+$button-icon-active-background-color: rgba(255, 255, 255, 0.15);
 $button-icon-color: map-get($light-palette, 500);
-$button-icon-active-color: map-get($main-palette, 300);
+$button-icon-active-color: map-get($main-palette, 500);
+$button-outlined-border-color: map-get($dark-palette, 800);
+$button-outlined-color: map-get($dark-palette, 1000);
+$button-outlined-active-color: map-get($light-palette, 900);
+$button-outlined-background: linear-gradient($button-outlined-border-color, $button-outlined-border-color);
+$button-outlined-main-border-color: map-get($main-palette, 600);
+$button-outlined-main-color: map-get($light-palette, 400);
+$button-outlined-main-background: linear-gradient($button-outlined-main-border-color, $button-outlined-main-border-color);
+$button-submit-background: linear-gradient(map-get($main-palette, 800), map-get($main-palette, 800));
+$button-submit-color: map-get($light-palette, 400);
 
-$sidebar-background-color: map-get($dark-palette, 200);
+
+$sidebar-background-color: map-get($dark-palette, 100);
 $sidebar-overlay-color: rgba(map-get($dark-palette, 50), 0.6);
-$sidebar-border-color: map-get($dark-palette, 800);
 $sidebar-icon-color: map-get($dark-palette, 1000);
-$sidebar-active-icon-color: map-get($light-palette, 900);
-$sidebar-active-item-background-color: rgba(255, 255, 255, 0.03);
-$sidebar-color: map-get($light-palette, 900);
-$sidebar-active-color: map-get($dark-palette, 1000);
-$category-edit-active-color: map-get($main-palette, 400);
-$category-delete-active-color: map-get($error-palette, 400);
+$sidebar-active-icon-color: map-get($light-palette, 800);
+$sidebar-active-item-background-color: rgba(255, 255, 255, 0.05);
+$sidebar-color: map-get($light-palette, 800);
+$sidebar-active-color: map-get($main-palette, 400);
+$category-edit-active-color: map-get($main-palette, 600);
+$category-delete-active-color: $common-delete-color;
+$sidebar-add-category-active-color: map-get($main-palette, 400);
 
-$container-background-color: map-get($dark-palette, 300);
-$container-color: map-get($light-palette, 900);
-$container-topbar-background-color: map-get($dark-palette, 400);
-$container-topbar-border-color: map-get($dark-palette, 500);
+$container-background-color: map-get($dark-palette, 200);
+$container-color: map-get($light-palette, 800);
+$container-topbar-background-color: map-get($dark-palette, 300);
+$container-topbar-border-color: map-get($dark-palette, 150);
 
-$note-background-color: map-get($dark-palette, 350);
-$note-border-color: map-get($dark-palette, 600);
-$note-selected-border-color: map-get($main-palette, 300);
-$note-color: map-get($light-palette, 500);
-$note-title-underline-color: map-get($dark-palette, 800);
+$note-background-color: map-get($dark-palette, 250);
+$note-border-color: map-get($dark-palette, 400);
+$note-selected-border-color: map-get($main-palette, 400);
+$note-color: map-get($light-palette, 700);
+$note-title-underline-color: map-get($dark-palette, 600);
 $note-active-title-color: map-get($main-palette, 300);
+$note-view-note-background-color: map-get($dark-palette, 350);
+$note-view-note-active-background-color: map-get($dark-palette, 500);
+$note-view-note-color: map-get($dark-palette, 950);
+$note-view-note-active-color: map-get($light-palette, 1000);
 
-$dialog-container-background-color: rgba(map-get($dark-palette, 50), 0.6);
+$dialog-container-background-color: $sidebar-overlay-color;
 $dialog-background-color: map-get($dark-palette, 250);
 
 $input-background-color: map-get($dark-palette, 350);
 $input-border-color: map-get($dark-palette, 500);
 $input-color: map-get($light-palette, 500);
-$input-checkbox-checked-color: map-get($dark-palette, 1000);
+$input-checkbox-checked-color: map-get($main-palette, 500);
+$input-checkbox-checked-border-color: map-get($main-palette, 800);
 $input-checkbox-unchecked-color: $input-background-color;
 
-$snackbar-background-color: map-get($dark-palette, 400);
-$snackbar-border-color: map-get($dark-palette, 600);
-$snackbar-color: map-get($light-palette, 400);
-$snackbar-error-color: map-get($error-palette, 500);
-$snackbar-warning-color: map-get($warning-palette, 500);
-$snackbar-confirmation-color: map-get($main-palette, 400);
-$snackbar-close-background-color: map-get($dark-palette, 800);
-$snackbar-close-background-hover-color: map-get($dark-palette, 950);
+$snackbar-background-color: map-get($dark-palette, 150);
+$snackbar-border-color: map-get($dark-palette, 450);
+$snackbar-color: map-get($light-palette, 700);
+$snackbar-error-color: map-get($error-palette, 400);
+$snackbar-warning-color: map-get($warning-palette, 600);
+$snackbar-confirmation-color: map-get($main-palette, 300);
+$snackbar-close-background-color: map-get($dark-palette, 700);
+$snackbar-close-background-hover-color: map-get($light-palette, 1000);
 $snackbar-close-color: map-get($dark-palette, 50);
 
-$single-note-toolbar-border-color: map-get($dark-palette, 500);
+$single-note-toolbar-border-color: map-get($dark-palette, 400);
 $note-categories-list-background-color: map-get($dark-palette, 300);
 $note-categories-list-border-color: map-get($dark-palette, 500);
 
