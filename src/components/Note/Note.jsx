@@ -16,6 +16,8 @@ const Note = ({ data }) => {
         if (noteContentRef.current) setNoteTooHigh(noteContentRef.current.offsetHeight > 324);
     }, [noteContentRef]);
 
+    //TODO: Find a way to animate Note removal from DOM
+
     const content = data.content.length > 0 ?
         data.content :
         <span className="italic note__no-content">No contents.</span>;
@@ -31,6 +33,7 @@ const Note = ({ data }) => {
         <article
             className={ 'note' + (singleNote?.selected?.id === data.id ? ' selected-note' : '') }
             onDoubleClick={ () => onNoteClick() }
+            id={ 'note-' + (data.id) }
         >
             <h3
                 className="title--with-underline note__title"

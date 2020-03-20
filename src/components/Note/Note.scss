@@ -1,4 +1,5 @@
 @import 'src/styles/variables';
+@import 'src/styles/animations';
 
 .note {
   width: $note-width;
@@ -10,6 +11,7 @@
   color: $note-color;
   will-change: border-color;
   transition: 0.15s border-color ease-in-out;
+  @include animate(fadeIn, 0.25s);
 
   &.selected-note {
     border-color: $note-selected-border-color;
