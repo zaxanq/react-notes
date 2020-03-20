@@ -18,7 +18,7 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
 
     const finishEditing = useCallback((updatedCategories, isChanged) => {
         if (isChanged) setCategories(updatedCategories);
-    }, [categories, setCategories]);
+    }, [setCategories]);
 
     const deleteCategory = useCallback((cId = thisCategory.id, withRequest = true) => {
         /*
@@ -38,7 +38,7 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
             setCategories(updatedCategories);
             newCategory = null;
         }
-    }, [categories, finishEditing, thisCategory]);
+    }, [finishEditing, thisCategory]);
 
     const onNameEdit = (e) => {
         e.stopPropagation();

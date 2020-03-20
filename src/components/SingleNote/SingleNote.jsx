@@ -53,7 +53,7 @@ const SingleNote = () => {
                 if (!edited.title) contentTextareaRef.current.focus();
             }
         }
-    }, [contentHeight, edited.content]);
+    }, [contentHeight, edited]);
 
     useEffect(() => {
         if (titleInputRef.current) titleInputRef.current.focus();
