@@ -10,7 +10,7 @@ import Button from '../Shell/components/Button/Button';
 import Lang from '../../assets/i18n/';
 
 const Container = ({ cId }) => {
-    const { dialog } = useContext(UIContext);
+    const { dialog, notes } = useContext(UIContext);
     const { categories } = useContext(DataContext);
     const [categoryTitle, setCategoryTitle] = useState('');
     const [displayedCategory, setDisplayedCategory] = useState(null);
@@ -36,7 +36,10 @@ const Container = ({ cId }) => {
     };
 
     return (
-        <main className="container">
+        <main
+            className="container"
+            onClick={ () => notes.setActive(null) }
+        >
             <div className="container__topbar">
                 <h2>{ categoryTitle }</h2>
                 <Button

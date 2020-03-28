@@ -11,6 +11,7 @@
   color: $note-color;
   will-change: border-color;
   transition: 0.15s border-color ease-in-out;
+  cursor: pointer;
   @include animate(fadeIn, 0.25s);
 
   &.selected-note {

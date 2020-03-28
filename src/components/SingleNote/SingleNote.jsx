@@ -250,6 +250,7 @@ const SingleNote = () => {
     const note = (
         <div
             className="absolute-container single-note-container"
+            onClick={ (e) => e.stopPropagation() }
             onDoubleClick={ () => closeNote() }
         >
             <article

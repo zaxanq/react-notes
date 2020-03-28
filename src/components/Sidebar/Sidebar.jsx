@@ -6,11 +6,17 @@ import Lang from '../../assets/i18n/';
 
 const Sidebar = ({ onCategoryClick }) => {
     const { categories, setCategories, data } = useContext(DataContext);
-    const { sidebar, category } = useContext(UIContext);
+    const { sidebar, category, notes } = useContext(UIContext);
     const [newCategoryId, setNewCategoryId] = useState(null);
+
+    const handleCategoryClick = (id) => {
+        onCategoryClick(id);
+        deselectNotes();
+    };
 
     const onAddCategoryClick = (e) => {
         e.stopPropagation();
+        deselectNotes();
 
         const newCategory = {
             id: data.getNextId(categories),
@@ -21,6 +27,15 @@ const Sidebar = ({ onCategoryClick }) => {
 
         setNewCategoryId(newCategory.id);
         setCategories([...categories, newCategory])
+    };
+
+    const deselectNotes = () => {
+        notes.setActive(null);
+    };
+
+    const onClick = () => {
+        sidebar.setOpened(!sidebar.opened);
+        deselectNotes();
     };
 
     const renderCategories = () => (
@@ -34,7 +49,7 @@ const Sidebar = ({ onCategoryClick }) => {
                 <Category
                     key={ categoryItem.id }
                     thisCategory={ categoryItem }
-                    onCategoryClick={ onCategoryClick }
+                    onCategoryClick={ (id) => handleCategoryClick(id) }
                     active={ categoryItem.id === category.current }
                     newCategory={ categoryItem.id === newCategoryId }
                 />
@@ -46,7 +61,7 @@ const Sidebar = ({ onCategoryClick }) => {
         <React.Fragment>
             <aside
                 className={ 'sidebar' + (sidebar.opened ? ' sidebar--opened' : '') }
-                onClick={ () => sidebar.setOpened(!sidebar.opened) }
+                onClick={ () => onClick() }
             >
                 <span
                     className="sidebar__add-category add-category"
