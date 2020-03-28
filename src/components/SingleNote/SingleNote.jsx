@@ -76,12 +76,12 @@ const SingleNote = () => {
     };
 
     const deleteNote = () => {
-        displayedNote.deleted = true;
+        // displayedNote.deleted = true;
 
-        update.note(displayedNote).then(() => {
+        // update.note(displayedNote).then(() => {
             snackbar.show(Lang.notifications.noteRemoved, 'delete-confirmation');
             closeNote(); // close the deleted note
-        });
+        // });
     };
 
     const closeNote = () => {
