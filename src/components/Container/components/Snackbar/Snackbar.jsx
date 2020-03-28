@@ -4,16 +4,23 @@ import { UIContext } from '../../../../contexts';
 import Button from '../../../Shell/components/Button';
 
 const Snackbar = () => {
-    const { snackbar, singleNote } = useContext(UIContext);
+    const { snackbar, singleNote, category } = useContext(UIContext);
     const indicatorStyle = { animationDuration: `${ snackbar.visibleTime / 1000 }s` };
 
     const snackbarControls = () => {
-        if (snackbar.content.type === 'delete-confirmation') {
+        if (snackbar.content.type === 'delete-note-confirmation') {
             return <Button
                 buttonStyle="icon undo"
                 className="snackbar__control"
                 type="button"
                 onClick={ () => singleNote.restoreNote().then(() => snackbar.clear()) }
+            />
+        } else if ( snackbar.content.type === 'delete-category-confirmation') {
+            return <Button
+                buttonStyle="icon undo"
+                className="snackbar__control"
+                type="button"
+                onClick={ () => category.restore().then(() => snackbar.clear()) }
             />
         }
     };

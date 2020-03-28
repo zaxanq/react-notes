@@ -13,21 +13,20 @@ const Container = ({ cId }) => {
     const { dialog } = useContext(UIContext);
     const { categories } = useContext(DataContext);
     const [categoryTitle, setCategoryTitle] = useState('');
-    const [currentCategory, setCurrentCategory] = useState(null);
+    const [displayedCategory, setDisplayedCategory] = useState(null);
 
     useEffect(() => { // find current category
-        if (categories) setCurrentCategory([...categories
-            .filter((category) => category.id === cId)][0]);
+        if (categories) setDisplayedCategory([...categories.filter((category) => category.id === cId)][0]);
     }, [categories, cId]);
 
     useEffect(() => { // set category header
-        if (currentCategory) {
+        if (displayedCategory) {
             setCategoryTitle(cId !== 0 ?
-                <React.Fragment><span className="container__category-text">Category:</span> { currentCategory.name }</React.Fragment> :
-                currentCategory.name
+                <React.Fragment><span className="container__category-text">Category:</span> { displayedCategory.name }</React.Fragment> :
+                displayedCategory.name
             );
         }
-    }, [currentCategory, cId]);
+    }, [displayedCategory, cId]);
 
     const onAddNoteClick = () => {
         /*
@@ -51,7 +50,7 @@ const Container = ({ cId }) => {
             </div>
             <NotesList cId={ cId } />
             <SingleNote />
-            <AddNoteDialog currentCategoryId={ cId } />
+            <AddNoteDialog displayedCategoryId={ cId } />
             <ConfirmDialog />
             <Snackbar />
         </main>
