@@ -9,6 +9,8 @@ const UiProvider = ({ children }) => {
 
     const [sidebarOpened, setSidebarOpened] = useState(false);
 
+    const [currentCategory, setCurrentCategory] = useState(0);
+
     const [dialogVisible, setDialogVisible] = useState(false);
 
     const [snackbarVisible, setSnackbarVisible] = useState(false);
@@ -85,6 +87,8 @@ const UiProvider = ({ children }) => {
 
     return (
         <Provider value={{
+            currentCategory: currentCategory,
+            setCurrentCategory: setCurrentCategory,
             confirmDialog: {
                 visible: confirmDialogVisible,
                 content: confirmDialogContent,
