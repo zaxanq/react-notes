@@ -26,6 +26,8 @@ const UiProvider = ({ children }) => {
     const [visibleSingleNote, setVisibleSingleNote] = useState(false);
     const [selectedNote, setSelectedNote] = useState(null);
 
+    const [activeNotes, setActiveNotes] = useState(null);
+
     const snackbarDuration = 12000;
     const snackbarAnimationsDuration = 300;
     const snackbarVisibleDuration = snackbarDuration - snackbarAnimationsDuration;
@@ -75,6 +77,7 @@ const UiProvider = ({ children }) => {
 
     const singleNoteRestoreNote = () => {
         selectedNote.deleted = false;
+        setActiveNotes(selectedNote.id);
         setSelectedNote(null);
 
         return update.note(selectedNote);
@@ -136,6 +139,10 @@ const UiProvider = ({ children }) => {
                 setSelected: setSelectedNote,
                 clear: clearSelectedNote,
                 restoreNote: singleNoteRestoreNote,
+            },
+            notes: {
+                active: activeNotes,
+                setActive: setActiveNotes,
             }
         }}>
             { children }

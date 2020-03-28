@@ -5,7 +5,7 @@ import Lang from "../../assets/i18n/en";
 
 const Note = ({ data }) => {
     const contentLengthToDisplay = 255;
-    const { singleNote } = useContext(UIContext);
+    const { singleNote, notes } = useContext(UIContext);
 
     const noteContentRef = createRef();
 
@@ -24,27 +24,34 @@ const Note = ({ data }) => {
 
     const shortContent = noteWithLongContent ? data.content.substr(0, contentLengthToDisplay) + '...' : content;
 
-    const onNoteClick = () => {
+    const setActiveNote = (e) => {
+        e.stopPropagation();
+        notes.setActive(data.id);
+    };
+
+    const onNoteClick = (e) => {
+        setActiveNote(e);
         singleNote.setSelected(data);
         singleNote.setVisible(true);
     };
 
     return (
         <article
-            className={ 'note' + (singleNote?.selected?.id === data.id ? ' selected-note' : '') }
-            onDoubleClick={ () => onNoteClick() }
+            className={ 'note' + (notes.active === data.id ? ' selected-note' : '') }
+            onClick={ (e) => setActiveNote(e) }
+            onDoubleClick={ (e) => onNoteClick(e) }
             id={ 'note-' + (data.id) }
         >
             <h3
                 className="title--with-underline note__title"
-                onClick={ () => onNoteClick() }
+                onClick={ (e) => onNoteClick(e) }
             >{ data.title }</h3>
             <p
                 className="note__content"
                 ref={ noteContentRef }
             >{ shortContent }</p>
             { noteWithLongContent || noteTooHigh ?
-                <p onClick={ () => onNoteClick() } className="note__view-note">{ Lang.note.viewNoteToSeeWhole }</p> :
+                <p onClick={ (e) => onNoteClick(e) } className="note__view-note">{ Lang.note.viewNoteToSeeWhole }</p> :
                 ''
             }
         </article>
