@@ -96,7 +96,6 @@ $button-outlined-main-background: linear-gradient($button-outlined-main-border-c
 $button-submit-background: linear-gradient(map-get($main-palette, 800), map-get($main-palette, 800));
 $button-submit-color: map-get($light-palette, 400);
 
-
 $sidebar-background-color: map-get($dark-palette, 100);
 $sidebar-overlay-color: rgba(map-get($dark-palette, 50), 0.6);
 $sidebar-icon-color: map-get($dark-palette, 1000);
@@ -143,6 +142,7 @@ $snackbar-confirmation-color: map-get($main-palette, 300);
 $snackbar-close-background-color: map-get($dark-palette, 700);
 $snackbar-close-background-hover-color: map-get($light-palette, 1000);
 $snackbar-close-color: map-get($dark-palette, 50);
+$snackbar-indicator-color: map-get($dark-palette, 500);
 
 $single-note-toolbar-border-color: map-get($dark-palette, 400);
 $note-categories-list-background-color: map-get($dark-palette, 300);

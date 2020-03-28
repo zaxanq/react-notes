@@ -23,6 +23,10 @@ const UiProvider = ({ children }) => {
     const [visibleSingleNote, setVisibleSingleNote] = useState(false);
     const [selectedNote, setSelectedNote] = useState(null);
 
+    const snackbarDuration = 12000;
+    const snackbarAnimationsDuration = 300;
+    const snackbarVisibleDuration = snackbarDuration - snackbarAnimationsDuration;
+
     const showConfirmDialog = (content) => {
         setConfirmDialogVisible(true);
         setConfirmDialogContent(content);
@@ -53,7 +57,7 @@ const UiProvider = ({ children }) => {
             setSnackbarVisible(false);
             setSnackbarContent({ type: '', text: ''});
             setSnackbarTimeout(clearTimeout(snackbarTimeout));
-        }, 300);
+        }, snackbarAnimationsDuration);
     };
 
     const showSnackbar = (text, type) => {
@@ -74,7 +78,9 @@ const UiProvider = ({ children }) => {
     };
 
     useEffect(() => { // hide snackbar automatically after a delay
-        if (snackbarVisible) setSnackbarTimeout(setTimeout(() => clearSnackbar(), 11700));
+        if (snackbarVisible) setSnackbarTimeout(
+            setTimeout(() => clearSnackbar(), snackbarVisibleDuration)
+        );
     }, [snackbarVisible]);
 
     return (
@@ -97,6 +103,7 @@ const UiProvider = ({ children }) => {
             snackbar: {
                 visible: snackbarVisible,
                 content: snackbarContent,
+                visibleTime: snackbarVisibleDuration,
                 clear: clearSnackbar,
                 show: showSnackbar,
             },
