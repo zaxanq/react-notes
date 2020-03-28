@@ -5,6 +5,7 @@ import Button from '../../../Shell/components/Button';
 
 const Snackbar = () => {
     const { snackbar, singleNote } = useContext(UIContext);
+    const indicatorStyle = { animationDuration: `${ snackbar.visibleTime / 1000 }s` };
 
     const snackbarControls = () => {
         if (snackbar.content.type === 'delete-confirmation') {
@@ -19,6 +20,7 @@ const Snackbar = () => {
 
     const snackbarElement = (
         <div className={ 'snackbar snackbar--' + snackbar.content.type }>
+            <div className="snackbar__indicator" style={ indicatorStyle } />
             <div
                 className="snackbar__close"
                 onClick={ () => snackbar.clear() }
