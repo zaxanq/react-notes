@@ -79,7 +79,7 @@ const SingleNote = () => {
         displayedNote.deleted = true;
 
         update.note(displayedNote).then(() => {
-            snackbar.show(Lang.notifications.noteRemoved, 'delete-confirmation');
+            snackbar.show(Lang.notifications.noteRemoved, 'delete-note-confirmation');
             closeNote(); // close the deleted note
         });
     };

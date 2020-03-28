@@ -5,7 +5,7 @@ import HttpClient, { Api } from '../../../../services/HttpClient';
 
 const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
     const { categories, setCategories, data, update } = useContext(DataContext);
-    const { sidebar, snackbar, confirmDialog, setCurrentCategory } = useContext(UIContext);
+    const { sidebar, snackbar, confirmDialog, category } = useContext(UIContext);
 
     const [editMode, setEditMode] = useState(false);
 
@@ -37,21 +37,28 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
             when the deletion happens through confirmDialog it is necessary to specify the cId to be removed
         */
         if (withRequest) {
-            const updatedCategories = [...categories].map((category) => {
-                if (category.id === cId) category.deleted = true;
-                return category;
+            const updatedCategories = [...categories].map((_category) => {
+                if (_category.id === cId) {
+                    _category.deleted = true;
+                    category.setDeleted(_category);
+                }
+                return _category;
             });
 
             update.category(updatedCategories[cId], false)
-                .then(() => finishEditing(updatedCategories, true)); // then update local state
+                .then(() => {
+                    finishEditing(updatedCategories, true);
+
+                    snackbar.show(Lang.notifications.categoryRemoved, 'delete-category-confirmation');
+
+                    if (cId === thisCategory.id) { // if current category deleted, move user to root category
+                        category.setCurrent(0);
+                    }
+                }); // then update local state
         } else { // if deleting newly created category
             const updatedCategories = [...categories].filter((category) => category.id !== cId);
             setCategories(updatedCategories);
             newCategory = null;
-        }
-
-        if (cId === thisCategory.id) { // if current category deleted, move user to root category
-            setCurrentCategory(0);
         }
     }, [finishEditing, thisCategory]);
 

@@ -10,6 +10,7 @@ const UiProvider = ({ children }) => {
     const [sidebarOpened, setSidebarOpened] = useState(false);
 
     const [currentCategory, setCurrentCategory] = useState(0);
+    const [deletedCategory, setDeletedCategory] = useState(null);
 
     const [dialogVisible, setDialogVisible] = useState(false);
 
@@ -79,6 +80,14 @@ const UiProvider = ({ children }) => {
         return update.note(selectedNote);
     };
 
+    const restoreCategory = () => {
+        deletedCategory.deleted = false;
+        setCurrentCategory(deletedCategory.id);
+        setDeletedCategory(null);
+
+        return update.category(deletedCategory);
+    };
+
     useEffect(() => { // hide snackbar automatically after a delay
         if (snackbarVisible) setSnackbarTimeout(
             setTimeout(() => clearSnackbar(), snackbarVisibleDuration)
@@ -87,8 +96,13 @@ const UiProvider = ({ children }) => {
 
     return (
         <Provider value={{
-            currentCategory: currentCategory,
-            setCurrentCategory: setCurrentCategory,
+            category: {
+                current: currentCategory,
+                setCurrent: setCurrentCategory,
+                deleted: deletedCategory,
+                setDeleted: setDeletedCategory,
+                restore: restoreCategory,
+            },
             confirmDialog: {
                 visible: confirmDialogVisible,
                 content: confirmDialogContent,

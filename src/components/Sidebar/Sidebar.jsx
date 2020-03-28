@@ -6,14 +6,8 @@ import Lang from '../../assets/i18n/';
 
 const Sidebar = ({ onCategoryClick }) => {
     const { categories, setCategories, data } = useContext(DataContext);
-    const { sidebar } = useContext(UIContext);
-    const [activeCategory, setActiveCategory] = useState(0);
+    const { sidebar, category } = useContext(UIContext);
     const [newCategoryId, setNewCategoryId] = useState(null);
-
-    const handleCategoryClick = (cId) => {
-        setActiveCategory(cId);
-        onCategoryClick(cId);
-    };
 
     const onAddCategoryClick = (e) => {
         e.stopPropagation();
@@ -36,13 +30,13 @@ const Sidebar = ({ onCategoryClick }) => {
         <ul className="sidebar__categories-list">
             { categories
                 .filter((category) => !category.deleted) // use only not-deleted categories
-                .map(category => (
+                .map(categoryItem => (
                 <Category
-                    key={ category.id }
-                    thisCategory={ category }
-                    onCategoryClick={ (id) => handleCategoryClick(id) }
-                    active={ category.id === activeCategory }
-                    newCategory={ category.id === newCategoryId }
+                    key={ categoryItem.id }
+                    thisCategory={ categoryItem }
+                    onCategoryClick={ onCategoryClick }
+                    active={ categoryItem.id === category.current }
+                    newCategory={ categoryItem.id === newCategoryId }
                 />
             )) }
         </ul>

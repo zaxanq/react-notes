@@ -4,12 +4,12 @@ import Container from '../Container';
 import { UIContext } from '../../contexts';
 
 const Shell = () => {
-    const { currentCategory, setCurrentCategory } = useContext(UIContext);
+    const { category } = useContext(UIContext);
 
     return (
         <React.Fragment>
-            <Sidebar onCategoryClick={ (id) => setCurrentCategory(id) } />
-            <Container cId={ currentCategory } />
+            <Sidebar onCategoryClick={ (id) => category.setCurrent(id) } />
+            <Container cId={ category.current } />
         </React.Fragment>
     );
 };
