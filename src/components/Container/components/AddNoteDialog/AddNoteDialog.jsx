@@ -6,7 +6,7 @@ import CategoryCheckboxes from '../../../Shell/components/CategoryCheckboxes';
 import Lang from '../../../../assets/i18n';
 import HttpClient, { Api } from "../../../../services/HttpClient";
 
-const AddNoteDialog = ({ currentCategoryId }) => {
+const AddNoteDialog = ({ displayedCategoryId }) => {
     const { dialog, snackbar } = useContext(UIContext);
     const { categories, setCategories, notes, setNotes, data, update } = useContext(DataContext);
 
@@ -90,7 +90,7 @@ const AddNoteDialog = ({ currentCategoryId }) => {
                     <div className="dialog__form-row">
                         <h3>{ Lang.note.categories }</h3>
                         <div className="add-note-dialog__categories-group">
-                            <CategoryCheckboxes currentCategoryId={ currentCategoryId } />
+                            <CategoryCheckboxes currentCategoryId={ displayedCategoryId } />
                         </div>
                     </div>
                     <Button
