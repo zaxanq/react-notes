@@ -1,19 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './AddNoteDialog.scss';
 import { DataContext, UIContext } from '../../../../contexts';
 import Button from '../../../Shell/components/Button/Button';
 import CategoryCheckboxes from '../../../Shell/components/CategoryCheckboxes';
 import Lang from '../../../../assets/i18n';
-import HttpClient, { Api } from "../../../../services/HttpClient";
+import HttpClient, { Api } from '../../../../services/HttpClient';
 
 const AddNoteDialog = ({ displayedCategoryId }) => {
-    const { dialog, snackbar } = useContext(UIContext);
+    const { dialog, snackbar, shortcuts } = useContext(UIContext);
     const { categories, setCategories, notes, setNotes, data, update } = useContext(DataContext);
+
+    const titleInput = document.getElementById('noteTitle');
+    const contentTextarea = document.getElementById('noteContent');
+
+    useEffect(() => {
+        const titleInput = document.getElementById('noteTitle');
+
+        if (dialog.visible && titleInput) titleInput.focus();
+    }, [dialog.visible]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const title = document.getElementById('noteTitle').value;
-        const content = document.getElementById('noteContent').value;
+        const title = titleInput.value;
+        const content = contentTextarea.value;
 
         if (!title.trim() && !content.trim()) { // if title and content are empty
             closeDialog(false); // close the dialog without any actions
@@ -26,7 +35,10 @@ const AddNoteDialog = ({ displayedCategoryId }) => {
 
     const closeDialog = (submitted, formData) => {
         /* closes dialog and if dialog form was submitted, creates new note and updates categories */
+        titleInput.blur(); // whether correct or not, remove focus on inputs to allow keyboard shortcuts
+        contentTextarea.blur();
         if (submitted) { // if dialog form was submitted, use form data
+
             const newNote = { // create new note object
                 id: data.getNextId(notes),
                 ...formData,
@@ -81,11 +93,22 @@ const AddNoteDialog = ({ displayedCategoryId }) => {
                 <form onSubmit={ (e) => handleSubmit(e) }>
                     <div className="dialog__form-row">
                         <label className="h3" htmlFor="noteTitle">{ Lang.note.title }</label>
-                        <input type="text" id="noteTitle" className="input input--text dialog__input"/>
+                        <input
+                            type="text"
+                            id="noteTitle"
+                            className="input input--text dialog__input"
+                            onFocus={ () => shortcuts.setAllowed(false) }
+                            onBlur={ () => shortcuts.setAllowed(true) }
+                        />
                     </div>
                     <div className="dialog__form-row">
                         <label className="h3" htmlFor="noteContent">{ Lang.note.content }</label>
-                        <textarea id="noteContent" className="input input--textarea dialog__input"/>
+                        <textarea
+                            id="noteContent"
+                            className="input input--textarea dialog__input"
+                            onFocus={ () => shortcuts.setAllowed(false) }
+                            onBlur={ () => shortcuts.setAllowed(true) }
+                        />
                     </div>
                     <div className="dialog__form-row">
                         <h3>{ Lang.note.categories }</h3>
@@ -96,7 +119,7 @@ const AddNoteDialog = ({ displayedCategoryId }) => {
                     <Button
                         type="submit"
                         buttonStyle="stretched submit"
-                        className="button input input--button"
+                        className="button input input--button add-note-dialog__submit-button"
                     >{ Lang.common.addNote }
                     </Button>
                 </form>

@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import './Sidebar.scss';
 import { DataContext, UIContext } from '../../contexts';
 import Category from './components/Category';
-import Lang from '../../assets/i18n/';
+import Lang from '../../assets/i18n';
 
 const Sidebar = ({ onCategoryClick }) => {
     const { categories, setCategories, data } = useContext(DataContext);

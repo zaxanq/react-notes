@@ -7,7 +7,7 @@ import AddNoteDialog from './components/AddNoteDialog';
 import ConfirmDialog from './components/ConfirmDialog';
 import Snackbar from './components/Snackbar/Snackbar';
 import Button from '../Shell/components/Button/Button';
-import Lang from '../../assets/i18n/';
+import Lang from '../../assets/i18n';
 
 const Container = ({ cId }) => {
     const { dialog, notes } = useContext(UIContext);
