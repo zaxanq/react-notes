@@ -109,6 +109,7 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
                     .map((category) => category.id === thisCategory.id ? thisCategory : category)
                 );
                 setEditMode(false);
+                shortcuts.setAllowed(true);
             });
         } else { // if existing category edit and new name is submitted
             if (thisCategory.name !== newName.trim()) {
@@ -119,9 +120,11 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
                         finishEditing([...categories]
                             .map((category) => category.id === thisCategory.id ? thisCategory : category), true);
                         setEditMode(false);
+                        shortcuts.setAllowed(true);
                     });
             } else {
                 setEditMode(false);
+                shortcuts.setAllowed(true);
             }
         }
     };

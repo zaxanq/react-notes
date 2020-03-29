@@ -46,7 +46,7 @@ const SingleNote = () => {
     useEffect(() => {
         if (fullEditMode || quickEditMode) shortcuts.setAllowed(false);
         else shortcuts.setAllowed(true);
-    }, [fullEditMode, quickEditMode]);
+    }, [fullEditMode, quickEditMode, shortcuts]);
 
     useEffect(() => {
         if (contentHeight) {
