@@ -9,24 +9,6 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
 
     const [editMode, setEditMode] = useState(false);
 
-    useEffect(() => {
-        if (newCategory) setEditMode(true);
-    }, [newCategory]);
-
-    useEffect(() => { // each time editMode changes
-        if (nameEditRef.current) nameEditRef.current.focus(); // if category edited
-    }, [editMode]);
-
-    useEffect(() => { // each time confirmDialog result changes
-        if (confirmDialog.result) { // if category delete confirmed
-            deleteCategory(confirmDialog.data.id); // delete the category
-            confirmDialog.clear(); // hide confirmDialog and remove all data it contained
-        }
-    }, [confirmDialog.result, confirmDialog]);
-
-    const nameEditRef = useRef();
-    let newName = thisCategory.name;
-
     const finishEditing = useCallback((updatedCategories, isChanged) => {
         if (isChanged) setCategories(updatedCategories);
     }, [setCategories]);
@@ -61,6 +43,24 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
             newCategory = null;
         }
     }, [finishEditing, thisCategory]);
+
+    useEffect(() => {
+        if (newCategory) setEditMode(true);
+    }, [newCategory]);
+
+    useEffect(() => { // each time editMode changes
+        if (nameEditRef.current) nameEditRef.current.focus(); // if category edited
+    }, [editMode]);
+
+    useEffect(() => { // each time confirmDialog result changes
+        if (confirmDialog.result) { // if category delete confirmed
+            deleteCategory(confirmDialog.data.id); // delete the category
+            confirmDialog.clear(); // hide confirmDialog and remove all data it contained
+        }
+    }, [confirmDialog.result, confirmDialog, deleteCategory]);
+
+    const nameEditRef = useRef();
+    let newName = thisCategory.name;
 
     const onNameEdit = (e) => {
         e.stopPropagation();

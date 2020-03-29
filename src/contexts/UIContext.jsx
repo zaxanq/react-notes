@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { DataContext } from '.';
 
 const UIContext = React.createContext(null);
@@ -49,7 +49,7 @@ const UiProvider = ({ children }) => {
         setConfirmDialogContent(null);
     };
 
-    const clearSnackbar = () => {
+    const clearSnackbar = useCallback(() => {
         /*
             ClearTimeout is important to assure that if we show 2 snackbars during the timeout, they will be visible
             for established period of time. In other words, if we set hide timeout to 12 seconds:
@@ -64,7 +64,7 @@ const UiProvider = ({ children }) => {
             setSnackbarContent({ type: '', text: ''});
             setSnackbarTimeout(clearTimeout(snackbarTimeout));
         }, snackbarAnimationsDuration);
-    };
+    }, [snackbarTimeout]);
 
     const showSnackbar = (text, type) => {
         setSnackbarVisible(true);
@@ -96,7 +96,7 @@ const UiProvider = ({ children }) => {
         if (snackbarVisible) setSnackbarTimeout(
             setTimeout(() => clearSnackbar(), snackbarVisibleDuration)
         );
-    }, [snackbarVisible]);
+    }, [snackbarVisible, snackbarVisibleDuration, clearSnackbar]);
 
     return (
         <Provider value={{
