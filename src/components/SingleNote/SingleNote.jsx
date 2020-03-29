@@ -20,7 +20,7 @@ const SingleNote = () => {
             when content blur onto save button -> send request -> fEM=false
             when cancelled (cancel button) -> fEM=false
     */
-    const { singleNote, snackbar } = useContext(UIContext);
+    const { singleNote, snackbar, shortcuts } = useContext(UIContext);
     const { update } = useContext(DataContext);
 
     const [edited, setEdited] = useState({ title: false, content: false });
@@ -42,6 +42,11 @@ const SingleNote = () => {
     const noteContent = displayedNote?.content.length > 0 ?
         displayedNote?.content :
         <span className="italic note__no-content">No contents.</span>;
+
+    useEffect(() => {
+        if (fullEditMode || quickEditMode) shortcuts.setAllowed(false);
+        else shortcuts.setAllowed(true);
+    }, [fullEditMode, quickEditMode]);
 
     useEffect(() => {
         if (contentHeight) {

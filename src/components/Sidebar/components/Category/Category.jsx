@@ -5,7 +5,7 @@ import HttpClient, { Api } from '../../../../services/HttpClient';
 
 const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
     const { categories, setCategories, data, update } = useContext(DataContext);
-    const { sidebar, snackbar, confirmDialog, category } = useContext(UIContext);
+    const { sidebar, snackbar, confirmDialog, category, shortcuts } = useContext(UIContext);
 
     const [editMode, setEditMode] = useState(false);
 
@@ -84,6 +84,7 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
     const onNameCancel = (e) => {
         e.stopPropagation();
         setEditMode(false);
+        shortcuts.setAllowed(true);
 
         if (newCategory) deleteCategory(thisCategory.id, false);
     };
@@ -147,6 +148,7 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
                 defaultValue={ thisCategory.name }
                 onClick={ (e) => e.stopPropagation() }
                 onChange={ (e) => newName = e.target.value }
+                onFocus={ () => shortcuts.setAllowed(false) }
                 onBlur={ (e) => onNameCancel(e) }
             />
         </form>

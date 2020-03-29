@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import './ConfirmDialog.scss';
 import { UIContext } from '../../../../contexts';
 import Button from '../../../Shell/components/Button/Button';
-import Lang from '../../../../assets/i18n/en';
+import Lang from '../../../../assets/i18n';
 
 const ConfirmDialog = () => {
     const { confirmDialog } = useContext(UIContext);

@@ -8,6 +8,7 @@ const UiProvider = ({ children }) => {
     const { update } = useContext(DataContext);
 
     const [sidebarOpened, setSidebarOpened] = useState(false);
+    const [shortcutsAllowed, setShortcutsAllowed] = useState(false);
 
     const [currentCategory, setCurrentCategory] = useState(0);
     const [deletedCategory, setDeletedCategory] = useState(null);
@@ -105,6 +106,10 @@ const UiProvider = ({ children }) => {
                 deleted: deletedCategory,
                 setDeleted: setDeletedCategory,
                 restore: restoreCategory,
+            },
+            shortcuts: {
+                allowed: shortcutsAllowed,
+                setAllowed: setShortcutsAllowed,
             },
             confirmDialog: {
                 visible: confirmDialogVisible,
