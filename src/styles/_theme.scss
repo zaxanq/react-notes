@@ -114,6 +114,7 @@ $container-topbar-border-color: map-get($dark-palette, 150);
 
 $note-background-color: map-get($dark-palette, 250);
 $note-border-color: map-get($dark-palette, 400);
+$note-delete-mode-border-color: map-get($dark-palette, 700);
 $note-selected-border-color: map-get($main-palette, 400);
 $note-color: map-get($light-palette, 700);
 $note-title-underline-color: map-get($dark-palette, 600);

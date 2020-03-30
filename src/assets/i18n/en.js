@@ -5,11 +5,15 @@ const EN = {
   "common": {
     "addNote": "Add note",
     "addCategory": "Add category",
+    "cancel": "Cancel",
     "categories": "Categories",
+    "deleteNotes": "Delete notes",
+    "removeFromCategory": "Remove from category",
   },
   "confirm": {
     "cancel": "Cancel",
     "confirm": "Confirm",
+    "deleting": "Confirm deleting",
     "deleteNonEmptyCategory": "Please confirm deleting a non-empty category.",
   },
   "note": {

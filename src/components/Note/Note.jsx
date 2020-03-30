@@ -5,7 +5,7 @@ import Lang from "../../assets/i18n/en";
 
 const Note = ({ data }) => {
     const contentLengthToDisplay = 255;
-    const { singleNote, notes } = useContext(UIContext);
+    const { singleNote, note } = useContext(UIContext);
 
     const noteContentRef = createRef();
 
@@ -26,18 +26,25 @@ const Note = ({ data }) => {
 
     const setActiveNote = (e) => {
         e.stopPropagation();
-        notes.setActive(data.id);
+        if (!note.deleteMode) note.setActive([data.id]);
+        else {
+            if (note.active.includes(data.id))
+                note.setActive(note.active.filter((noteId) => noteId !== data.id));
+            else note.setActive([...note.active, data.id]);
+        }
     };
 
     const onNoteClick = (e) => {
-        setActiveNote(e);
-        singleNote.setSelected(data);
-        singleNote.setVisible(true);
+        if (!note.deleteMode) {
+            setActiveNote(e);
+            singleNote.setSelected(data);
+            singleNote.setVisible(true);
+        }
     };
 
     return (
         <article
-            className={ 'note' + (notes.active === data.id ? ' selected-note' : '') }
+            className={ 'note' + (note.deleteMode ? ' note--delete-mode' : '') + (note.active.includes(data.id) ? ' selected-note' : '') }
             onClick={ (e) => setActiveNote(e) }
             onDoubleClick={ (e) => onNoteClick(e) }
             id={ 'note-' + (data.id) }

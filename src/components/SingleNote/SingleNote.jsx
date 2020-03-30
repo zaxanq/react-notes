@@ -64,6 +64,10 @@ const SingleNote = () => {
         if (titleInputRef.current) titleInputRef.current.focus();
     }, [edited.title]);
 
+    const onContainerClick = (e) => {
+        e.stopPropagation();
+        setCategoriesListVisible(false);
+    };
 
     const onSingleNoteClick = (e) => {
         e.stopPropagation();
@@ -255,7 +259,7 @@ const SingleNote = () => {
     const note = (
         <div
             className="absolute-container single-note-container"
-            onClick={ (e) => e.stopPropagation() }
+            onClick={ (e) => onContainerClick(e) }
             onDoubleClick={ () => closeNote() }
         >
             <article

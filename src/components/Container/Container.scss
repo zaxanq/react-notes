@@ -13,6 +13,10 @@
     margin-bottom: 2rem;
     background-color: $container-topbar-background-color;
     border-bottom: 4px solid $container-topbar-border-color;
+
+    .button + .button {
+      margin-left: 2rem;
+    }
   }
 
   &__category-text {
