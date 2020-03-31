@@ -4,13 +4,13 @@ import { DataContext, UIContext } from '../../contexts';
 import Category from './components/Category';
 import Lang from '../../assets/i18n';
 
-const Sidebar = ({ onCategoryClick }) => {
+const Sidebar = () => {
     const { categories, setCategories, data } = useContext(DataContext);
-    const { sidebar, category, notes } = useContext(UIContext);
+    const { sidebar, category, note } = useContext(UIContext);
     const [newCategoryId, setNewCategoryId] = useState(null);
 
     const handleCategoryClick = (id) => {
-        onCategoryClick(id);
+        category.setCurrent(id);
         deselectNotes();
     };
 
@@ -30,7 +30,7 @@ const Sidebar = ({ onCategoryClick }) => {
     };
 
     const deselectNotes = () => {
-        notes.setActive(null);
+        if (!note.deleteMode) note.setActive([]);
     };
 
     const onClick = () => {

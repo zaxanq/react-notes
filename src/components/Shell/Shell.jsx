@@ -4,7 +4,7 @@ import Container from '../Container';
 import { UIContext } from '../../contexts';
 
 const Shell = () => {
-    const { category, shortcuts, singleNote, dialog, sidebar, confirmDialog, snackbar } = useContext(UIContext);
+    const { shortcuts, singleNote, dialog, sidebar, confirmDialog, snackbar } = useContext(UIContext);
 
     const handleKeyPressed = useCallback((e) => {
         if (shortcuts.allowed) {
@@ -54,8 +54,8 @@ const Shell = () => {
 
     return (
         <React.Fragment>
-            <Sidebar onCategoryClick={ (id) => category.setCurrent(id) } />
-            <Container cId={ category.current } />
+            <Sidebar />
+            <Container />
         </React.Fragment>
     );
 };

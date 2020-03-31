@@ -26,8 +26,9 @@ const UiProvider = ({ children }) => {
 
     const [visibleSingleNote, setVisibleSingleNote] = useState(false);
     const [selectedNote, setSelectedNote] = useState(null);
+    const [notesDeleteMode, setNotesDeleteMode] = useState(false);
 
-    const [activeNotes, setActiveNotes] = useState(null);
+    const [activeNotes, setActiveNotes] = useState([]);
 
     const snackbarDuration = 12000;
     const snackbarAnimationsDuration = 300;
@@ -78,7 +79,7 @@ const UiProvider = ({ children }) => {
 
     const singleNoteRestoreNote = () => {
         selectedNote.deleted = false;
-        setActiveNotes(selectedNote.id);
+        setActiveNotes([selectedNote.id]);
         setSelectedNote(null);
 
         return update.note(selectedNote);
@@ -91,6 +92,10 @@ const UiProvider = ({ children }) => {
 
         return update.category(deletedCategory);
     };
+
+    useEffect(() => {
+        setNotesDeleteMode(false);
+    }, [currentCategory]);
 
     useEffect(() => { // hide snackbar automatically after a delay
         if (snackbarVisible) setSnackbarTimeout(
@@ -145,9 +150,11 @@ const UiProvider = ({ children }) => {
                 clear: clearSelectedNote,
                 restoreNote: singleNoteRestoreNote,
             },
-            notes: {
+            note: {
                 active: activeNotes,
                 setActive: setActiveNotes,
+                deleteMode: notesDeleteMode,
+                setDeleteMode: setNotesDeleteMode,
             }
         }}>
             { children }

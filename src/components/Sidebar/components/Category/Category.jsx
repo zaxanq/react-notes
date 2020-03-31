@@ -50,7 +50,8 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
 
     useEffect(() => { // each time editMode changes
         if (nameEditRef.current) nameEditRef.current.focus(); // if category edited
-    }, [editMode]);
+        shortcuts.setAllowed(!editMode);
+    }, [editMode, shortcuts]);
 
     useEffect(() => { // each time confirmDialog result changes
         if (confirmDialog.result) { // if category delete confirmed
@@ -84,7 +85,6 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
     const onNameCancel = (e) => {
         e.stopPropagation();
         setEditMode(false);
-        shortcuts.setAllowed(true);
 
         if (newCategory) deleteCategory(thisCategory.id, false);
     };
@@ -109,7 +109,6 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
                     .map((category) => category.id === thisCategory.id ? thisCategory : category)
                 );
                 setEditMode(false);
-                shortcuts.setAllowed(true);
             });
         } else { // if existing category edit and new name is submitted
             if (thisCategory.name !== newName.trim()) {
@@ -124,7 +123,6 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
                     });
             } else {
                 setEditMode(false);
-                shortcuts.setAllowed(true);
             }
         }
     };
@@ -151,7 +149,6 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
                 defaultValue={ thisCategory.name }
                 onClick={ (e) => e.stopPropagation() }
                 onChange={ (e) => newName = e.target.value }
-                onFocus={ () => shortcuts.setAllowed(false) }
                 onBlur={ (e) => onNameCancel(e) }
             />
         </form>
