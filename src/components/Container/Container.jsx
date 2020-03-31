@@ -8,7 +8,6 @@ import ConfirmDialog from './components/ConfirmDialog';
 import Snackbar from './components/Snackbar/Snackbar';
 import Button from '../Shell/components/Button/Button';
 import Lang from '../../assets/i18n';
-import HttpClient, { Api } from "../../services/HttpClient";
 
 const Container = () => {
     const { dialog, note, category } = useContext(UIContext);
@@ -60,7 +59,6 @@ const Container = () => {
             const updatedNotes = notes.map((_note) => {
                 if (note.active.includes(_note.id)) {
                     _note.deleted = true;
-
                     update.note(_note); // each note updated separately is not too optimized, but let it be for now
                 }
                 return _note;
@@ -72,6 +70,9 @@ const Container = () => {
 
     const onRemoveFromCategoryClick = (e) => {
         e.stopPropagation();
+        const updatedCategory = categories.filter((category) => category.id === cId)[0];
+        updatedCategory.notes = updatedCategory.notes.filter((noteId) => !note.active.includes(noteId));
+        update.category(updatedCategory).then(() => note.setDeleteMode(false));
     };
 
     return (
