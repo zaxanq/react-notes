@@ -7,8 +7,11 @@ const EN = {
     "addCategory": "Add category",
     "cancel": "Cancel",
     "categories": "Categories",
+    "category": "Category",
     "deleteNotes": "Delete notes",
+    "deselectAll": "Deselect all",
     "removeFromCategory": "Remove from category",
+    "selectAll": "Select all",
   },
   "confirm": {
     "cancel": "Cancel",

@@ -7,28 +7,25 @@
   background-color: $container-background-color;
   color: $container-color;
 
-  &__topbar {
+  &__controls {
     @include flex-row(flex-start, center);
-    padding: 0.4rem 2rem;
+    padding: 0.6rem 3rem;
     margin-bottom: 2rem;
     background-color: $container-topbar-background-color;
     border-bottom: 4px solid $container-topbar-border-color;
 
     .button + .button {
-      margin-left: 2rem;
+      margin-left: 1.5rem;
     }
   }
 
   &__category-text {
-    opacity: .5;
+    opacity: .375;
+    text-transform: lowercase;
   }
 
   .notification {
     width: 100%;
     text-align: center;
-  }
-
-  .add-note-button {
-    margin-left: 4rem;
   }
 }
