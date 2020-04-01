@@ -1,6 +1,12 @@
 {
   "notes": [
     {
+      "id": 0,
+      "title": "Zeroth note",
+      "content": "Some text",
+      "deleted": false
+    },
+    {
       "id": 1,
       "title": "No longer an important note",
       "content": "Some text",
