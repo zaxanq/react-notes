@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { DataContext } from '.';
 
 const UIContext = React.createContext(null);
@@ -12,6 +12,7 @@ const UiProvider = ({ children }) => {
 
     const [currentCategory, setCurrentCategory] = useState(0);
     const [deletedCategory, setDeletedCategory] = useState(null);
+    const [newCategory, setNewCategory] = useState(null);
 
     const [dialogVisible, setDialogVisible] = useState(false);
 
@@ -110,6 +111,8 @@ const UiProvider = ({ children }) => {
                 setCurrent: setCurrentCategory,
                 deleted: deletedCategory,
                 setDeleted: setDeletedCategory,
+                new: newCategory,
+                setNew: setNewCategory,
                 restore: restoreCategory,
             },
             shortcuts: {

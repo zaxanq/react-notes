@@ -34,11 +34,11 @@ const Container = () => {
 
     useEffect(() => { // select/deselect all notes on selectAll change
         displayedCategory && selectedAll ? note.setActive(displayedNotes.map((note) => note.id)) : note.setActive([]);
-    }, [selectedAll]);
+    }, [selectedAll, displayedCategory, note.setActive]);
 
     useEffect(() => { // clear selection on cancel if there was more than 2 selected notes
         if (!note.deleteMode && note.active.length !== 1) note.setActive([]);
-    }, [note.deleteMode]);
+    }, [note.deleteMode, note.setActive]);
 
     useEffect(() => { // find current category
         if (categories) setDisplayedCategory([...categories.filter((category) => category.id === cId)][0]);
