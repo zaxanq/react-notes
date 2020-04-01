@@ -3,7 +3,7 @@ import { DataContext, UIContext } from '../../../../contexts';
 import Lang from '../../../../assets/i18n';
 import HttpClient, { Api } from '../../../../services/HttpClient';
 
-const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
+const Category = ({ thisCategory, onCategoryClick, active }) => {
     const { categories, setCategories, data, update } = useContext(DataContext);
     const { sidebar, snackbar, confirmDialog, category, shortcuts } = useContext(UIContext);
 
@@ -40,13 +40,13 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
         } else { // if deleting newly created category
             const updatedCategories = [...categories].filter((category) => category.id !== cId);
             setCategories(updatedCategories);
-            newCategory = null;
+            category.setNew(null);
         }
     }, [finishEditing, thisCategory]);
 
     useEffect(() => {
-        if (newCategory) setEditMode(true);
-    }, [newCategory]);
+        if (category.new === thisCategory.id) setEditMode(true);
+    }, [category.new]);
 
     useEffect(() => { // each time editMode changes
         if (nameEditRef.current) nameEditRef.current.focus(); // if category edited
@@ -86,19 +86,19 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
         e.stopPropagation();
         setEditMode(false);
 
-        if (newCategory) deleteCategory(thisCategory.id, false);
+        if (category.new === thisCategory.id) deleteCategory(thisCategory.id, false);
     };
 
     const onNameSubmit = (e, newName) => {
         e.preventDefault();
         if (newName.trim() === '' && data.isCategoryEmpty(thisCategory.id)) { // if no name and no categories
-            if (newCategory) deleteCategory(thisCategory.id, false); // delete new category from state only
+            if (category.new === thisCategory.id) deleteCategory(thisCategory.id, false); // delete new category from state only
             else deleteCategory(); // delete category
         } else if (newName.trim() === '') { // if no name and categories
             snackbar.show(Lang.category.cannotRemoveNonEmpty, 'warning');
             finishEditing(null, false);
-            if (newCategory) deleteCategory(thisCategory.id, false); // delete new category from state only
-        } else if (newCategory) { // if adding completely new category
+            if (category.new === thisCategory.id) deleteCategory(thisCategory.id, false); // delete new category from state only
+        } else if (category.new === thisCategory.id) { // if adding completely new category
             thisCategory.name = newName;
 
             (new HttpClient()).post(
@@ -109,6 +109,7 @@ const Category = ({ thisCategory, onCategoryClick, active, newCategory }) => {
                     .map((category) => category.id === thisCategory.id ? thisCategory : category)
                 );
                 setEditMode(false);
+                category.setNew(null);
             });
         } else { // if existing category edit and new name is submitted
             if (thisCategory.name !== newName.trim()) {
