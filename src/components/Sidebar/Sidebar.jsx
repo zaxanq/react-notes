@@ -7,7 +7,6 @@ import Lang from '../../assets/i18n';
 const Sidebar = () => {
     const { categories, setCategories, data } = useContext(DataContext);
     const { sidebar, category, note } = useContext(UIContext);
-    const [newCategoryId, setNewCategoryId] = useState(null);
 
     const handleCategoryClick = (id) => {
         category.setCurrent(id);
@@ -25,7 +24,7 @@ const Sidebar = () => {
             deleted: false,
         };
 
-        setNewCategoryId(newCategory.id);
+        category.setNew(newCategory.id);
         setCategories([...categories, newCategory])
     };
 
@@ -51,7 +50,6 @@ const Sidebar = () => {
                     thisCategory={ categoryItem }
                     onCategoryClick={ (id) => handleCategoryClick(id) }
                     active={ categoryItem.id === category.current }
-                    newCategory={ categoryItem.id === newCategoryId }
                 />
             )) }
         </ul>
