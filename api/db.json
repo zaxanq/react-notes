@@ -2,7 +2,7 @@
   "notes": [
     {
       "id": 0,
-      "title": "Zeroth note",
+      "title": "Zeroth noteasdasdas das sad asd ad",
       "content": "Some text",
       "deleted": false
     },
@@ -89,6 +89,30 @@
       "title": "testsee6 in 1 3",
       "content": "",
       "deleted": false
+    },
+    {
+      "id": 15,
+      "title": "asdasdasdas",
+      "content": "",
+      "deleted": false
+    },
+    {
+      "id": 16,
+      "title": "column 6!",
+      "content": "",
+      "deleted": false
+    },
+    {
+      "id": 17,
+      "title": "col6",
+      "content": "",
+      "deleted": false
+    },
+    {
+      "id": 18,
+      "title": "zxczczxczxc",
+      "content": "",
+      "deleted": false
     }
   ],
   "categories": [
@@ -96,6 +120,7 @@
       "id": 0,
       "name": "All",
       "notes": [
+        0,
         1,
         2,
         3,
@@ -109,7 +134,11 @@
         11,
         12,
         13,
-        14
+        14,
+        15,
+        16,
+        17,
+        18
       ],
       "deleted": false
     },
@@ -119,7 +148,8 @@
       "notes": [
         3,
         4,
-        2
+        2,
+        18
       ],
       "deleted": false
     },
@@ -128,7 +158,9 @@
       "name": "School",
       "notes": [
         1,
-        4
+        4,
+        15,
+        0
       ],
       "deleted": false
     },
@@ -136,7 +168,14 @@
       "id": 3,
       "name": "Work",
       "notes": [
-        8
+        8,
+        4,
+        15,
+        0,
+        16,
+        17,
+        7,
+        1
       ],
       "deleted": false
     },

@@ -29,6 +29,8 @@ const UiProvider = ({ children }) => {
     const [selectedNote, setSelectedNote] = useState(null);
     const [notesDeleteMode, setNotesDeleteMode] = useState(false);
 
+    const [columnsList, setColumnsList] = useState([]);
+
     const [activeNotes, setActiveNotes] = useState([]);
 
     const snackbarDuration = 12000;
@@ -158,6 +160,10 @@ const UiProvider = ({ children }) => {
                 setActive: setActiveNotes,
                 deleteMode: notesDeleteMode,
                 setDeleteMode: setNotesDeleteMode,
+            },
+            column: {
+                list: columnsList,
+                setList: setColumnsList,
             }
         }}>
             { children }

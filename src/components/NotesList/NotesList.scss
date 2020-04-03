@@ -2,14 +2,19 @@
 
 .notes-list {
   width: calc(100% + #{$note-margin});
-  margin-left: -$note-margin;
+  @include flex-row(flex-start, flex-start);
+  margin-left: -$note-margin-horizontal;
   overflow: auto;
   @include styled-scrollbar();
+
+  .column {
+    flex: 1;
+  }
 
   .note {
     position: relative;
     max-height: $note-max-height;
-    display: inline-block;
+    display: block;
     vertical-align: top;
     overflow: hidden;
   }
