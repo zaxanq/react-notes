@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { UIContext } from '../../../../contexts';
 
-const Column = ({ children, id }) => {
+const Column = ({ children }) => {
     const thisColumn = useRef();
     const { column } = useContext(UIContext);
 

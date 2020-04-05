@@ -44,8 +44,7 @@ const NotesList = ({ displayedNotes }) => {
     }, [notesListWidth]);
 
     useEffect(() => { // changes on columnCount change or when displayedNotes are received / changed
-        if (displayedNotes) {
-            const _$columns = []; // temporary $columns
+        if (displayedNotes) {const _$columns = []; // temporary $columns
             for (let i = 0; i < columnCount; i++) { // add note to each column (if there is enough)
                 if (displayedNotes[i]) { // if i-th note exists, add it to i-th column
                     _$columns.push([<Note data={ displayedNotes[i] } key={ i } />]);
@@ -57,16 +56,17 @@ const NotesList = ({ displayedNotes }) => {
     }, [columnCount, displayedNotes]);
 
     useEffect(() => { // when visible notes count, column count or $columns change
-        const _view = []; // temporary view (reset)
-        for (let i = 0; i < columnCount; i++) {
-            _view.push( // add columns (and their children) to temporary view
-                <Column key={ i } id={ i }>
-                    { $columns[i] }
-                </Column>
-            );
+        if (displayedNotes) {
+            const _view = []; // temporary view (reset)
+            for (let i = 0; i < columnCount; i++) {
+                _view.push( // add columns (and their children) to temporary view
+                    <Column key={ i }>
+                        { $columns[i] }
+                    </Column>
+                );
+            }
+            setView(_view); // update view - this will trigger effect adding another note
         }
-
-        setView(_view); // update view - this will trigger effect adding another note
     }, [displayedNotesCount, columnCount, $columns]);
 
     useEffect(() => { // when column count, view or column.list changes
